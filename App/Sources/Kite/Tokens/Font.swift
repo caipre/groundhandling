@@ -10,21 +10,18 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Foundation
 import UIKit
 
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
+extension Kite {
+  static var font: String { "Overpass" }
 
-  func scene(
-    _ scene: UIScene,
-    willConnectTo _: UISceneSession,
-    options _: UIScene.ConnectionOptions
-  ) {
-    if let windowScene = scene as? UIWindowScene {
-      let window = UIWindow(windowScene: windowScene)
-      window.rootViewController = MainViewController()
-      self.window = window
-      window.makeKeyAndVisible()
-    }
+  static func font(size: CGFloat) -> UIFont {
+    return UIFont(name: Kite.font, size: size)!
+  }
+
+  static func font(style: UIFont.TextStyle) -> UIFont {
+    let size = UIFont.preferredFont(forTextStyle: style).pointSize
+    return UIFont(name: Kite.font, size: size)!
   }
 }

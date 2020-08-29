@@ -10,21 +10,13 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Foundation
 import UIKit
 
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
-
-  func scene(
-    _ scene: UIScene,
-    willConnectTo _: UISceneSession,
-    options _: UIScene.ConnectionOptions
-  ) {
-    if let windowScene = scene as? UIWindowScene {
-      let window = UIWindow(windowScene: windowScene)
-      window.rootViewController = MainViewController()
-      self.window = window
-      window.makeKeyAndVisible()
-    }
+extension UIFont {
+  var bold: UIFont {
+    let traits = fontDescriptor.symbolicTraits.union(.traitBold)
+    let descriptor = fontDescriptor.withSymbolicTraits(traits)!
+    return .init(descriptor: descriptor, size: 0)
   }
 }

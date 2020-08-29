@@ -10,14 +10,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Cleanse
 import UIKit
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
+  var factory: ComponentFactory<AppComponent>!
+  var ctx: AppContext!
+
   func application(
     _: UIApplication,
     didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    factory = try! ComponentFactory.of(AppComponent.self)
+    ctx = factory.build(())
     return true
   }
 
