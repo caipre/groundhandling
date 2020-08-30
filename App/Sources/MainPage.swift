@@ -133,6 +133,7 @@ class LevelRow: UITableViewCell {
     NSLayoutConstraint.activate([
       id.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
       id.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      id.widthAnchor.constraint(equalToConstant: id.font.pointSize),  // fixme: kinda hacky m-width
       desc.topAnchor.constraint(equalTo: layout.topAnchor, constant: Kite.space.xsmall),
       desc.leadingAnchor.constraint(equalTo: id.trailingAnchor, constant: Kite.space.medium),
       count.topAnchor.constraint(equalTo: desc.lastBaselineAnchor, constant: Kite.space.xsmall),
