@@ -32,7 +32,8 @@ extension Kite {
   static func largeTitle(text: String) -> UILabel {
     let label = Kite.label(text, style: .largeTitle)
     label.font = Kite.font(size: 48).bold
-//    label.attributedText = text.kern(by: -4)
+    label.numberOfLines = 0
+    //    label.attributedText = text.kern(by: -4)
     label.text = text
     return label
   }
@@ -53,6 +54,10 @@ extension Kite {
     let view = UITextView(frame: .zero)
     view.translatesAutoresizingMaskIntoConstraints = false
     view.adjustsFontForContentSizeCategory = true
+    view.backgroundColor = Kite.color.background
+    view.isScrollEnabled = false
+    view.isEditable = false
+    view.textContainerInset = .zero
     view.font = Kite.font(style: .body)
     view.textColor = Kite.color.primary
     view.text = text

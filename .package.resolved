@@ -9,6 +9,15 @@
           "revision": "9076f26a15d6af25b60522d06b54cfae704ae301",
           "version": "4.2.5"
         }
+      },
+      {
+        "package": "SwiftyUtils",
+        "repositoryURL": "https://github.com/tbaranes/SwiftyUtils",
+        "state": {
+          "branch": null,
+          "revision": "cf5091c43dcf11437ae9e364d11e08fba0823cd4",
+          "version": "5.3.0"
+        }
       }
     ]
   },

@@ -34,15 +34,16 @@ class HistoryPage: UIViewController {
     let history = Kite.views.placeholder(name: "history")
     contentv.addSubviews(history)
 
-    let readable = contentv.readableContentGuide
+    let layout = contentv.layoutMarginsGuide
 
     NSLayoutConstraint.activate([
       contentv.widthAnchor.constraint(equalTo: scrollv.widthAnchor),
 
-      history.topAnchor.constraint(equalTo: contentv.topAnchor),
-      history.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
-      history.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
-      history.bottomAnchor.constraint(equalTo: contentv.bottomAnchor),
+      history.heightAnchor.constraint(equalToConstant: 80),
+      history.topAnchor.constraint(equalTo: layout.topAnchor),
+      history.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      history.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      history.bottomAnchor.constraint(equalTo: layout.bottomAnchor),
     ])
 
     self.view = view

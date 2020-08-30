@@ -52,12 +52,12 @@ extension UIView {
   }
 
   func showGuides() {
-    backgroundColor = .systemBlue
+    backgroundColor = UIColor.systemBlue.withAlphaComponent(0.3)
     let lmg = UIView(frame: .zero)
-    lmg.backgroundColor = .systemYellow
+    lmg.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.3)
     lmg.pin(to: self, guide: layoutMarginsGuide)
     let rcg = UIView(frame: .zero)
-    rcg.backgroundColor = .systemGreen
+    rcg.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.3)
     rcg.pin(to: self, guide: readableContentGuide)
   }
 

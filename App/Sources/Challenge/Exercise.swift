@@ -16,8 +16,8 @@ struct Exercise: Codable {
   let id: String
   let name: String
   let desc: String
-  let goal = "" // todo
-  
+  let goal: String
+
   var level: String { String(id.first!) }
 }
 

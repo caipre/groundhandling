@@ -2,156 +2,187 @@
   {
     "id": "A01",
     "name": "Pull Up",
-    "desc": "Align your wing perpendicular to the wind. Grab your A's and pull. The wing will come up above you. How fast depends on how big your wing is, how much wind and how hard you pull."
+    "desc": "Align your wing perpendicular to the wind. Grab your A's and pull. The wing will come up above you. How fast depends on how big your wing is, how much wind and how hard you pull.",
+    "goal": "up 3x in a row"
   },
   {
     "id": "A02",
     "name": "Keep Overhead",
-    "desc": "Above you, the wing will pitch, roll and yaw. Use your feet and brakes to stay below the wing. If it gets too easy try different wind conditions."
+    "desc": "Above you, the wing will pitch, roll and yaw. Use your feet and brakes to stay below the wing. If it gets too easy try different wind conditions.",
+    "goal": "1 min up"
   },
   {
     "id": "A03",
     "name": "Walk Forward",
-    "desc": "Lower you center of gravity and push into wind. The more brake you apply, the harder you have to push. Try whilst facing forward and facing your wing too."
+    "desc": "Lower you center of gravity and push into wind. The more brake you apply, the harder you have to push. Try whilst facing forward and facing your wing too.",
+    "goal": "walk 20 meters"
   },
   {
     "id": "A04",
     "name": "Kill It",
-    "desc": "Pull your brakes until your wing starts to drop back. The more you pull the faster it drops. Try in different wind speeds and compare results."
+    "desc": "Pull your brakes until your wing starts to drop back. The more you pull the faster it drops. Try in different wind speeds and compare results.",
+    "goal": "down 3x in a row"
   },
   {
     "id": "B01",
     "name": "Launch no As",
-    "desc": "Get your bum into the harness and push back. Keep your hands ready on the brakes but don't pull the As. Some wings inflate and rise by just pulling on the risers."
+    "desc": "Get your bum into the harness and push back. Keep your hands ready on the brakes but don't pull the As. Some wings inflate and rise by just pulling on the risers.",
+    "goal": "up 3x in a row"
   },
   {
     "id": "B02",
     "name": "Overhead no hands",
-    "desc": "Keep the wing overhead without touching any line. You can move your body to stay under the wing. Lean on the harness/risers and the wing will slowly respond."
+    "desc": "Keep the wing overhead without touching any line. You can move your body to stay under the wing. Lean on the harness/risers and the wing will slowly respond.",
+    "goal": "1 min up"
   },
   {
     "id": "B03",
     "name": "Walk Left",
-    "desc": "Or right. Move perpendicular to the wind. You can make the wing follow you, or vice-versa. There are many ways to achieve the same objective."
+    "desc": "Or right. Move perpendicular to the wind. You can make the wing follow you, or vice-versa. There are many ways to achieve the same objective.",
+    "goal": "walk 20 meters"
   },
   {
     "id": "B04",
     "name": "Kill It with Cs",
-    "desc": "Pull on your back risers and the wing will drop back. Probably needs more pressure than the brakes but is smoother. Might be useful when the wind is stronger."
+    "desc": "Pull on your back risers and the wing will drop back. Probably needs more pressure than the brakes but is smoother. Might be useful when the wind is stronger.",
+    "goal": "down 3x in a row"
   },
   {
     "id": "C01",
     "name": "Bunched Pull up",
-    "desc": "Arrange your glider in a circle and expose the center cells. When you pull on the inner As the wing should come up slowly. Try with different numbers of cells exposed and different wind conditions."
+    "desc": "Arrange your glider in a circle and expose the center cells. When you pull on the inner As the wing should come up slowly. Try with different numbers of cells exposed and different wind conditions.",
+    "goal": "up 3x in a row"
   },
   {
     "id": "C02",
     "name": "Side Launch",
-    "desc": "Put the glider at the edge of wind window. Get the glider above your head from that position. You might have to pull one side up harder than the other."
+    "desc": "Put the glider at the edge of wind window. Get the glider above your head from that position. You might have to pull one side up harder than the other.",
+    "goal": "up 3x in a row"
   },
   {
     "id": "C03",
     "name": "Cobra Launch",
-    "desc": "Can be done on your own or with help of a friend. Cells exposed at the edge of the window inflate and pull the wing up like a snake. Finesse on the brakes here is key."
+    "desc": "Can be done on your own or with help of a friend. Cells exposed at the edge of the window inflate and pull the wing up like a snake. Finesse on the brakes here is key.",
+    "goal": "up 3x in a row"
   },
   {
     "id": "C04",
     "name": "Walk Back",
-    "desc": "Walk downwind keeping the wing above your head. What keeps your wing flying is airspeed, so keep an eye on it. Different wind conditions have a big effect on difficulty."
+    "desc": "Walk downwind keeping the wing above your head. What keeps your wing flying is airspeed, so keep an eye on it. Different wind conditions have a big effect on difficulty.",
+    "goal": "walk 20 meters"
   },
   {
     "id": "C05",
     "name": "Lie Down",
-    "desc": "Like a brick. Keep the wing above you. You'll need smooth air and precise brake control. Can you get back up without dropping the wing?"
+    "desc": "Like a brick. Keep the wing above you. You'll need smooth air and precise brake control. Can you get back up without dropping the wing?",
+    "goal": "1 min up"
   },
   {
     "id": "C06",
     "name": "30% Assy",
-    "desc": "Pull down one of the As to collapse 30% of the wing. Don't overreact. Use just enough opposite brake to keep the wing flying. Pulling on the brake to pump out the deflation only works if you have enough pressure."
+    "desc": "Pull down one of the As to collapse 30% of the wing. Don't overreact. Use just enough opposite brake to keep the wing flying. Pulling on the brake to pump out the deflation only works if you have enough pressure.",
+    "goal": "collapse+recover 3x in a row"
   },
   {
     "id": "C07",
     "name": "Side Kill It",
-    "desc": "Put your wing down at the edge of the wind window. Might be hard to do in some wind conditions. If successful makes concertina packing much easier."
+    "desc": "Put your wing down at the edge of the wind window. Might be hard to do in some wind conditions. If successful makes concertina packing much easier.",
+    "goal": "down 3x in a row"
   },
   {
     "id": "C08",
     "name": "Kill It with As",
-    "desc": "Pulling on the As will collapse the leading edge. This can be useful to put the wing down quickly in strong wind. You can't hold them forever. Bear in mind how you launch a wing."
+    "desc": "Pulling on the As will collapse the leading edge. This can be useful to put the wing down quickly in strong wind. You can't hold them forever. Bear in mind how you launch a wing.",
+    "goal": "down 3x in a row"
   },
   {
     "id": "C09",
     "name": "Kill It with Bs",
-    "desc": "Pull down on the Bs until the wing folds like a taco. It's not pretty but very useful to kill the wing in almost any situation. You can hold the taco forever."
+    "desc": "Pull down on the Bs until the wing folds like a taco. It's not pretty but very useful to kill the wing in almost any situation. You can hold the taco forever.",
+    "goal": "down 3x in a row"
   },
   {
     "id": "C10",
     "name": "Down Gently",
-    "desc": "Put your wing down gently using all available lines. If you don't slam your wing on the ground it will last longer. Different wind strengths require different techniques."
+    "desc": "Put your wing down gently using all available lines. If you don't slam your wing on the ground it will last longer. Different wind strengths require different techniques.",
+    "goal": "down 3x in a row"
   },
   {
     "id": "D01",
     "name": "Cravat Launch",
-    "desc": "Push one wingtip through your lines, on purpose. Bring the wing up and keep it over your head. Bonus points for clearing the cravat without dropping the wing."
+    "desc": "Push one wingtip through your lines, on purpose. Bring the wing up and keep it over your head. Bonus points for clearing the cravat without dropping the wing.",
+    "goal": "up 3x in a row"
   },
   {
     "id": "D02",
     "name": "1 Side Only",
-    "desc": "Pull your wing up using only one side. Use only the A and brake on one side of the wing. You can move your feet though."
+    "desc": "Pull your wing up using only one side. Use only the A and brake on one side of the wing. You can move your feet though.",
+    "goal": "up 3x in a row"
   },
   {
     "id": "D03",
     "name": "Don't Touch It",
-    "desc": "Your wing is upside down. Turn up right side up. You can't touch the canopy, use your lines only. Moving your feet at the right time might help."
+    "desc": "Your wing is upside down. Turn up right side up. You can't touch the canopy, use your lines only. Moving your feet at the right time might help.",
+    "goal": "turn it 3x in a row"
   },
   {
     "id": "D04",
     "name": "Stall Point",
-    "desc": "Slightly above the wing will come up. Slightly below the wing will die. Keep it in this stall point above the ground. Super fine quick adjustments are required."
+    "desc": "Slightly above the wing will come up. Slightly below the wing will die. Keep it in this stall point above the ground. Super fine quick adjustments are required.",
+    "goal": "hold it 1 min up"
   },
   {
     "id": "D05",
     "name": "Controlled Drag",
-    "desc": "Find the position where you wing pulls you the most and let it drag you. On your feet, bum or even belly, the key is knowing how to get out. Can be a very useful mean of transportation."
+    "desc": "Find the position where you wing pulls you the most and let it drag you. On your feet, bum or even belly, the key is knowing how to get out. Can be a very useful mean of transportation.",
+    "goal": "get dragged 20 meters"
   },
   {
     "id": "D06",
     "name": "Flapping",
-    "desc": "Pump your brakes and flap around but don't let it drop behind you. How fast and how deep can you pump? Is there a link between frequency and how much you pull?"
+    "desc": "Pump your brakes and flap around but don't let it drop behind you. How fast and how deep can you pump? Is there a link between frequency and how much you pull?",
+    "goal": "flap for 1 min"
   },
   {
     "id": "D07",
     "name": "50% Assy",
-    "desc": "Pull down one of the As to collapse 50% of the wing. Be patient in getting the collapse out. Foot work might come in handy."
+    "desc": "Pull down one of the As to collapse 50% of the wing. Be patient in getting the collapse out. Foot work might come in handy.",
+    "goal": "collapse+recover 3x in a row"
   },
   {
     "id": "D08",
     "name": "Climb Dune",
-    "desc": "Or any other hill. Use the wing to pull you up. If you get airborne you lose, but it will still be fun. Zig-Zagging up might be easier than straight up."
+    "desc": "Or any other hill. Use the wing to pull you up. If you get airborne you lose, but it will still be fun. Zig-Zagging up might be easier than straight up.",
+    "goal": "climb 20 meters"
   },
   {
     "id": "E01",
     "name": "Throw Launch",
-    "desc": "Wing bunched in one hand, As in the other. Throw the wing downwind, runs back and pull on the As. If the wing doesn't touch the ground you get full marks."
+    "desc": "Wing bunched in one hand, As in the other. Throw the wing downwind, runs back and pull on the As. If the wing doesn't touch the ground you get full marks.",
+    "goal": "up 3x in a row"
   },
   {
     "id": "E02",
     "name": "Fly Backwards",
-    "desc": "Keep the wing off the ground, backwards. Everything is in reverse. Brakes make the wing go up, As make it go down. There is no sharknose on the trailing edge, so you can only go so far up."
+    "desc": "Keep the wing off the ground, backwards. Everything is in reverse. Brakes make the wing go up, As make it go down. There is no sharknose on the trailing edge, so you can only go so far up.",
+    "goal": "1 min up"
   },
   {
     "id": "E03",
     "name": "80% Assy",
-    "desc": "Pull on all the As minus one of the tips. Recover from the collapse without letting the wing drop. Might be harder than a Full frontal as it's not symetric."
+    "desc": "Pull on all the As minus one of the tips. Recover from the collapse without letting the wing drop. Might be harder than a Full frontal as it's not symetric.",
+    "goal": "collapse+recover 3x in a row"
   },
   {
     "id": "E04",
     "name": "360",
-    "desc": "Facing up, facing down, facing up. All in one fluid movement. Wing size, wind speed and other things might make it easier. Pat yourself on the back if you got this one nailed."
+    "desc": "Facing up, facing down, facing up. All in one fluid movement. Wing size, wind speed and other things might make it easier. Pat yourself on the back if you got this one nailed.",
+    "goal": "around 3x in a row"
   },
   {
     "id": "E05",
     "name": "Spiderman",
-    "desc": "If you made it this far, the Groundhandling Challenge has done it's job :)"
+    "desc": "If you made it this far, the Groundhandling Challenge has done it's job :)",
+    "goal": "climb 10 meters (for the very advanced!)"
   }
 ]

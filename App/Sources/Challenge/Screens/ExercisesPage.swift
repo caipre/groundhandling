@@ -48,18 +48,23 @@ class ExercisesPage: UIViewController {
     tableView.isScrollEnabled = false
     contentv.addSubviews(title, tableView)
 
-    let readable = contentv.readableContentGuide
+    let frame = scrollv.frameLayoutGuide
+    let layout = contentv.layoutMarginsGuide
 
     NSLayoutConstraint.activate([
       contentv.widthAnchor.constraint(equalTo: scrollv.widthAnchor),
 
-      title.topAnchor.constraint(equalTo: readable.topAnchor),
-      title.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+      title.topAnchor.constraint(equalTo: layout.topAnchor),
+      title.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      title.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
 
-      tableView.topAnchor.constraint(equalTo: title.lastBaselineAnchor, constant: Kite.space.medium),
-      tableView.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
-      tableView.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
-      tableView.bottomAnchor.constraint(equalTo: contentv.bottomAnchor),
+      tableView.topAnchor.constraint(
+        equalTo: title.lastBaselineAnchor,
+        constant: Kite.space.medium
+      ),
+      tableView.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      tableView.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      tableView.bottomAnchor.constraint(equalTo: layout.bottomAnchor),
     ])
 
     tableHeight = tableView.heightAnchor.constraint(equalToConstant: 0)
@@ -90,7 +95,9 @@ extension ExercisesPage: UITableViewDataSource {
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let exercise = exercises[indexPath.row]
-    let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseRow.reuseId) as? ExerciseRow ?? ExerciseRow(frame: .zero)
+    let cell =
+      tableView.dequeueReusableCell(withIdentifier: ExerciseRow.reuseId) as? ExerciseRow
+      ?? ExerciseRow(frame: .zero)
     cell.accessoryType = .disclosureIndicator
     cell.bind(to: exercise)
     return cell
@@ -100,8 +107,9 @@ extension ExercisesPage: UITableViewDataSource {
 extension ExercisesPage: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let exercise = exercises[indexPath.row]
-    let vc = ExerciseContainer(level: level, exercise: exercise)
+    let vc = DetailsContainer(level: level, exercise: exercise)
     show(vc, sender: self)
+    tableView.deselectRow(at: indexPath, animated: false)
   }
 }
 
@@ -116,12 +124,13 @@ class ExerciseRow: UITableViewCell {
     goal = Kite.subhead(text: exercise.goal)
     backgroundColor = Kite.color.background
     contentView.addSubviews(name, goal)
+    let layout = contentView.layoutMarginsGuide
     NSLayoutConstraint.activate([
-      name.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Kite.space.small),
-      name.leadingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Kite.space.medium),
-      goal.topAnchor.constraint(equalTo: name.lastBaselineAnchor),
+      name.topAnchor.constraint(equalTo: layout.topAnchor, constant: Kite.space.xsmall),
+      name.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      goal.topAnchor.constraint(equalTo: name.lastBaselineAnchor, constant: Kite.space.xsmall),
       goal.leadingAnchor.constraint(equalTo: name.leadingAnchor),
-      goal.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Kite.space.small),
+      goal.bottomAnchor.constraint(equalTo: layout.bottomAnchor, constant: -Kite.space.xsmall),
     ])
   }
 }

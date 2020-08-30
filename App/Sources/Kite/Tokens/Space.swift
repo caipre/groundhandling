@@ -36,7 +36,7 @@ extension Kite {
   enum space {
     static let xsmall: CGFloat = 4
     static let small: CGFloat = 16
-    static let medium: CGFloat = 32
+    static let medium: CGFloat = 24
     static let large: CGFloat = 48
     static let xlarge: CGFloat = 64
   }

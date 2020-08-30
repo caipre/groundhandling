@@ -46,6 +46,7 @@ class MainPage: UIViewController {
 
     let image = Kite.views.image(named: "Nxn8Nm2yx0I")
     tableView = UITableView(frame: .zero, style: .plain)
+    tableView.backgroundColor = Kite.color.background
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 80
@@ -53,20 +54,20 @@ class MainPage: UIViewController {
     contentv.addSubviews(image, tableView)
 
     let frame = scrollv.frameLayoutGuide
-    let readable = contentv.readableContentGuide
+    let layout = contentv.layoutMarginsGuide
 
     NSLayoutConstraint.activate([
       contentv.widthAnchor.constraint(equalTo: scrollv.widthAnchor),
 
-      image.topAnchor.constraint(equalTo: contentv.topAnchor),
+      image.topAnchor.constraint(equalTo: layout.topAnchor),
       image.trailingAnchor.constraint(equalTo: frame.trailingAnchor),
       image.heightAnchor.constraint(equalTo: image.widthAnchor),
-      image.widthAnchor.constraint(equalTo: readable.widthAnchor, constant: -Kite.space.medium),
+      image.widthAnchor.constraint(equalTo: layout.widthAnchor, multiplier: 0.85),
 
       tableView.topAnchor.constraint(equalTo: image.bottomAnchor, constant: Kite.space.medium),
-      tableView.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
-      tableView.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
-      tableView.bottomAnchor.constraint(equalTo: contentv.bottomAnchor),
+      tableView.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      tableView.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      tableView.bottomAnchor.constraint(equalTo: layout.bottomAnchor),
     ])
 
     tableHeight = tableView.heightAnchor.constraint(equalToConstant: 0)
@@ -97,7 +98,9 @@ extension MainPage: UITableViewDataSource {
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let level = levels[indexPath.row]
-    let cell = tableView.dequeueReusableCell(withIdentifier: LevelRow.reuseId) as? LevelRow ?? LevelRow(frame: .zero)
+    let cell =
+      tableView.dequeueReusableCell(withIdentifier: LevelRow.reuseId) as? LevelRow
+      ?? LevelRow(frame: .zero)
     cell.accessoryType = .disclosureIndicator
     cell.bind(to: level)
     return cell
@@ -109,6 +112,7 @@ extension MainPage: UITableViewDelegate {
     let level = levels[indexPath.row]
     let vc = ExercisesPage(level: level, exercises: exercises.filter { $0.level == level.id })
     show(vc, sender: self)
+    tableView.deselectRow(at: indexPath, animated: false)
   }
 }
 
@@ -125,14 +129,15 @@ class LevelRow: UITableViewCell {
     count = Kite.subhead(text: "\(level.count) exercises")
     backgroundColor = Kite.color.background
     contentView.addSubviews(id, desc, count)
+    let layout = contentView.layoutMarginsGuide
     NSLayoutConstraint.activate([
       id.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-      id.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-      desc.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Kite.space.small),
+      id.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      desc.topAnchor.constraint(equalTo: layout.topAnchor, constant: Kite.space.xsmall),
       desc.leadingAnchor.constraint(equalTo: id.trailingAnchor, constant: Kite.space.medium),
-      count.topAnchor.constraint(equalTo: desc.lastBaselineAnchor),
+      count.topAnchor.constraint(equalTo: desc.lastBaselineAnchor, constant: Kite.space.xsmall),
       count.leadingAnchor.constraint(equalTo: desc.leadingAnchor),
-      count.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Kite.space.small),
+      count.bottomAnchor.constraint(equalTo: layout.bottomAnchor, constant: -Kite.space.xsmall),
     ])
   }
 }

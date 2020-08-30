@@ -12,7 +12,7 @@
 
 import UIKit
 
-class ExerciseContainer: UIViewController {
+class DetailsContainer: UIViewController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -58,21 +58,22 @@ class ExerciseContainer: UIViewController {
     view.directionalLayoutMargins = Kite.margins.directional
 
     let title = Kite.largeTitle(text: exercise.name)
-    let levelv = Kite.caption(text: "Level \(level.id)")
+    let levelv = Kite.subhead(text: "Level \(level.id)")
     let pagesv = pagesvc.view!
     pagesv.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubviews(title, levelv, pagesv)
+    view.addSubviews(pagesv, title, levelv)
 
-    let readable = view.readableContentGuide
+    let layout = view.layoutMarginsGuide
 
     NSLayoutConstraint.activate([
-      levelv.lastBaselineAnchor.constraint(equalTo: title.topAnchor, constant: Kite.space.small),
-      levelv.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+      levelv.lastBaselineAnchor.constraint(equalTo: title.topAnchor, constant: Kite.space.xsmall),
+      levelv.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
 
-      title.topAnchor.constraint(equalTo: readable.topAnchor),
-      title.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+      title.topAnchor.constraint(equalTo: layout.topAnchor),
+      title.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      title.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
 
-      pagesv.topAnchor.constraint(equalTo: title.lastBaselineAnchor, constant: Kite.space.medium),
+      pagesv.topAnchor.constraint(equalTo: title.lastBaselineAnchor),
       pagesv.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       pagesv.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       pagesv.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -82,7 +83,7 @@ class ExerciseContainer: UIViewController {
   }
 }
 
-extension ExerciseContainer: UIPageViewControllerDataSource {
+extension DetailsContainer: UIPageViewControllerDataSource {
   func pageViewController(
     _ pageViewController: UIPageViewController,
     viewControllerBefore viewController: UIViewController

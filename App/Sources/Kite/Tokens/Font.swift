@@ -14,7 +14,7 @@ import Foundation
 import UIKit
 
 extension Kite {
-  static var font: String { "Overpass" }
+  static var font: String { "Oxygen" }
 
   static func font(size: CGFloat) -> UIFont {
     return UIFont(name: Kite.font, size: size)!
