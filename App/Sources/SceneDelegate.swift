@@ -22,7 +22,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   ) {
     if let windowScene = scene as? UIWindowScene {
       let window = UIWindow(windowScene: windowScene)
-      window.rootViewController = MainViewController()
+      let ctx = (UIApplication.shared.delegate as! AppDelegate).ctx!
+      window.rootViewController = AppViewController(ctx: ctx)
       self.window = window
       window.makeKeyAndVisible()
     }

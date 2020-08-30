@@ -12,25 +12,15 @@
 
 import UIKit
 
-class AboutPage: UIViewController {
+class AppViewController: UINavigationController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  init() {
-    super.init(nibName: nil, bundle: nil)
-  }
-
-  override func loadView() {
-    let view = Kite.views.background()
-    view.directionalLayoutMargins = Kite.margins.directional
-    let guide = view.readableContentGuide
-    let title = Kite.largeTitle(text: "About")
-    view.addSubview(title)
-    NSLayoutConstraint.activate([
-      title.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-      title.topAnchor.constraint(equalTo: guide.topAnchor),
-    ])
-    self.view = view
+  init(ctx: AppContext) {
+    let main = MainPage(exercises: ctx.exercises)
+    super.init(rootViewController: main)
+    navigationBar.standardAppearance.configureWithTransparentBackground()
+    navigationBar.tintColor = Kite.color.secondary
   }
 }

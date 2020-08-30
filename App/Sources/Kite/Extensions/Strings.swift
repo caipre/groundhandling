@@ -10,21 +10,10 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
-import UIKit
+import Foundation
 
-extension Kite {
-  enum color {
-    static let accent = UIColor(named: "accent")!
-
-    static let primary = UIColor(named: "primary")!
-    static let secondary = UIColor(named: "secondary")!
-
-    static let background = UIColor(named: "background")!
-
-    static let active = UIColor(named: "control.active")!
-    static let inactive = UIColor(named: "control.inactive")!
-
-    static let ok = UIColor(named: "result.ok")!
-    static let error = UIColor(named: "result.error")!
+extension String {
+  func kern(by: Float) -> NSAttributedString {
+    return NSAttributedString(string: self, attributes: [.kern: -4])
   }
 }

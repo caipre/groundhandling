@@ -12,7 +12,7 @@
 
 import UIKit
 
-class LicenseViewController: UIViewController {
+class LicensePage: UIViewController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -22,10 +22,10 @@ class LicenseViewController: UIViewController {
   }
 
   override func loadView() {
-    let view = UIView(frame: .zero)
+    let view = Kite.views.background()
     view.directionalLayoutMargins = Kite.margins.directional
     let guide = view.readableContentGuide
-    let title = Kite.title(text: "License")
+    let title = Kite.largeTitle(text: "License")
     view.addSubview(title)
     NSLayoutConstraint.activate([
       title.centerXAnchor.constraint(equalTo: guide.centerXAnchor),

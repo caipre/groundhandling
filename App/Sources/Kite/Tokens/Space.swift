@@ -22,11 +22,20 @@ extension Kite {
         trailing: space.medium
       )
     }
+
+    static func of(space: CGFloat) -> NSDirectionalEdgeInsets {
+      return NSDirectionalEdgeInsets(
+        top: space,
+        leading: space,
+        bottom: space,
+        trailing: space
+      )
+    }
   }
 
   enum space {
     static let xsmall: CGFloat = 4
-    static let small: CGFloat = 8
+    static let small: CGFloat = 16
     static let medium: CGFloat = 32
     static let large: CGFloat = 48
     static let xlarge: CGFloat = 64

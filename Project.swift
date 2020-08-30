@@ -8,6 +8,9 @@ let base = SettingsDictionary()
 let infop: InfoPlist = .extendingDefault(with: [
   "UILaunchStoryboardName": "LaunchScreen",
   "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
+  "UIAppFonts": [
+    "Overpass-Regular.ttf", "Overpass-SemiBold.ttf", "Overpass-Bold.ttf",
+  ],
   "UIApplicationSceneManifest": [
     "UIApplicationSupportsMultipleScenes": false,
     "UISceneConfigurations": [
@@ -24,7 +27,8 @@ let infop: InfoPlist = .extendingDefault(with: [
 let project = Project(
   name: "Ground",
   packages: [
-    .package(url: "https://github.com/square/Cleanse", from: "4.2.5")
+    .package(url: "https://github.com/square/Cleanse", from: "4.2.5"),
+    .package(url: "https://github.com/tbaranes/SwiftyUtils", from: "5.3.0")
   ],
   settings: Settings(base: base),
   targets: [

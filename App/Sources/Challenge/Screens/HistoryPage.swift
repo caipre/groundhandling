@@ -12,7 +12,7 @@
 
 import UIKit
 
-class ExerciseHistoryViewController: UIViewController {
+class HistoryPage: UIViewController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -22,15 +22,29 @@ class ExerciseHistoryViewController: UIViewController {
   }
 
   override func loadView() {
-    let view = UIView(frame: .zero)
-    view.directionalLayoutMargins = Kite.margins.directional
-    let guide = view.readableContentGuide
-    let title = Kite.title(text: "Exercise History")
-    view.addSubview(title)
+    let view = Kite.views.background()
+
+    let scrollv = UIScrollView(frame: .zero)
+    scrollv.pin(to: view)
+
+    let contentv = UIView(frame: .zero)
+    contentv.directionalLayoutMargins = Kite.margins.directional
+    contentv.pin(to: scrollv)
+
+    let history = Kite.views.placeholder(name: "history")
+    contentv.addSubviews(history)
+
+    let readable = contentv.readableContentGuide
+
     NSLayoutConstraint.activate([
-      title.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-      title.topAnchor.constraint(equalTo: guide.topAnchor),
+      contentv.widthAnchor.constraint(equalTo: scrollv.widthAnchor),
+
+      history.topAnchor.constraint(equalTo: contentv.topAnchor),
+      history.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+      history.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
+      history.bottomAnchor.constraint(equalTo: contentv.bottomAnchor),
     ])
+
     self.view = view
   }
 }

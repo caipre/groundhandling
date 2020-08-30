@@ -16,5 +16,13 @@ struct Exercise: Codable {
   let id: String
   let name: String
   let desc: String
+  let goal = "" // todo
+  
+  var level: String { String(id.first!) }
 }
 
+struct Level: Codable {
+  let id: String
+  let desc: String
+  let count: Int
+}

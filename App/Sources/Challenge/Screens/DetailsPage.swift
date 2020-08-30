@@ -12,25 +12,48 @@
 
 import UIKit
 
-class ExerciseDetailViewController: UIViewController {
+class DetailsPage: UIViewController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  init() {
+  private let exercise: Exercise
+
+  init(exercise: Exercise) {
+    self.exercise = exercise
     super.init(nibName: nil, bundle: nil)
   }
 
   override func loadView() {
-    let view = UIView(frame: .zero)
-    view.directionalLayoutMargins = Kite.margins.directional
-    let guide = view.readableContentGuide
-    let title = Kite.title(text: "Exercise Details")
-    view.addSubview(title)
+    let view = Kite.views.background()
+
+    let scrollv = UIScrollView(frame: .zero)
+    scrollv.pin(to: view)
+
+    let contentv = UIView(frame: .zero)
+    contentv.directionalLayoutMargins = Kite.margins.directional
+    contentv.pin(to: scrollv)
+
+    let image = Kite.views.image(named: exercise.id)
+    let desc = Kite.body(text: exercise.desc)
+    contentv.addSubviews(image, desc)
+
+    let readable = contentv.readableContentGuide
+
     NSLayoutConstraint.activate([
-      title.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-      title.topAnchor.constraint(equalTo: guide.topAnchor),
+      contentv.widthAnchor.constraint(equalTo: scrollv.widthAnchor),
+
+      image.topAnchor.constraint(equalTo: contentv.topAnchor),
+      image.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+      image.heightAnchor.constraint(equalTo: image.widthAnchor),
+      image.widthAnchor.constraint(equalTo: readable.widthAnchor, constant: -Kite.space.medium),
+
+      desc.topAnchor.constraint(equalTo: image.bottomAnchor, constant: Kite.space.medium),
+      desc.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+      desc.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
+      desc.bottomAnchor.constraint(equalTo: contentv.bottomAnchor),
     ])
+
     self.view = view
   }
 }
