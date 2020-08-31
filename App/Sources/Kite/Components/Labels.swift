@@ -58,6 +58,7 @@ extension Kite {
     view.isScrollEnabled = false
     view.isEditable = false
     view.textContainerInset = .zero
+    view.textContainer.lineFragmentPadding = 0
     view.font = Kite.font(style: .body)
     view.textColor = Kite.color.primary
     view.text = text

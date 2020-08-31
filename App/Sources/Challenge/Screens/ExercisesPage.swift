@@ -116,12 +116,9 @@ extension ExercisesPage: UITableViewDelegate {
 class ExerciseRow: UITableViewCell {
   static let reuseId = "\(ExerciseRow.self)"
 
-  private var name: UILabel!
-  private var goal: UILabel!
-
   func bind(to exercise: Exercise) {
-    name = Kite.title(text: exercise.name)
-    goal = Kite.subhead(text: exercise.goal)
+    let name = Kite.title(text: exercise.name)
+    let goal = Kite.subhead(text: exercise.goal)
     backgroundColor = Kite.color.background
     contentView.addSubviews(name, goal)
     let layout = contentView.layoutMarginsGuide

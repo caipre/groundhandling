@@ -42,7 +42,8 @@ let project = Project(
       sources: ["App/Sources/**"],
       resources: ["App/Resources/**"],
       dependencies: [
-        .package(product: "Cleanse")
+        .package(product: "Cleanse"),
+        .package(product: "SwiftyUtils"),
       ]
     )
   ],
