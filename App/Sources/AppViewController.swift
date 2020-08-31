@@ -18,6 +18,7 @@ class AppViewController: UINavigationController {
   }
 
   init(ctx: AppContext) {
+    //    let main = LicensesPage(licenses: ctx.licenses)
     let main = MainPage(exercises: ctx.exercises)
     super.init(rootViewController: main)
     navigationBar.standardAppearance.configureWithTransparentBackground()

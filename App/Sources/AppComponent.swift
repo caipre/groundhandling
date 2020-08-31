@@ -15,6 +15,7 @@ import Foundation
 
 struct AppContext {
   let exercises: [Exercise]
+  let licenses: [License]
 }
 
 struct AppComponent: Cleanse.RootComponent {
@@ -26,6 +27,7 @@ struct AppComponent: Cleanse.RootComponent {
 
   static func configure(binder: Binder<Singleton>) {
     binder.include(module: ExercisesModule.self)
+    binder.include(module: LicensesModule.self)
   }
 }
 
@@ -42,6 +44,21 @@ struct ExercisesModule: Cleanse.Module {
         let decoded = try! decoder.decode([Exercise].self, from: data)
         return decoded
       }
+  }
+}
 
+struct LicensesModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind([License].self)
+      .sharedInScope()
+      .to {
+
+        let decoder = JSONDecoder()
+        let data = try! Data(
+          contentsOf: Bundle.module.url(forResource: "licenses", withExtension: "json")!
+        )
+        let decoded = try! decoder.decode([License].self, from: data)
+        return decoded
+      }
   }
 }

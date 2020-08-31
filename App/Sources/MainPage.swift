@@ -119,14 +119,10 @@ extension MainPage: UITableViewDelegate {
 class LevelRow: UITableViewCell {
   static let reuseId = "\(LevelRow.self)"
 
-  private var id: UILabel!
-  private var desc: UILabel!
-  private var count: UILabel!
-
   func bind(to level: Level) {
-    id = Kite.largeTitle(text: level.id)
-    desc = Kite.title(text: level.desc)
-    count = Kite.subhead(text: "\(level.count) exercises")
+    let id = Kite.largeTitle(text: level.id)
+    let desc = Kite.title(text: level.desc)
+    let count = Kite.subhead(text: "\(level.count) exercises")
     backgroundColor = Kite.color.background
     contentView.addSubviews(id, desc, count)
     let layout = contentView.layoutMarginsGuide
