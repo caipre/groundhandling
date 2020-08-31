@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+# Enforces commit message conventions inspired by:
+# - https://chris.beams.io/posts/git-commit/
+# - https://www.conventionalcommits.org/
+
+require 'set'
+
+types = %w[ build docs feat fix perf refactor revert style test ]
+pattern = /^(#{types.join '|'})(\/\w+)?: /
+
+errors = Set.new
+File.open(ARGV.first).each_with_index do |line, idx|
+  line = line.chomp
+  case idx + 1
+  when 1
+    # allow `git commit --fixup`
+    exit 0 if line.start_with? 'fixup!'
+    errors << :unconventional unless pattern =~ line
+    errors << :fullstop if line.end_with? '.'
+  when 2
+    errors << :blankline unless line.empty?
+  when 3
+    capitalized = line.chars.first == line.chars.first.upcase
+    errors << :lowercase unless capitalized || (line.start_with? 'closes')
+  end
+  errors << :length unless line.length <= 72
+end
+
+if !errors.empty?
+  STDERR.puts 'Problem(s) with commit message: ' + errors.to_a.join(', ')
+  exit 1
+end
+
