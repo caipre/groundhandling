@@ -28,6 +28,33 @@ extension Kite {
       return view
     }
 
+    static func image(symbol name: String) -> UIImageView {
+      let view = UIImageView(image: UIImage(systemName: name)!)
+      view.translatesAutoresizingMaskIntoConstraints = false
+      view.tintColor = Kite.color.secondary
+      view.clipsToBounds = true
+      view.contentMode = .center
+      return view
+    }
+
+    static func button(symbol name: String, target: Any?, selector: Selector) -> UIButton {
+      let view = UIButton(frame: .zero)
+      view.setImage(UIImage(systemName: name), for: .normal)
+      view.addTarget(target, action: selector, for: .touchUpInside)
+      view.translatesAutoresizingMaskIntoConstraints = false
+      view.tintColor = Kite.color.secondary
+      view.clipsToBounds = true
+      view.contentMode = .center
+      return view
+    }
+
+    static func table() -> UITableView {
+      let view = UITableView(frame: .zero, style: .plain)
+      view.backgroundColor = Kite.color.background
+      view.translatesAutoresizingMaskIntoConstraints = false
+      return view
+    }
+
     static func placeholder(name: String) -> UIView {
       let view = UIView(frame: .zero).rounded()
       view.translatesAutoresizingMaskIntoConstraints = false
