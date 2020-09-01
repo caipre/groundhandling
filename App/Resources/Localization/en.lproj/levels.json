@@ -1,0 +1,7 @@
+[
+  {"id": "A", "desc": "Fledgling", "count": 4},
+  {"id": "B", "desc": "Beginner", "count": 4},
+  {"id": "C", "desc": "Intermediate", "count": 10},
+  {"id": "D", "desc": "Expert", "count": 9},
+  {"id": "E", "desc": "Acro Legend", "count": 5}
+]

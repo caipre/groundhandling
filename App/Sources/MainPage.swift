@@ -17,20 +17,18 @@ class MainPage: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
+  private let ctx: AppContext  // fixme: prefer explicit dependencies
   private let exercises: [Exercise]
-  private lazy var levels = [
-    Level(id: "A", desc: "Fledgling", count: 4),
-    Level(id: "B", desc: "Beginner", count: 4),
-    Level(id: "C", desc: "Intermediate", count: 10),
-    Level(id: "D", desc: "Expert", count: 9),
-    Level(id: "E", desc: "Acro Legend", count: 5),
-  ]
+  private let levels: [Level]
 
-  init(exercises: [Exercise]) {
-    self.exercises = exercises
+  init(ctx: AppContext) {
+    self.ctx = ctx
+    self.levels = ctx.levels
+    self.exercises = ctx.exercises
     super.init(nibName: nil, bundle: nil)
   }
 
+  private var slider: UIImageView!
   private var tableView: UITableView!
   private var tableHeight: NSLayoutConstraint!
 
@@ -44,14 +42,17 @@ class MainPage: UIViewController {
     contentv.directionalLayoutMargins = Kite.margins.directional
     contentv.pin(to: scrollv)
 
+    let slider = Kite.views.button(
+      symbol: "slider.horizontal.3",
+      target: self,
+      selector: #selector(showAboutPage)
+    )
     let image = Kite.views.image(named: "Nxn8Nm2yx0I")
-    tableView = UITableView(frame: .zero, style: .plain)
-    tableView.backgroundColor = Kite.color.background
-    tableView.translatesAutoresizingMaskIntoConstraints = false
+    tableView = Kite.views.table()
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 80
     tableView.isScrollEnabled = false
-    contentv.addSubviews(image, tableView)
+    contentv.addSubviews(slider, image, tableView)
 
     let frame = scrollv.frameLayoutGuide
     let layout = contentv.layoutMarginsGuide
@@ -59,7 +60,10 @@ class MainPage: UIViewController {
     NSLayoutConstraint.activate([
       contentv.widthAnchor.constraint(equalTo: scrollv.widthAnchor),
 
-      image.topAnchor.constraint(equalTo: layout.topAnchor),
+      slider.topAnchor.constraint(equalTo: layout.topAnchor),
+      slider.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+
+      image.topAnchor.constraint(equalTo: slider.bottomAnchor, constant: Kite.space.medium),
       image.trailingAnchor.constraint(equalTo: frame.trailingAnchor),
       image.heightAnchor.constraint(equalTo: image.widthAnchor),
       image.widthAnchor.constraint(equalTo: layout.widthAnchor, multiplier: 0.85),
@@ -81,9 +85,25 @@ class MainPage: UIViewController {
     tableView.delegate = self
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    navigationController?.isNavigationBarHidden = true
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    navigationController?.isNavigationBarHidden = false
+  }
+
   override func viewDidLayoutSubviews() {
     super.updateViewConstraints()
     tableHeight.constant = tableView.contentSize.height
+  }
+
+  // Target-Action
+
+  @objc func showAboutPage() {
+    // fixme: decouple (move into coordinator)
+    let vc = AboutPage(ctx: ctx)
+    show(vc, sender: self)
   }
 }
 

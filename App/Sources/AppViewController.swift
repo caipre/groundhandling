@@ -18,8 +18,7 @@ class AppViewController: UINavigationController {
   }
 
   init(ctx: AppContext) {
-    //    let main = LicensesPage(licenses: ctx.licenses)
-    let main = MainPage(exercises: ctx.exercises)
+    let main = MainPage(ctx: ctx)
     super.init(rootViewController: main)
     navigationBar.standardAppearance.configureWithTransparentBackground()
     navigationBar.tintColor = Kite.color.secondary

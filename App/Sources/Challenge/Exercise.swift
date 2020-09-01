@@ -12,6 +12,12 @@
 
 import Foundation
 
+struct Level: Codable {
+  let id: String
+  let desc: String
+  let count: Int
+}
+
 struct Exercise: Codable {
   let id: String
   let name: String
@@ -19,10 +25,4 @@ struct Exercise: Codable {
   let goal: String
 
   var level: String { String(id.first!) }
-}
-
-struct Level: Codable {
-  let id: String
-  let desc: String
-  let count: Int
 }

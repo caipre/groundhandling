@@ -14,8 +14,11 @@ import Cleanse
 import Foundation
 
 struct AppContext {
+  let release: ReleaseInfo
+  let levels: [Level]
   let exercises: [Exercise]
   let licenses: [License]
+  let photos: [Photo]
 }
 
 struct AppComponent: Cleanse.RootComponent {
@@ -26,8 +29,42 @@ struct AppComponent: Cleanse.RootComponent {
   }
 
   static func configure(binder: Binder<Singleton>) {
+    binder.include(module: ReleaseInfoModule.self)
+    binder.include(module: LevelsModule.self)
     binder.include(module: ExercisesModule.self)
     binder.include(module: LicensesModule.self)
+    binder.include(module: UnsplashModule.self)
+  }
+}
+
+struct ReleaseInfoModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind(ReleaseInfo.self)
+      .sharedInScope()
+      .to {
+
+        let decoder = JSONDecoder()
+        let data = try! Data(
+          contentsOf: Bundle.module.url(forResource: "release", withExtension: "json")!
+        )
+        let decoded = try! decoder.decode(ReleaseInfo.self, from: data)
+        return decoded
+      }
+  }
+}
+
+struct LevelsModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind([Level].self)
+      .sharedInScope()
+      .to {
+        let decoder = JSONDecoder()
+        let data = try! Data(
+          contentsOf: Bundle.module.url(forResource: "levels", withExtension: "json")!
+        )
+        let decoded = try! decoder.decode([Level].self, from: data)
+        return decoded
+      }
   }
 }
 
@@ -36,10 +73,9 @@ struct ExercisesModule: Cleanse.Module {
     binder.bind([Exercise].self)
       .sharedInScope()
       .to {
-
         let decoder = JSONDecoder()
         let data = try! Data(
-          contentsOf: Bundle.module.url(forResource: "Exercises", withExtension: "json")!
+          contentsOf: Bundle.module.url(forResource: "exercises", withExtension: "json")!
         )
         let decoded = try! decoder.decode([Exercise].self, from: data)
         return decoded
@@ -58,6 +94,22 @@ struct LicensesModule: Cleanse.Module {
           contentsOf: Bundle.module.url(forResource: "licenses", withExtension: "json")!
         )
         let decoded = try! decoder.decode([License].self, from: data)
+        return decoded
+      }
+  }
+}
+
+struct UnsplashModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind([Photo].self)
+      .sharedInScope()
+      .to {
+
+        let decoder = JSONDecoder()
+        let data = try! Data(
+          contentsOf: Bundle.module.url(forResource: "unsplash", withExtension: "json")!
+        )
+        let decoded = try! decoder.decode([Photo].self, from: data)
         return decoded
       }
   }

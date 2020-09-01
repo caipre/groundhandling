@@ -1,3 +1,5 @@
 // <container>.<component>
 
 "about.thanks" = "Thanks! 🙌";
+
+"unsplash.credit" = "Photo by %@ on unsplash";

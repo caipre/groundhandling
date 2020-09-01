@@ -12,25 +12,90 @@
 
 import UIKit
 
-class UnsplashPage: UIViewController {
+class UnsplashPage: UITableViewController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  init() {
-    super.init(nibName: nil, bundle: nil)
+  private let photos: [Photo]
+
+  init(photos: [Photo]) {
+    self.photos = photos
+    super.init(style: .plain)
+    view.backgroundColor = Kite.color.background
+    tableView.tableHeaderView = Thanks()
+    tableView.estimatedRowHeight = 200
+    tableView.rowHeight = UITableView.automaticDimension
+    tableView.dataSource = self
+    tableView.allowsSelection = false
   }
 
-  override func loadView() {
-    let view = Kite.views.background()
-    view.directionalLayoutMargins = Kite.margins.directional
-    let guide = view.readableContentGuide
-    let title = Kite.largeTitle(text: "Unsplash")
-    view.addSubview(title)
-    NSLayoutConstraint.activate([
-      title.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-      title.topAnchor.constraint(equalTo: guide.topAnchor),
-    ])
-    self.view = view
+  override func viewDidLayoutSubviews() {
+    view.translateSubviews()
   }
+
+  // MARK: UITableViewDataSource
+
+  override func numberOfSections(in tableView: UITableView) -> Int {
+    1
+  }
+
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    photos.count
+  }
+
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
+    -> UITableViewCell
+  {
+    let photo = photos[indexPath.row]
+    let cell =
+      tableView.dequeueReusableCell(withIdentifier: PhotoRow.reuseId) as? PhotoRow
+      ?? PhotoRow(frame: .zero)
+    cell.bind(to: photo)
+    return cell
+  }
+}
+
+class PhotoRow: UITableViewCell, UITextViewDelegate {
+  static let reuseId = "\(PhotoRow.self)"
+
+  private var photo: Photo!
+
+  func bind(to photo: Photo) {
+    self.photo = photo
+    let image = Kite.views.image(named: photo.name)
+    image.contentMode = .scaleAspectFit
+    let credit = Kite.body(text: photo.url)
+    let str = String(format: NSLocalizedString("unsplash.credit", comment: ""), photo.user)
+    credit.attributedText = NSAttributedString(string: str, attributes: [.link: photo.url])
+    credit.delegate = self
+
+    backgroundColor = Kite.color.background
+    contentView.addSubviews(image, credit)
+    let layout = contentView.layoutMarginsGuide
+    NSLayoutConstraint.activate([
+      image.topAnchor.constraint(equalTo: layout.topAnchor, constant: Kite.space.xsmall),
+      image.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      image.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      credit.topAnchor.constraint(equalTo: image.bottomAnchor),
+      credit.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      credit.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      credit.bottomAnchor.constraint(equalTo: layout.bottomAnchor, constant: -Kite.space.xsmall),
+    ])
+  }
+
+  func textView(
+    _ textView: UITextView,
+    shouldInteractWith URL: URL,
+    in characterRange: NSRange,
+    interaction: UITextItemInteraction
+  ) -> Bool {
+    return URL.absoluteString == photo.url
+  }
+}
+
+struct Photo: Codable {
+  let name: String
+  let user: String
+  let url: String
 }
