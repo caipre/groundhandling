@@ -12,6 +12,7 @@ pattern = /^(#{types.join '|'})(\/\w+)?: /
 errors = Set.new
 File.open(ARGV.first).each_with_index do |line, idx|
   line = line.chomp
+  return if line.start_with? '#'
   case idx + 1
   when 1
     # allow `git commit --fixup`
