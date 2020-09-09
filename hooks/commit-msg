@@ -6,7 +6,7 @@
 
 require 'set'
 
-types = %w[ build docs feat fix perf refactor revert style test ]
+types = %w[ build docs feat fix perf release refactor revert style test ]
 pattern = /^(#{types.join '|'})(\/\w+)?: /
 
 errors = Set.new
