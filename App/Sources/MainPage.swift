@@ -130,7 +130,11 @@ extension MainPage: UITableViewDataSource {
 extension MainPage: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let level = levels[indexPath.row]
-    let vc = ExercisesPage(level: level, exercises: exercises.filter { $0.level == level.id })
+    let vc = ExercisesPage(
+      level: level,
+      exercises: exercises.filter { $0.level == level.id },
+      repository: ctx.repository
+    )
     show(vc, sender: self)
     tableView.deselectRow(at: indexPath, animated: false)
   }

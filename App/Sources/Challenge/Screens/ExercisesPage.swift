@@ -19,10 +19,12 @@ class ExercisesPage: UIViewController {
 
   private let level: Level
   private let exercises: [Exercise]
+  private let repository: Repository
 
-  init(level: Level, exercises: [Exercise]) {
+  init(level: Level, exercises: [Exercise], repository: Repository) {
     self.level = level
     self.exercises = exercises
+    self.repository = repository
     super.init(nibName: nil, bundle: nil)
     modalPresentationStyle = .fullScreen
   }
@@ -107,9 +109,29 @@ extension ExercisesPage: UITableViewDataSource {
 extension ExercisesPage: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let exercise = exercises[indexPath.row]
-    let vc = DetailsContainer(level: level, exercise: exercise)
+    let records = repository.fetch(exercise: exercise)
+    let vc = DetailsContainer(level: level, exercise: exercise, records: records)
     show(vc, sender: self)
     tableView.deselectRow(at: indexPath, animated: false)
+  }
+
+  func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
+    let action = UIContextualAction(style: .normal, title: "Complete") { action, view, fn in
+      let exercise = self.exercises[indexPath.row]
+      let record = Record.new(wing: "default", exercise: exercise)
+      let result = self.repository.save(record: record)
+      switch result {
+      case .ok(_):
+        fn(true)
+      case .err(let err):
+        print(err)
+      }
+    }
+    action.backgroundColor = Kite.color.accent
+    return UISwipeActionsConfiguration(actions: [action])
   }
 }
 

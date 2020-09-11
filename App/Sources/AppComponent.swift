@@ -17,6 +17,7 @@ struct AppContext {
   let release: ReleaseInfo
   let levels: [Level]
   let exercises: [Exercise]
+  let repository: Repository
   let licenses: [License]
   let photos: [Photo]
 }
@@ -32,6 +33,7 @@ struct AppComponent: Cleanse.RootComponent {
     binder.include(module: ReleaseInfoModule.self)
     binder.include(module: LevelsModule.self)
     binder.include(module: ExercisesModule.self)
+    binder.include(module: HistoryModule.self)
     binder.include(module: LicensesModule.self)
     binder.include(module: UnsplashModule.self)
   }
@@ -79,6 +81,16 @@ struct ExercisesModule: Cleanse.Module {
         )
         let decoded = try! decoder.decode([Exercise].self, from: data)
         return decoded
+      }
+  }
+}
+
+struct HistoryModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind(Repository.self)
+      .sharedInScope()
+      .to {
+        InMemoryRepository()
       }
   }
 }
