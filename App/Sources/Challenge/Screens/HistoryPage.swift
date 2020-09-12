@@ -26,6 +26,7 @@ class HistoryPage: UIViewController {
     super.init(nibName: nil, bundle: nil)
   }
 
+  private var emptyLabel: UILabel!
   private var tableView: UITableView!
   private var tableHeight: NSLayoutConstraint!
 
@@ -39,18 +40,23 @@ class HistoryPage: UIViewController {
     contentv.directionalLayoutMargins = Kite.margins.directional
     contentv.pin(to: scrollv)
 
-    tableView = UITableView(frame: .zero, style: .plain)
-    tableView.translatesAutoresizingMaskIntoConstraints = false
+    emptyLabel = Kite.subhead(text: "challenge.history.empty")
+
+    tableView = Kite.views.table()
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 80
     tableView.allowsSelection = false
-    contentv.addSubviews(tableView)
+    contentv.addSubviews(emptyLabel, tableView)
 
     let frame = scrollv.frameLayoutGuide
     let layout = contentv.layoutMarginsGuide
 
     NSLayoutConstraint.activate([
       contentv.widthAnchor.constraint(equalTo: scrollv.widthAnchor),
+
+      emptyLabel.topAnchor.constraint(equalTo: layout.topAnchor),
+      emptyLabel.centerXAnchor.constraint(equalTo: contentv.centerXAnchor),
+      emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
       tableView.topAnchor.constraint(equalTo: layout.topAnchor),
       tableView.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
@@ -65,6 +71,9 @@ class HistoryPage: UIViewController {
   }
 
   override func viewDidLoad() {
+    emptyLabel.isHidden = records.count > 0
+    tableView.isHidden = records.count == 0
+
     tableView.dataSource = self
     //    tableView.delegate = self
   }
@@ -105,7 +114,6 @@ class RecordRow: UITableViewCell {
     let windLabel = Kite.caption(text: "challenge.history.wind".l)
     let wind = Kite.subhead(text: "0,0 m/s")
     let wingLabel = Kite.caption(text: "challenge.history.wing".l)
-    windLabel.text = wingLabel.text?.uppercased()
     let wing = Kite.subhead(text: record.wing)
     let map = Kite.views.placeholder(name: "map")
     let comments = Kite.views.placeholder(name: "comments")
@@ -123,16 +131,16 @@ class RecordRow: UITableViewCell {
 
       windLabel.bottomAnchor.constraint(equalTo: wind.topAnchor, constant: -Kite.space.xsmall),
       windLabel.leadingAnchor.constraint(
-        equalTo: layout.centerXAnchor,
+        equalTo: location.trailingAnchor,
         constant: Kite.space.xsmall
       ),
-      windLabel.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      windLabel.trailingAnchor.constraint(equalTo: wing.leadingAnchor, constant: Kite.space.xsmall),
       wind.leadingAnchor.constraint(equalTo: windLabel.leadingAnchor),
       wind.lastBaselineAnchor.constraint(equalTo: date.lastBaselineAnchor),
-      //      wind.trailingAnchor.constraint(equalTo: wingLabel.leadingAnchor),
 
       wingLabel.bottomAnchor.constraint(equalTo: wind.topAnchor, constant: -Kite.space.xsmall),
       wingLabel.leadingAnchor.constraint(equalTo: wind.trailingAnchor, constant: Kite.space.small),
+      wingLabel.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
       wing.leadingAnchor.constraint(equalTo: wingLabel.leadingAnchor),
       wing.lastBaselineAnchor.constraint(equalTo: date.lastBaselineAnchor),
 

@@ -2,6 +2,7 @@
 
 "about.thanks" = "Thanks! 🙌";
 
+"challenge.history.empty" = "No records for this exercise.";
 "challenge.history.wind" = "Wind";
 "challenge.history.wing" = "Wing";
 
