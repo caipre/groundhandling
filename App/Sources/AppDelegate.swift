@@ -15,15 +15,16 @@ import UIKit
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
-  var factory: ComponentFactory<AppComponent>!
-  var ctx: AppContext!
-
   func application(
     _: UIApplication,
     didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    factory = try! ComponentFactory.of(AppComponent.self)
-    ctx = factory.build(())
+    let factoryc = try! ComponentFactory.of(AppContextComponent.self)
+    AppContext.shared = factoryc.build(())
+
+    let factorys = try! ComponentFactory.of(AppServicesComponent.self)
+    AppServices.shared = factorys.build(())
+    (AppServices.shared.location as! LocationServiceImpl).start()
     return true
   }
 

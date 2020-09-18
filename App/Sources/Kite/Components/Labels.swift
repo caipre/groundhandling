@@ -33,7 +33,7 @@ extension Kite {
     let label = Kite.label(text, style: .largeTitle)
     label.font = Kite.font(size: 48).bold
     label.numberOfLines = 0
-    label.attributedText = text.kern(by: -0.3)
+    label.attributedText = text.kern(by: -0.2)
     label.text = text
     return label
   }

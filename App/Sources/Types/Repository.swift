@@ -10,30 +10,12 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import CoreLocation
 import Foundation
 
 protocol Repository {
   func fetch(exercise: Exercise) -> [Record]
   func save(record: Record) -> Result<Record, Error>
-}
-
-struct Record {
-  let id: String
-  let date: Date
-  let wing: String
-  let exercise: Exercise
-  let comments: String?
-
-  static func new(wing: String, exercise: Exercise, comments: String? = nil) -> Record {
-    let uuid = UUID().uuidString
-    return Record(
-      id: uuid,
-      date: Date(),
-      wing: wing,
-      exercise: exercise,
-      comments: comments
-    )
-  }
 }
 
 class InMemoryRepository: Repository {
@@ -45,6 +27,22 @@ class InMemoryRepository: Repository {
 
   func save(record: Record) -> Result<Record, Error> {
     records.append(record)
+    return .ok(record)
+  }
+}
+
+class UserDefaultsRepository: Repository {
+  private let store = UserDefaults.standard
+
+  func fetch(exercise: Exercise) -> [Record] {
+    guard let records = store.array(forKey: exercise.id) as? [Record] else { return [] }
+    return records
+  }
+
+  func save(record: Record) -> Result<Record, Error> {
+    var records = store.array(forKey: record.exercise.id) ?? []
+    records.append(record)
+    store.setValue(records, forKey: record.exercise.id)
     return .ok(record)
   }
 }

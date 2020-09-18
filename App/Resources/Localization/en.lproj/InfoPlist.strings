@@ -1,1 +1,3 @@
 CFBundleDisplayName = "Ground (en)";
+
+NSLocationWhenInUseUsageDescription = "english test";

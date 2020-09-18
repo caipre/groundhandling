@@ -12,17 +12,22 @@
 
 import Cleanse
 import Foundation
+import CoreLocation
 
 struct AppContext {
+  static var shared: AppContext!
+
   let release: ReleaseInfo
+
   let levels: [Level]
   let exercises: [Exercise]
   let repository: Repository
+
   let licenses: [License]
   let photos: [Photo]
 }
 
-struct AppComponent: Cleanse.RootComponent {
+struct AppContextComponent: Cleanse.RootComponent {
   typealias Root = AppContext
 
   static func configureRoot(binder bind: ReceiptBinder<AppContext>) -> BindingReceipt<AppContext> {
@@ -33,7 +38,7 @@ struct AppComponent: Cleanse.RootComponent {
     binder.include(module: ReleaseInfoModule.self)
     binder.include(module: LevelsModule.self)
     binder.include(module: ExercisesModule.self)
-    binder.include(module: HistoryModule.self)
+    binder.include(module: RepositoryModule.self)
     binder.include(module: LicensesModule.self)
     binder.include(module: UnsplashModule.self)
   }
@@ -44,7 +49,6 @@ struct ReleaseInfoModule: Cleanse.Module {
     binder.bind(ReleaseInfo.self)
       .sharedInScope()
       .to {
-
         let decoder = JSONDecoder()
         let data = try! Data(
           contentsOf: Bundle.module.url(forResource: "release", withExtension: "json")!
@@ -85,13 +89,11 @@ struct ExercisesModule: Cleanse.Module {
   }
 }
 
-struct HistoryModule: Cleanse.Module {
+struct RepositoryModule: Cleanse.Module {
   static func configure(binder: Binder<Singleton>) {
     binder.bind(Repository.self)
       .sharedInScope()
-      .to {
-        InMemoryRepository()
-      }
+      .to(factory: InMemoryRepository.init)
   }
 }
 
@@ -100,7 +102,6 @@ struct LicensesModule: Cleanse.Module {
     binder.bind([License].self)
       .sharedInScope()
       .to {
-
         let decoder = JSONDecoder()
         let data = try! Data(
           contentsOf: Bundle.module.url(forResource: "licenses", withExtension: "json")!

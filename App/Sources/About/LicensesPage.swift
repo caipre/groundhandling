@@ -31,10 +31,6 @@ class LicensesPage: UITableViewController {
     tableView.allowsSelection = false
   }
 
-  override func viewDidLayoutSubviews() {
-    view.translateSubviews()
-  }
-
   // MARK: UITableViewDataSource
 
   override func numberOfSections(in tableView: UITableView) -> Int {
@@ -64,7 +60,7 @@ class Thanks: UIView {
   init() {
     super.init(frame: .zero)
     backgroundColor = Kite.color.background
-    let thanks = Kite.title(text: "about.thanks")
+    let thanks = Kite.title(text: "about.thanks".l)
     thanks.font = thanks.font.bold
     addSubview(thanks)
     thanks.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

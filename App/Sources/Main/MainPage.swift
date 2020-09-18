@@ -17,14 +17,12 @@ class MainPage: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
-  private let ctx: AppContext  // fixme: prefer explicit dependencies
   private let exercises: [Exercise]
   private let levels: [Level]
 
-  init(ctx: AppContext) {
-    self.ctx = ctx
-    self.levels = ctx.levels
-    self.exercises = ctx.exercises
+  init() {
+    self.levels = AppContext.shared.levels
+    self.exercises = AppContext.shared.exercises
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -102,7 +100,7 @@ class MainPage: UIViewController {
 
   @objc func showAboutPage() {
     // fixme: decouple (move into coordinator)
-    let vc = AboutPage(ctx: ctx)
+    let vc = AboutPage()
     show(vc, sender: self)
   }
 }
@@ -133,7 +131,7 @@ extension MainPage: UITableViewDelegate {
     let vc = ExercisesPage(
       level: level,
       exercises: exercises.filter { $0.level == level.id },
-      repository: ctx.repository
+      repository:  AppContext.shared.repository
     )
     show(vc, sender: self)
     tableView.deselectRow(at: indexPath, animated: false)

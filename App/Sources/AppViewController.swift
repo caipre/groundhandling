@@ -17,8 +17,8 @@ class AppViewController: UINavigationController {
     fatalError("init(coder:) has not been implemented")
   }
 
-  init(ctx: AppContext) {
-    let main = MainPage(ctx: ctx)
+  init() {
+    let main = MainPage()
     super.init(rootViewController: main)
     navigationBar.standardAppearance.configureWithTransparentBackground()
     navigationBar.tintColor = Kite.color.secondary
