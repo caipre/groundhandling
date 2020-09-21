@@ -1,1 +1,3 @@
 CFBundleDisplayName = "Ground (en)";
+
+NSLocationWhenInUseUsageDescription = "Location is used to mark where an exercise was completed.";

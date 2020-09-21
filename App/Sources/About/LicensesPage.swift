@@ -10,7 +10,6 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
-import SwiftyUtils
 import UIKit
 
 class LicensesPage: UITableViewController {
@@ -29,10 +28,6 @@ class LicensesPage: UITableViewController {
     tableView.rowHeight = UITableView.automaticDimension
     tableView.dataSource = self
     tableView.allowsSelection = false
-  }
-
-  override func viewDidLayoutSubviews() {
-    view.translateSubviews()
   }
 
   // MARK: UITableViewDataSource
@@ -64,7 +59,7 @@ class Thanks: UIView {
   init() {
     super.init(frame: .zero)
     backgroundColor = Kite.color.background
-    let thanks = Kite.title(text: "about.thanks")
+    let thanks = Kite.title(text: "about.thanks".l)
     thanks.font = thanks.font.bold
     addSubview(thanks)
     thanks.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

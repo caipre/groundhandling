@@ -10,19 +10,7 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
-import Foundation
-
-struct Level: Codable {
-  let id: String
-  let desc: String
-  let count: Int
-}
-
-struct Exercise: Codable {
-  let id: String
-  let name: String
-  let desc: String
-  let goal: String
-
-  var level: String { String(id.first!) }
+protocol Service {
+  func start()
+  func stop()
 }

@@ -30,10 +30,6 @@ class UnsplashPage: UITableViewController {
     tableView.allowsSelection = false
   }
 
-  override func viewDidLayoutSubviews() {
-    view.translateSubviews()
-  }
-
   // MARK: UITableViewDataSource
 
   override func numberOfSections(in tableView: UITableView) -> Int {
@@ -66,7 +62,7 @@ class PhotoRow: UITableViewCell, UITextViewDelegate {
     let image = Kite.views.image(named: photo.name)
     image.contentMode = .scaleAspectFit
     let credit = Kite.body(text: photo.url)
-    let str = String(format: NSLocalizedString("unsplash.credit", comment: ""), photo.user)
+    let str = String(format: "unsplash.credit".l, photo.user)
     credit.attributedText = NSAttributedString(string: str, attributes: [.link: photo.url])
     credit.delegate = self
 

@@ -16,4 +16,8 @@ extension String {
   func kern(by: Float) -> NSAttributedString {
     return NSAttributedString(string: self, attributes: [.kern: -4])
   }
+
+  var l: String {
+    return NSLocalizedString(self, comment: "")
+  }
 }

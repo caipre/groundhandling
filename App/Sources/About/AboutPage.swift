@@ -17,10 +17,7 @@ class AboutPage: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
-  private let ctx: AppContext
-
-  init(ctx: AppContext) {
-    self.ctx = ctx
+  init() {
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -32,9 +29,9 @@ class AboutPage: UIViewController {
 
     let icon = Kite.views.placeholder(name: "app icon")
     icon.contentMode = .scaleAspectFit
-    let version = Kite.subhead(text: ctx.release.version)
+    let version = Kite.subhead(text: AppContext.shared.release.version)
     version.font = .monospacedSystemFont(ofSize: 12, weight: .bold)
-    let commit = Kite.subhead(text: ctx.release.commit)
+    let commit = Kite.subhead(text:  AppContext.shared.release.commit)
     commit.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
     view.addSubviews(icon, version, commit)
 
@@ -136,9 +133,9 @@ extension AboutPage: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch indexPath.row {
     case 0:
-      show(LicensesPage(licenses: ctx.licenses), sender: self)
+      show(LicensesPage(licenses:  AppContext.shared.licenses), sender: self)
     case 1:
-      show(UnsplashPage(photos: ctx.photos), sender: self)
+      show(UnsplashPage(photos:  AppContext.shared.photos), sender: self)
     default:
       fatalError()
     }

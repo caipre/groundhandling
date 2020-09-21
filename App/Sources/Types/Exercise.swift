@@ -10,21 +10,19 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
-import UIKit
+import Foundation
 
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
+struct Level: Codable, Equatable {
+  let id: String
+  let desc: String
+  let count: Int
+}
 
-  func scene(
-    _ scene: UIScene,
-    willConnectTo _: UISceneSession,
-    options _: UIScene.ConnectionOptions
-  ) {
-    if let windowScene = scene as? UIWindowScene {
-      let window = UIWindow(windowScene: windowScene)
-      window.rootViewController = AppViewController()
-      self.window = window
-      window.makeKeyAndVisible()
-    }
-  }
+struct Exercise: Codable, Equatable {
+  let id: String
+  let name: String
+  let desc: String
+  let goal: String
+
+  var level: String { String(id.first!) }
 }

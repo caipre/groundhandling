@@ -2,4 +2,11 @@
 
 "about.thanks" = "Thanks! 🙌";
 
+"challenge.exercises.complete" = "Complete";
+
+"challenge.history.empty" = "No records for this exercise.";
+"challenge.history.location.empty" = "Location unknown.";
+"challenge.history.wind" = "Wind 🎏";
+"challenge.history.wing" = "Wing";
+
 "unsplash.credit" = "Photo by %@ on unsplash";

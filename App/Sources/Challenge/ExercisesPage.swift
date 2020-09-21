@@ -10,6 +10,7 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import CoreLocation
 import UIKit
 
 class ExercisesPage: UIViewController {
@@ -19,10 +20,12 @@ class ExercisesPage: UIViewController {
 
   private let level: Level
   private let exercises: [Exercise]
+  private let repository: Repository
 
-  init(level: Level, exercises: [Exercise]) {
+  init(level: Level, exercises: [Exercise], repository: Repository) {
     self.level = level
     self.exercises = exercises
+    self.repository = repository
     super.init(nibName: nil, bundle: nil)
     modalPresentationStyle = .fullScreen
   }
@@ -99,7 +102,8 @@ extension ExercisesPage: UITableViewDataSource {
       tableView.dequeueReusableCell(withIdentifier: ExerciseRow.reuseId) as? ExerciseRow
       ?? ExerciseRow(frame: .zero)
     cell.accessoryType = .disclosureIndicator
-    cell.bind(to: exercise)
+    let completed = !repository.fetch(exercise: exercise).isEmpty
+    cell.bind(to: exercise, completed: completed)
     return cell
   }
 }
@@ -107,20 +111,52 @@ extension ExercisesPage: UITableViewDataSource {
 extension ExercisesPage: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let exercise = exercises[indexPath.row]
-    let vc = DetailsContainer(level: level, exercise: exercise)
+    let records = repository.fetch(exercise: exercise)
+    let vc = DetailsContainer(level: level, exercise: exercise, records: records)
     show(vc, sender: self)
     tableView.deselectRow(at: indexPath, animated: false)
+  }
+
+  func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
+    let action = UIContextualAction(style: .normal, title: "challenge.exercises.complete".l) { action, view, fn in
+      let exercise = self.exercises[indexPath.row]
+      let record: Record
+      if let placemark = AppServices.shared.location.placemark {
+        record = Record(exercise: exercise, placemark: placemark)
+      } else {
+        record = Record(exercise: exercise)
+      }
+      let result = self.repository.save(record: record)
+      switch result {
+      case .ok(_):
+        fn(true)
+        tableView.reloadRows(at: [indexPath], with: .top)
+      case .err(let err):
+        fn(false)
+        print(err)
+      }
+    }
+    action.backgroundColor = Kite.color.accent
+    return UISwipeActionsConfiguration(actions: [action])
   }
 }
 
 class ExerciseRow: UITableViewCell {
   static let reuseId = "\(ExerciseRow.self)"
 
-  func bind(to exercise: Exercise) {
+  func bind(to exercise: Exercise, completed: Bool = false) {
+    backgroundColor = Kite.color.background
+
     let name = Kite.title(text: exercise.name)
     let goal = Kite.subhead(text: exercise.goal)
-    backgroundColor = Kite.color.background
-    contentView.addSubviews(name, goal)
+    let check = Kite.views.image(symbol: "checkmark")
+    contentView.addSubviews(name, goal, check)
+
+    check.isHidden = !completed
+    
     let layout = contentView.layoutMarginsGuide
     NSLayoutConstraint.activate([
       name.topAnchor.constraint(equalTo: layout.topAnchor, constant: Kite.space.xsmall),
@@ -128,6 +164,8 @@ class ExerciseRow: UITableViewCell {
       goal.topAnchor.constraint(equalTo: name.lastBaselineAnchor, constant: Kite.space.xsmall),
       goal.leadingAnchor.constraint(equalTo: name.leadingAnchor),
       goal.bottomAnchor.constraint(equalTo: layout.bottomAnchor, constant: -Kite.space.xsmall),
+      check.trailingAnchor.constraint(equalTo: layout.trailingAnchor, constant: -Kite.space.small),
+      check.centerYAnchor.constraint(equalTo: layout.centerYAnchor),
     ])
   }
 }

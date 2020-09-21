@@ -36,16 +36,18 @@ class DetailsContainer: UIViewController {
   lazy var controllers: [UIViewController] =
     [
       DetailsPage(exercise: exercise),
-      HistoryPage(),
+      HistoryPage(exercise: exercise, records: records),
     ]
   var idx = 0
 
   private let level: Level
   private let exercise: Exercise
+  private let records: [Record]
 
-  init(level: Level, exercise: Exercise) {
+  init(level: Level, exercise: Exercise, records: [Record]) {
     self.level = level
     self.exercise = exercise
+    self.records = records
     super.init(nibName: nil, bundle: nil)
 
     let appearance = UIPageControl.appearance()
