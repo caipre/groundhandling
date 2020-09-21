@@ -14,7 +14,7 @@ import Foundation
 
 extension String {
   func kern(by: Float) -> NSAttributedString {
-    return NSAttributedString(string: self, attributes: [.kern: -4])
+    return NSAttributedString(string: self, attributes: [.kern: by])
   }
 
   var l: String {
