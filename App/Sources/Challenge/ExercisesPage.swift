@@ -102,7 +102,7 @@ extension ExercisesPage: UITableViewDataSource {
       tableView.dequeueReusableCell(withIdentifier: ExerciseRow.reuseId) as? ExerciseRow
       ?? ExerciseRow(frame: .zero)
     cell.accessoryType = .disclosureIndicator
-    let completed = repository.fetch(exercise: exercise).isNotEmpty
+    let completed = !repository.fetch(exercise: exercise).isEmpty
     cell.bind(to: exercise, completed: completed)
     return cell
   }

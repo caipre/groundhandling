@@ -29,7 +29,7 @@ let project = Project(
   name: "Ground",
   packages: [
     .package(url: "https://github.com/square/Cleanse", from: "4.2.5"),
-    .package(url: "https://github.com/tbaranes/SwiftyUtils", from: "5.3.0"),
+//    .package(url: "https://github.com/tbaranes/SwiftyUtils", from: "5.3.0"),
   ],
   settings: Settings(base: base),
   targets: [
@@ -43,7 +43,6 @@ let project = Project(
       resources: ["App/Resources/**"],
       dependencies: [
         .package(product: "Cleanse"),
-        .package(product: "SwiftyUtils"),
       ]
     )
   ],
