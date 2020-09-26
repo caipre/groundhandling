@@ -29,7 +29,7 @@ extension Kite {
   //  Caption 1   Regular    12
   //  Caption 2   Regular    12
 
-  static func largeTitle(text: String) -> UILabel {
+  public static func largeTitle(text: String) -> UILabel {
     let label = Kite.label(text, style: .largeTitle)
     label.font = Kite.font(size: 48).bold
     label.numberOfLines = 0
@@ -37,19 +37,19 @@ extension Kite {
     return label
   }
 
-  static func title(text: String) -> UILabel {
+  public static func title(text: String) -> UILabel {
     return Kite.label(text, style: .title2)
   }
 
-  static func headline(text: String) -> UILabel {
+  public static func headline(text: String) -> UILabel {
     return Kite.label(text, style: .headline)
   }
 
-  static func subhead(text: String) -> UILabel {
+  public static func subhead(text: String) -> UILabel {
     return Kite.label(text, style: .subheadline, color: Kite.color.secondary)
   }
 
-  static func body(text: String) -> UITextView {
+  public static func body(text: String) -> UITextView {
     let view = UITextView(frame: .zero)
     view.translatesAutoresizingMaskIntoConstraints = false
     view.adjustsFontForContentSizeCategory = true
@@ -64,7 +64,7 @@ extension Kite {
     return view
   }
 
-  static func caption(text: String) -> UILabel {
+  public static func caption(text: String) -> UILabel {
     return Kite.label(text, style: .caption1, color: Kite.color.secondary)
   }
 

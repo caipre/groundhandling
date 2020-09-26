@@ -14,13 +14,13 @@ import Foundation
 import UIKit
 
 extension UIView {
-  func addSubviews(_ views: UIView...) {
+  public func addSubviews(_ views: UIView...) {
     for view in views {
       self.addSubview(view)
     }
   }
 
-  func pin(to view: UIView) {
+  public func pin(to view: UIView) {
     view.addSubview(self)
     translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -31,7 +31,7 @@ extension UIView {
     ])
   }
 
-  func pin(to view: UIView, guide: UILayoutGuide) {
+  public func pin(to view: UIView, guide: UILayoutGuide) {
     view.addSubview(self)
     translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -42,7 +42,7 @@ extension UIView {
     ])
   }
 
-  func center(in view: UIView) {
+  public func center(in view: UIView) {
     view.addSubview(self)
     translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -51,7 +51,7 @@ extension UIView {
     ])
   }
 
-  func showGuides() {
+  public func showGuides() {
     backgroundColor = UIColor.systemBlue.withAlphaComponent(0.3)
     let lmg = UIView(frame: .zero)
     lmg.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.3)
@@ -61,7 +61,7 @@ extension UIView {
     rcg.pin(to: self, guide: readableContentGuide)
   }
 
-  func rounded() -> UIView {
+  public func rounded() -> UIView {
     layer.cornerRadius = 4
     return self
   }

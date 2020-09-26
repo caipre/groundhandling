@@ -13,14 +13,14 @@
 import UIKit
 
 extension Kite {
-  enum views {
-    static func background() -> UIView {
+  public enum views {
+    public static func background() -> UIView {
       let view = UIView(frame: .zero)
       view.backgroundColor = Kite.color.background
       return view
     }
 
-    static func image(named name: String) -> UIImageView {
+    public static func image(named name: String) -> UIImageView {
       let view = UIImageView(image: UIImage(named: name)!)
       view.translatesAutoresizingMaskIntoConstraints = false
       view.clipsToBounds = true
@@ -28,7 +28,7 @@ extension Kite {
       return view
     }
 
-    static func image(symbol name: String) -> UIImageView {
+    public static func image(symbol name: String) -> UIImageView {
       let view = UIImageView(image: UIImage(systemName: name)!)
       view.translatesAutoresizingMaskIntoConstraints = false
       view.tintColor = Kite.color.secondary
@@ -37,7 +37,7 @@ extension Kite {
       return view
     }
 
-    static func button(symbol name: String, target: Any?, selector: Selector) -> UIButton {
+    public static func button(symbol name: String, target: Any?, selector: Selector) -> UIButton {
       let view = UIButton(frame: .zero)
       view.setImage(UIImage(systemName: name), for: .normal)
       view.addTarget(target, action: selector, for: .touchUpInside)
@@ -48,14 +48,14 @@ extension Kite {
       return view
     }
 
-    static func table() -> UITableView {
+    public static func table() -> UITableView {
       let view = UITableView(frame: .zero, style: .plain)
       view.backgroundColor = Kite.color.background
       view.translatesAutoresizingMaskIntoConstraints = false
       return view
     }
 
-    static func placeholder(name: String) -> UIView {
+    public static func placeholder(name: String) -> UIView {
       let view = UIView(frame: .zero).rounded()
       view.translatesAutoresizingMaskIntoConstraints = false
       let name = Kite.caption(text: name)
