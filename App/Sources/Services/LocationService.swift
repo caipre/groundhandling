@@ -18,7 +18,7 @@ protocol LocationService {
   var placemark: CLPlacemark? { get }
 }
 
-class LocationServiceImpl: NSObject, LocationService, Service {
+class LocationServiceImpl: NSObject, LocationService {
   public private(set) var location: CLLocation?
   public private(set) var placemark: CLPlacemark?
 
@@ -42,18 +42,15 @@ class LocationServiceImpl: NSObject, LocationService, Service {
 
 extension LocationServiceImpl: CLLocationManagerDelegate {
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    NSLog("status: \(manager.authorizationStatus.rawValue)")
   }
 
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    NSLog("error: \(error)")
   }
 
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let location = locations.last else { return }
     geocoder.reverseGeocodeLocation(location) { (marks: [CLPlacemark]?, error: Error?) in
       guard let mark = marks?.last else {
-        NSLog("error: \(error)")
         return
       }
       self.location = location

@@ -33,7 +33,6 @@ extension Kite {
     let label = Kite.label(text, style: .largeTitle)
     label.font = Kite.font(size: 48).bold
     label.numberOfLines = 0
-    label.attributedText = text.kern(by: -3)
     label.text = text
     return label
   }
@@ -77,7 +76,7 @@ extension Kite {
     let label = UILabel(frame: .zero)
     label.translatesAutoresizingMaskIntoConstraints = false
     label.adjustsFontForContentSizeCategory = true
-    label.font = Kite.font(style: style)
+    label.font = .preferredFont(forTextStyle: style)
     label.textColor = color
     label.text = text
     return label
