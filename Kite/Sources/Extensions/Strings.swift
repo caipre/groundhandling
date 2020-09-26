@@ -11,17 +11,13 @@
 //  GNU General Public License for more details.
 
 import Foundation
-import UIKit
 
-extension Kite {
-  static var font: String { "Oxygen" }
-
-  static func font(size: CGFloat) -> UIFont {
-    return UIFont(name: Kite.font, size: size)!
+extension String {
+  public func kern(by: Float) -> NSAttributedString {
+    return NSAttributedString(string: self, attributes: [.kern: by])
   }
 
-  static func font(style: UIFont.TextStyle) -> UIFont {
-    let size = UIFont.preferredFont(forTextStyle: style).pointSize
-    return UIFont(name: Kite.font, size: size)!
+  public var l: String {
+    return NSLocalizedString(self, comment: "")
   }
 }

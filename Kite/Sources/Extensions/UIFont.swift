@@ -10,21 +10,13 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Foundation
 import UIKit
 
-extension Kite {
-  enum color {
-    static let accent = UIColor(named: "accent")!
-
-    static let primary = UIColor(named: "primary")!
-    static let secondary = UIColor(named: "secondary")!
-
-    static let background = UIColor(named: "background")!
-
-    static let active = UIColor(named: "control.active")!
-    static let inactive = UIColor(named: "control.inactive")!
-
-    static let ok = UIColor(named: "result.ok")!
-    static let error = UIColor(named: "result.error")!
+extension UIFont {
+  public var bold: UIFont {
+    let traits = fontDescriptor.symbolicTraits.union(.traitBold)
+    let descriptor = fontDescriptor.withSymbolicTraits(traits)!
+    return .init(descriptor: descriptor, size: 0)
   }
 }

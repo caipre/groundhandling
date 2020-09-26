@@ -10,6 +10,7 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Kite
 import UIKit
 
 class AppViewController: UINavigationController {
@@ -17,8 +18,13 @@ class AppViewController: UINavigationController {
     fatalError("init(coder:) has not been implemented")
   }
 
-  init() {
-    let main = MainPage()
+  init(onboarding: Bool = false) {
+    let main: UIViewController
+    if onboarding {
+      main = AddWingPage { LocationPage { MainPage() } }
+    } else {
+      main = MainPage()
+    }
     super.init(rootViewController: main)
     navigationBar.standardAppearance.configureWithTransparentBackground()
     navigationBar.tintColor = Kite.color.secondary

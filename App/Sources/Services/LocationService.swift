@@ -13,12 +13,17 @@
 import CoreLocation
 import Foundation
 
+enum LocationServiceMsg {
+  case requestAuth
+}
+
 protocol LocationService {
   var location: CLLocation? { get }
   var placemark: CLPlacemark? { get }
+  func recv(msg: LocationServiceMsg)
 }
 
-class LocationServiceImpl: NSObject, LocationService, Service {
+class LocationServiceImpl: NSObject, LocationService {
   public private(set) var location: CLLocation?
   public private(set) var placemark: CLPlacemark?
 
@@ -29,10 +34,15 @@ class LocationServiceImpl: NSObject, LocationService, Service {
     guard CLLocationManager.significantLocationChangeMonitoringAvailable() == true else { return }
     manager = CLLocationManager()
     manager.delegate = self
+  }
 
-    manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-    manager.requestWhenInUseAuthorization()
-    manager.startMonitoringSignificantLocationChanges()
+  func recv(msg: LocationServiceMsg) {
+    switch msg {
+    case .requestAuth:
+      manager.requestWhenInUseAuthorization()
+      manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+      manager.startMonitoringSignificantLocationChanges()
+    }
   }
 
   func stop() {
@@ -42,18 +52,24 @@ class LocationServiceImpl: NSObject, LocationService, Service {
 
 extension LocationServiceImpl: CLLocationManagerDelegate {
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    NSLog("status: \(manager.authorizationStatus.rawValue)")
+    switch manager.authorizationStatus {
+    case .restricted, .denied:
+      manager.stopMonitoringSignificantLocationChanges()
+      self.manager = nil
+    default:
+      break
+    }
   }
 
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    NSLog("error: \(error)")
+    print("\(error)")
   }
 
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let location = locations.last else { return }
+//    guard Date().timeIntervalSince(location.timestamp) <= 60*15 else { return } // fresh to within 15mins
     geocoder.reverseGeocodeLocation(location) { (marks: [CLPlacemark]?, error: Error?) in
       guard let mark = marks?.last else {
-        NSLog("error: \(error)")
         return
       }
       self.location = location

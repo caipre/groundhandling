@@ -10,7 +10,7 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
-enum Result<T, E: Error> {
+public enum Result<T, E: Error> {
   case ok(T)
   case err(E)
 }

@@ -13,10 +13,15 @@
 import Foundation
 import UIKit
 
-extension UIFont {
-  var bold: UIFont {
-    let traits = fontDescriptor.symbolicTraits.union(.traitBold)
-    let descriptor = fontDescriptor.withSymbolicTraits(traits)!
-    return .init(descriptor: descriptor, size: 0)
+extension Kite {
+  public static var font: String { "Oxygen" }
+
+  public static func font(size: CGFloat) -> UIFont {
+    return UIFont(name: Kite.font, size: size)!
+  }
+
+  public static func font(style: UIFont.TextStyle) -> UIFont {
+    let size = UIFont.preferredFont(forTextStyle: style).pointSize
+    return UIFont(name: Kite.font, size: size)!
   }
 }

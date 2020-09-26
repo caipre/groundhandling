@@ -12,6 +12,7 @@
 
 import CoreLocation
 import Foundation
+import Kite
 
 protocol Repository {
   func fetch(exercise: Exercise) -> [Record]

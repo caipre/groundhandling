@@ -26,10 +26,9 @@ let infop: InfoPlist = .extendingDefault(with: [
 ])
 
 let project = Project(
-  name: "Ground",
+  name: "App",
   packages: [
     .package(url: "https://github.com/square/Cleanse", from: "4.2.5"),
-//    .package(url: "https://github.com/tbaranes/SwiftyUtils", from: "5.3.0"),
   ],
   settings: Settings(base: base),
   targets: [
@@ -39,15 +38,15 @@ let project = Project(
       product: .app,
       bundleId: "co.nickp.ground",
       infoPlist: infop,
-      sources: ["App/Sources/**"],
-      resources: ["App/Resources/**"],
+      sources: ["Sources/**"],
+      resources: ["Resources/**"],
       dependencies: [
         .package(product: "Cleanse"),
+        .project(target: "Kite", path: "../Kite")
       ]
-    )
+    ),
   ],
   additionalFiles: [
-    "Project.swift",
     "README.md",
   ]
 )
