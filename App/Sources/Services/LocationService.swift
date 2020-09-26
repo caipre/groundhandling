@@ -13,9 +13,14 @@
 import CoreLocation
 import Foundation
 
+enum LocationServiceMsg {
+  case requestAuth
+}
+
 protocol LocationService {
   var location: CLLocation? { get }
   var placemark: CLPlacemark? { get }
+  func recv(msg: LocationServiceMsg)
 }
 
 class LocationServiceImpl: NSObject, LocationService {
@@ -29,10 +34,15 @@ class LocationServiceImpl: NSObject, LocationService {
     guard CLLocationManager.significantLocationChangeMonitoringAvailable() == true else { return }
     manager = CLLocationManager()
     manager.delegate = self
+  }
 
-    manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-    manager.requestWhenInUseAuthorization()
-    manager.startMonitoringSignificantLocationChanges()
+  func recv(msg: LocationServiceMsg) {
+    switch msg {
+    case .requestAuth:
+      manager.requestWhenInUseAuthorization()
+      manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+      manager.startMonitoringSignificantLocationChanges()
+    }
   }
 
   func stop() {
@@ -42,13 +52,22 @@ class LocationServiceImpl: NSObject, LocationService {
 
 extension LocationServiceImpl: CLLocationManagerDelegate {
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    switch manager.authorizationStatus {
+    case .restricted, .denied:
+      manager.stopMonitoringSignificantLocationChanges()
+      self.manager = nil
+    default:
+      break
+    }
   }
 
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("\(error)")
   }
 
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let location = locations.last else { return }
+//    guard Date().timeIntervalSince(location.timestamp) <= 60*15 else { return } // fresh to within 15mins
     geocoder.reverseGeocodeLocation(location) { (marks: [CLPlacemark]?, error: Error?) in
       guard let mark = marks?.last else {
         return

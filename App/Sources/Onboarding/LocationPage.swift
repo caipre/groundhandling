@@ -54,6 +54,7 @@ final class LocationPage: UIViewController {
   }
 
   @objc func showNext() {
+    AppServices.shared.location.recv(msg: .requestAuth)
     show(nextPage(), sender: self)
   }
 }
