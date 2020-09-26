@@ -21,6 +21,11 @@ extension Kite {
   }
 
   public static func font(style: UIFont.TextStyle) -> UIFont {
+    // todo: move to application startup / framework load
+    // hattip https://stackoverflow.com/a/63450699
+    Bundle.module.urls(forResourcesWithExtension: "ttf", subdirectory: nil)?
+      .forEach { url in CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil) }
+
     let size = UIFont.preferredFont(forTextStyle: style).pointSize
     return UIFont(name: Kite.font, size: size)!
   }

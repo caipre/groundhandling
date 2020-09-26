@@ -8,10 +8,6 @@ let base = SettingsDictionary()
 let infop: InfoPlist = .extendingDefault(with: [
   "UILaunchStoryboardName": "LaunchScreen",
   "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
-  "UIAppFonts": [
-    "Oxygen-Regularttf", "Oxygen-Light.ttf", "Oxygen-Bold.ttf",
-    "Overpass-Regular.ttf", "Overpass-SemiBold.ttf", "Overpass-Bold.ttf",
-  ],
   "UIApplicationSceneManifest": [
     "UIApplicationSupportsMultipleScenes": false,
     "UISceneConfigurations": [
@@ -47,6 +43,7 @@ let project = Project(
     ),
   ],
   additionalFiles: [
+    "Project.swift",
     "README.md",
   ]
 )
