@@ -20,6 +20,7 @@ let project = Project(
     ),
   ],
   additionalFiles: [
+    "Project.swift",
     "README.md",
   ]
 )
