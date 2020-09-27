@@ -10,23 +10,18 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
-import Kite
-import UIKit
-
-class AppViewController: UINavigationController {
-  required init?(coder _: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+enum PageId {
+  enum Main {
+    case main
   }
-
-  init(onboarding: Bool = false) {
-    let main: UIViewController
-    if onboarding {
-      main = AddWingPage { LocationPage { MainPage() } }
-    } else {
-      main = MainPage()
-    }
-    super.init(rootViewController: main)
-    navigationBar.standardAppearance.configureWithTransparentBackground()
-    navigationBar.tintColor = Kite.color.secondary
+  enum About {
+    case about
+    case licenses
+    case unsplash
+  }
+  enum Challenge {
+    case exercises(level: Level)
+    case details(exercise: Exercise)
+    case history(exercise: Exercise)
   }
 }

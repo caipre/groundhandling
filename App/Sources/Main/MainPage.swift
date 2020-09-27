@@ -13,10 +13,17 @@
 import Kite
 import UIKit
 
+protocol MainPageDelegate {
+  func show(page: PageId.About)
+  func show(page: PageId.Challenge)
+}
+
 class MainPage: UIViewController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
+  public var delegate: MainPageDelegate?
 
   private let exercises: [Exercise]
   private let levels: [Level]
@@ -100,9 +107,7 @@ class MainPage: UIViewController {
   // Target-Action
 
   @objc func showAboutPage() {
-    // fixme: decouple (move into coordinator)
-    let vc = AboutPage()
-    show(vc, sender: self)
+    delegate?.show(page: .about)
   }
 }
 

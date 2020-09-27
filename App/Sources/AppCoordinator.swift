@@ -10,24 +10,16 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Kite
 import UIKit
 
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
+class AppCoordinator: Coordinator {
+  public let root: UIViewController
 
-  var coordinator: Coordinator!
-
-  func scene(
-    _ scene: UIScene,
-    willConnectTo _: UISceneSession,
-    options _: UIScene.ConnectionOptions
-  ) {
-    if let windowScene = scene as? UIWindowScene {
-      let window = UIWindow(windowScene: windowScene)
-      coordinator = AppCoordinator(onboarding: true)
-      window.rootViewController = coordinator.root
-      self.window = window
-      window.makeKeyAndVisible()
-    }
+  private let coordinator: Coordinator
+  
+  init(onboarding: Bool = false) {
+    coordinator = MainCoordinator()
+    root = coordinator.root
   }
 }
