@@ -9,9 +9,9 @@ let ws = Workspace(
   name: "Ground",
   projects: [
     "App",
-    "Kite"
+    "Kite",
   ],
   additionalFiles: [
-    "README.md",
+    "README.md"
   ]
 )

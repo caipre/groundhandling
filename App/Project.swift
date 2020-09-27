@@ -24,7 +24,7 @@ let infop: InfoPlist = .extendingDefault(with: [
 let project = Project(
   name: "App",
   packages: [
-    .package(url: "https://github.com/square/Cleanse", from: "4.2.5"),
+    .package(url: "https://github.com/square/Cleanse", from: "4.2.5")
   ],
   settings: Settings(base: base),
   targets: [
@@ -38,9 +38,9 @@ let project = Project(
       resources: ["Resources/**"],
       dependencies: [
         .package(product: "Cleanse"),
-        .project(target: "Kite", path: "../Kite")
+        .project(target: "Kite", path: "../Kite"),
       ]
-    ),
+    )
   ],
   additionalFiles: [
     "Project.swift",

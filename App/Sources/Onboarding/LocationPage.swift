@@ -36,7 +36,9 @@ final class LocationPage: UIViewController {
     let textLabel = Kite.body(text: "onboarding.location.text".l)
     let nextLabel = Kite.headline(text: "onboarding.location.next".l)
     nextLabel.isUserInteractionEnabled = true
-    nextLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNext)))
+    nextLabel.addGestureRecognizer(
+      UITapGestureRecognizer(target: self, action: #selector(showNext))
+    )
 
     view.addSubviews(titleLabel, textLabel, nextLabel)
 
@@ -59,4 +61,3 @@ final class LocationPage: UIViewController {
     show(nextPage(), sender: self)
   }
 }
-

@@ -67,7 +67,7 @@ extension LocationServiceImpl: CLLocationManagerDelegate {
 
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let location = locations.last else { return }
-//    guard Date().timeIntervalSince(location.timestamp) <= 60*15 else { return } // fresh to within 15mins
+    //    guard Date().timeIntervalSince(location.timestamp) <= 60*15 else { return } // fresh to within 15mins
     geocoder.reverseGeocodeLocation(location) { (marks: [CLPlacemark]?, error: Error?) in
       guard let mark = marks?.last else {
         return

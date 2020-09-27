@@ -11,8 +11,8 @@
 //  GNU General Public License for more details.
 
 import Cleanse
-import Foundation
 import CoreLocation
+import Foundation
 
 struct AppContext {
   static var shared: AppContext!

@@ -109,13 +109,15 @@ class RecordRow: UITableViewCell {
   static let reuseId = "\(RecordRow.self)"
 
   // todo: perhaps better to just link out to a map app
-//  let map: MKMapView = MKMapView(frame: .zero)
+  //  let map: MKMapView = MKMapView(frame: .zero)
 
   func bind(to record: Record) {
     backgroundColor = Kite.color.background
 
     let text: String
-    if let locality = record.placemark?.locality, let administrativeArea = record.placemark?.administrativeArea {
+    if let locality = record.placemark?.locality,
+      let administrativeArea = record.placemark?.administrativeArea
+    {
       text = "\(locality), \(administrativeArea)"
     } else {
       text = "challenge.history.location.empty".l
@@ -129,37 +131,46 @@ class RecordRow: UITableViewCell {
     let wingLabel = Kite.caption(text: "challenge.history.wing".l)
     let wing = Kite.subhead(text: "\(record.wing)")
 
-//    map.translatesAutoresizingMaskIntoConstraints = false
-//    map.rounded()
-//    if let coordinate = record.placemark?.location?.coordinate {
-//      map.setCenter(coordinate, animated: false)
-//      let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
-//      map.setRegion(map.regionThatFits(region), animated: false)
-//    } else {
-//      map.isHidden = true
-//    }
+    //    map.translatesAutoresizingMaskIntoConstraints = false
+    //    map.rounded()
+    //    if let coordinate = record.placemark?.location?.coordinate {
+    //      map.setCenter(coordinate, animated: false)
+    //      let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+    //      map.setRegion(map.regionThatFits(region), animated: false)
+    //    } else {
+    //      map.isHidden = true
+    //    }
 
-//    let comments = Kite.body(text: record.comment ?? "")
-//    comments.isHidden = comments.text.isEmpty
+    //    let comments = Kite.body(text: record.comment ?? "")
+    //    comments.isHidden = comments.text.isEmpty
 
-    contentView.addSubviews(location, date, windLabel, wind, wingLabel, wing) //, map, comments)
+    contentView.addSubviews(location, date, windLabel, wind, wingLabel, wing)  //, map, comments)
     let layout = contentView.layoutMarginsGuide
     NSLayoutConstraint.activate([
       location.topAnchor.constraint(equalTo: layout.topAnchor),
       location.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
-      location.trailingAnchor.constraint(equalTo: layout.centerXAnchor, constant: Kite.space.medium),
+      location.trailingAnchor.constraint(
+        equalTo: layout.centerXAnchor,
+        constant: Kite.space.medium
+      ),
 
       date.topAnchor.constraint(equalTo: location.bottomAnchor),
       date.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
       date.trailingAnchor.constraint(equalTo: layout.centerXAnchor),
 
       windLabel.bottomAnchor.constraint(equalTo: wind.topAnchor, constant: -Kite.space.xsmall),
-      windLabel.leadingAnchor.constraint(equalTo: location.trailingAnchor, constant: Kite.space.small),
-//      windLabel.trailingAnchor.constraint(equalTo: wingLabel.leadingAnchor, constant: Kite.space.xsmall),
+      windLabel.leadingAnchor.constraint(
+        equalTo: location.trailingAnchor,
+        constant: Kite.space.small
+      ),
+      //      windLabel.trailingAnchor.constraint(equalTo: wingLabel.leadingAnchor, constant: Kite.space.xsmall),
 
       wingLabel.bottomAnchor.constraint(equalTo: wing.topAnchor, constant: -Kite.space.xsmall),
-      wingLabel.leadingAnchor.constraint(equalTo: windLabel.trailingAnchor, constant: Kite.space.small),
-//      wingLabel.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      wingLabel.leadingAnchor.constraint(
+        equalTo: windLabel.trailingAnchor,
+        constant: Kite.space.small
+      ),
+      //      wingLabel.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
 
       wind.leadingAnchor.constraint(equalTo: windLabel.leadingAnchor),
       wind.lastBaselineAnchor.constraint(equalTo: date.lastBaselineAnchor),
@@ -169,18 +180,18 @@ class RecordRow: UITableViewCell {
 
       date.bottomAnchor.constraint(equalTo: layout.bottomAnchor),
 
-//      map.topAnchor.constraint(equalTo: date.bottomAnchor, constant: Kite.space.xsmall),
-//      map.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
-//      map.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
-//
-//      comments.topAnchor.constraint(equalTo: map.bottomAnchor, constant: Kite.space.xsmall),
-//      comments.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
-//      comments.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      //      map.topAnchor.constraint(equalTo: date.bottomAnchor, constant: Kite.space.xsmall),
+      //      map.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      //      map.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      //
+      //      comments.topAnchor.constraint(equalTo: map.bottomAnchor, constant: Kite.space.xsmall),
+      //      comments.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      //      comments.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
     ])
 
-//    map.heightAnchor.constraint(equalToConstant: 200).isActive = !map.isHidden
-//    comments.heightAnchor.constraint(greaterThanOrEqualToConstant: 80).isActive = !comments.isHidden
-//    map.bottomAnchor.constraint(equalTo: layout.bottomAnchor).isActive = comments.isHidden
-//    comments.bottomAnchor.constraint(equalTo: layout.bottomAnchor).isActive = map.isHidden
+    //    map.heightAnchor.constraint(equalToConstant: 200).isActive = !map.isHidden
+    //    comments.heightAnchor.constraint(greaterThanOrEqualToConstant: 80).isActive = !comments.isHidden
+    //    map.bottomAnchor.constraint(equalTo: layout.bottomAnchor).isActive = comments.isHidden
+    //    comments.bottomAnchor.constraint(equalTo: layout.bottomAnchor).isActive = map.isHidden
   }
 }

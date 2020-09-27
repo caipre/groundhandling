@@ -132,7 +132,7 @@ extension MainPage: UITableViewDelegate {
     let vc = ExercisesPage(
       level: level,
       exercises: exercises.filter { $0.level == level.id },
-      repository:  AppContext.shared.repository
+      repository: AppContext.shared.repository
     )
     show(vc, sender: self)
     tableView.deselectRow(at: indexPath, animated: false)

@@ -32,7 +32,7 @@ class AboutPage: UIViewController {
     icon.contentMode = .scaleAspectFit
     let version = Kite.subhead(text: AppContext.shared.release.version)
     version.font = .monospacedSystemFont(ofSize: 12, weight: .bold)
-    let commit = Kite.subhead(text:  AppContext.shared.release.commit)
+    let commit = Kite.subhead(text: AppContext.shared.release.commit)
     commit.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
     view.addSubviews(icon, version, commit)
 
@@ -134,9 +134,9 @@ extension AboutPage: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch indexPath.row {
     case 0:
-      show(LicensesPage(licenses:  AppContext.shared.licenses), sender: self)
+      show(LicensesPage(licenses: AppContext.shared.licenses), sender: self)
     case 1:
-      show(UnsplashPage(photos:  AppContext.shared.photos), sender: self)
+      show(UnsplashPage(photos: AppContext.shared.photos), sender: self)
     default:
       fatalError()
     }
