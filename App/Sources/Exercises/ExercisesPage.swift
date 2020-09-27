@@ -14,10 +14,16 @@ import CoreLocation
 import Kite
 import UIKit
 
+protocol ExercisesPageDelegate {
+  func show(page: PageId.Challenge)
+}
+
 class ExercisesPage: UIViewController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
+  public var delegate: ExercisesPageDelegate?
 
   private let level: Level
   private let exercises: [Exercise]
@@ -112,9 +118,7 @@ extension ExercisesPage: UITableViewDataSource {
 extension ExercisesPage: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let exercise = exercises[indexPath.row]
-    let records = repository.fetch(exercise: exercise)
-    let vc = DetailsContainer(level: level, exercise: exercise, records: records)
-    show(vc, sender: self)
+    delegate?.show(page: .details(exercise: exercise))
     tableView.deselectRow(at: indexPath, animated: false)
   }
 

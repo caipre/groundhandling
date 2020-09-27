@@ -17,7 +17,8 @@ extension Kite {
   public static var font: String { "Oxygen" }
 
   public static func font(size: CGFloat) -> UIFont {
-    return UIFont(name: Kite.font, size: size)!
+    .systemFont(ofSize: size)
+    // return UIFont(name: Kite.font, size: size)!
   }
 
   public static func font(style: UIFont.TextStyle) -> UIFont {

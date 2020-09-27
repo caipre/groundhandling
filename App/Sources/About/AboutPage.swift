@@ -13,10 +13,16 @@
 import Kite
 import UIKit
 
+protocol AboutPageDelegate {
+  func show(page: PageId.About)
+}
+
 class AboutPage: UIViewController {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
+  public var delegate: AboutPageDelegate?
 
   init() {
     super.init(nibName: nil, bundle: nil)
@@ -134,9 +140,9 @@ extension AboutPage: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch indexPath.row {
     case 0:
-      show(LicensesPage(licenses: AppContext.shared.licenses), sender: self)
+      delegate?.show(page: .licenses)
     case 1:
-      show(UnsplashPage(photos: AppContext.shared.photos), sender: self)
+      delegate?.show(page: .unsplash)
     default:
       fatalError()
     }

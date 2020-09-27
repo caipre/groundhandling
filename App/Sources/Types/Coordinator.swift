@@ -12,22 +12,6 @@
 
 import UIKit
 
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
-
-  var coordinator: Coordinator!
-
-  func scene(
-    _ scene: UIScene,
-    willConnectTo _: UISceneSession,
-    options _: UIScene.ConnectionOptions
-  ) {
-    if let windowScene = scene as? UIWindowScene {
-      let window = UIWindow(windowScene: windowScene)
-      coordinator = AppCoordinator(onboarding: true)
-      window.rootViewController = coordinator.root
-      self.window = window
-      window.makeKeyAndVisible()
-    }
-  }
+public protocol Coordinator {
+  var root: UIViewController { get }
 }

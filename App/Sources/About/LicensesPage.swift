@@ -31,7 +31,7 @@ class LicensesPage: UITableViewController {
     tableView.allowsSelection = false
   }
 
-  // MARK: UITableViewDataSource
+  // MARK: - UITableViewDataSource
 
   override func numberOfSections(in tableView: UITableView) -> Int {
     1
