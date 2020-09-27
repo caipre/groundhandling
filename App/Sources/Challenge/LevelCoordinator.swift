@@ -13,35 +13,33 @@
 import Kite
 import UIKit
 
-class MainCoordinator: Coordinator {
+class LevelCoordinator: Coordinator {
   public var root: UIViewController { navc }
   private let navc: UINavigationController
-  private var coordinator: Coordinator?
-  init() {
-    let vc = MainPage()
-    navc = UINavigationController(rootViewController: vc)
-    navc.navigationBar.standardAppearance.configureWithTransparentBackground()
-    navc.navigationBar.tintColor = Kite.color.secondary
+
+  private let level: Level
+  private var repository: Repository { AppContext.shared.repository }
+
+  init(navc: UINavigationController, level: Level) {
+    self.navc = navc
+    self.level = level
+    let exercises = AppContext.shared.exercises.filter { $0.level == level.id }
+    let repository = AppContext.shared.repository
+    let vc = ExercisesPage(level: level, exercises: exercises, repository: repository)
+    navc.show(vc, sender: self)
     vc.delegate = self
   }
 }
 
-// MARK: - MainPageDelegate
-extension MainCoordinator: MainPageDelegate {
-  func show(page: PageId.About) {
-    switch page {
-    case .about:
-      let coordinator = AboutCoordinator(navc: navc)
-      self.coordinator = coordinator
-    default:
-      fatalError()  // invalid navigation
-    }
-  }
+// MARK: - ExercisesPageDelegate
 
+extension LevelCoordinator: ExercisesPageDelegate {
   func show(page: PageId.Challenge) {
     switch page {
-    case .exercises(let level):
-      self.coordinator = LevelCoordinator(navc: navc, level: level)
+    case .details(let exercise):
+      let records = repository.fetch(exercise: exercise)
+      let vc = DetailsContainer(exercise: exercise, records: records)
+      navc.show(vc, sender: self)
     default:
       fatalError()  // invalid navigation
     }

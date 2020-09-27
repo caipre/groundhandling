@@ -41,12 +41,10 @@ class DetailsContainer: UIViewController {
     ]
   var idx = 0
 
-  private let level: Level
   private let exercise: Exercise
   private let records: [Record]
 
-  init(level: Level, exercise: Exercise, records: [Record]) {
-    self.level = level
+  init(exercise: Exercise, records: [Record]) {
     self.exercise = exercise
     self.records = records
     super.init(nibName: nil, bundle: nil)
@@ -61,7 +59,7 @@ class DetailsContainer: UIViewController {
     view.directionalLayoutMargins = Kite.margins.directional
 
     let title = Kite.largeTitle(text: exercise.name)
-    let levelv = Kite.subhead(text: "Level \(level.id)")
+    let levelv = Kite.subhead(text: "Level \(exercise.level)")
     let pagesv = pagesvc.view!
     pagesv.translatesAutoresizingMaskIntoConstraints = false
     view.addSubviews(pagesv, title, levelv)

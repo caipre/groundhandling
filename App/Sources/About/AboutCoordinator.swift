@@ -16,11 +16,10 @@ import UIKit
 class AboutCoordinator: Coordinator {
   public var root: UIViewController { navc }
   private let navc: UINavigationController
-  init() {
+  init(navc: UINavigationController) {
+    self.navc = navc
     let vc = AboutPage()
-    navc = UINavigationController(rootViewController: vc)
-    navc.navigationBar.standardAppearance.configureWithTransparentBackground()
-    navc.navigationBar.tintColor = Kite.color.secondary
+    navc.show(vc, sender: self)
     vc.delegate = self
   }
 }
