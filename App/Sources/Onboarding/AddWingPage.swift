@@ -41,7 +41,9 @@ final class AddWingPage: UIViewController {
     addWingField.placeholder = "onboarding.addwing.field".l
     let nextLabel = Kite.headline(text: "onboarding.addwing.next".l)
     nextLabel.isUserInteractionEnabled = true
-    nextLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNext)))
+    nextLabel.addGestureRecognizer(
+      UITapGestureRecognizer(target: self, action: #selector(showNext))
+    )
 
     view.addSubviews(titleLabel, textLabel, nextLabel, addWingField)
 

@@ -16,14 +16,15 @@ import Foundation
 
 struct AppServices {
   static var shared: AppServices!
-  
+
   let location: LocationService
 }
 
 struct AppServicesComponent: Cleanse.RootComponent {
   typealias Root = AppServices
 
-  static func configureRoot(binder bind: ReceiptBinder<AppServices>) -> BindingReceipt<AppServices> {
+  static func configureRoot(binder bind: ReceiptBinder<AppServices>) -> BindingReceipt<AppServices>
+  {
     bind.to(factory: AppServices.init)
   }
 

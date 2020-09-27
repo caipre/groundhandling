@@ -17,7 +17,7 @@ let project = Project(
       infoPlist: .default,
       sources: ["Sources/**"],
       resources: ["Resources/**"]
-    ),
+    )
   ],
   additionalFiles: [
     "Project.swift",

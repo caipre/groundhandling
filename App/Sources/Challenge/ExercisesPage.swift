@@ -122,7 +122,10 @@ extension ExercisesPage: UITableViewDelegate {
     _ tableView: UITableView,
     trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
   ) -> UISwipeActionsConfiguration? {
-    let action = UIContextualAction(style: .normal, title: "challenge.exercises.complete".l) { action, view, fn in
+    let action = UIContextualAction(style: .normal, title: "challenge.exercises.complete".l) {
+      action,
+      view,
+      fn in
       let exercise = self.exercises[indexPath.row]
       let record: Record
       if let placemark = AppServices.shared.location.placemark {
@@ -157,7 +160,7 @@ class ExerciseRow: UITableViewCell {
     contentView.addSubviews(name, goal, check)
 
     check.isHidden = !completed
-    
+
     let layout = contentView.layoutMarginsGuide
     NSLayoutConstraint.activate([
       name.topAnchor.constraint(equalTo: layout.topAnchor, constant: Kite.space.xsmall),

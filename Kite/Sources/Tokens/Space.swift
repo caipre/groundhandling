@@ -12,8 +12,8 @@
 
 import UIKit
 
-public extension Kite {
-  enum margins {
+extension Kite {
+  public enum margins {
     public static var directional: NSDirectionalEdgeInsets {
       NSDirectionalEdgeInsets(
         top: space.medium,
@@ -33,7 +33,7 @@ public extension Kite {
     }
   }
 
-  enum space {
+  public enum space {
     public static let xsmall: CGFloat = 4
     public static let small: CGFloat = 16
     public static let medium: CGFloat = 24
