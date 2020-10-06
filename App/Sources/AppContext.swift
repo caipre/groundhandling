@@ -93,7 +93,7 @@ struct RepositoryModule: Cleanse.Module {
   static func configure(binder: Binder<Singleton>) {
     binder.bind(Repository.self)
       .sharedInScope()
-      .to(factory: InMemoryRepository.init)
+      .to(factory: FileSystemRepository.init)
   }
 }
 

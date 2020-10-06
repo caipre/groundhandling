@@ -109,7 +109,7 @@ extension ExercisesPage: UITableViewDataSource {
       tableView.dequeueReusableCell(withIdentifier: ExerciseRow.reuseId) as? ExerciseRow
       ?? ExerciseRow(frame: .zero)
     cell.accessoryType = .disclosureIndicator
-    let completed = !repository.fetch(exercise: exercise).isEmpty
+    let completed = !repository.fetchRecords(for: exercise).isEmpty
     cell.bind(to: exercise, completed: completed)
     return cell
   }
@@ -133,9 +133,9 @@ extension ExercisesPage: UITableViewDelegate {
       let exercise = self.exercises[indexPath.row]
       let record: Record
       if let placemark = AppServices.shared.location.placemark {
-        record = Record(exercise: exercise, placemark: placemark)
+        record = Record(exerciseId: exercise.id, placemark: placemark)
       } else {
-        record = Record(exercise: exercise)
+        record = Record(exerciseId: exercise.id)
       }
       let result = self.repository.save(record: record)
       switch result {

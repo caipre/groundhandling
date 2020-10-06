@@ -25,6 +25,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     let factorys = try! ComponentFactory.of(AppServicesComponent.self)
     AppServices.shared = factorys.build(())
     (AppServices.shared.location as! LocationServiceImpl).start()
+    (AppServices.shared.location as! LocationServiceImpl).recv(msg: .requestAuth)
     return true
   }
 
@@ -36,5 +37,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     options _: UIScene.ConnectionOptions
   ) -> UISceneConfiguration {
     UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+  }
+
+  func applicationWillTerminate(_ application: UIApplication) {
+    (AppContext.shared.repository as! FileSystemRepository).flush()
   }
 }

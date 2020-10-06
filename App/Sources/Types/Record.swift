@@ -13,12 +13,12 @@
 import CoreLocation
 import Foundation
 
-struct Record {
+struct Record: Codable {
   let id: String
   let date: Date
-  let exercise: Exercise
+  let exerciseId: ExerciseId
   let wing: String?
-  let placemark: CLPlacemark?
+  let placemark: Placemark?
   let windSpeed: Measurement<UnitSpeed>?
   let windAngle: Measurement<UnitAngle>?
   let temperature: Measurement<UnitTemperature>?
@@ -27,9 +27,9 @@ struct Record {
   init(
     id: String = UUID().uuidString,
     date: Date = Date(),
-    exercise: Exercise,
+    exerciseId: ExerciseId,
     wing: String? = nil,
-    placemark: CLPlacemark? = nil,
+    placemark: Placemark? = nil,
     windSpeed: Measurement<UnitSpeed>? = nil,
     windAngle: Measurement<UnitAngle>? = nil,
     temperature: Measurement<UnitTemperature>? = nil,
@@ -37,7 +37,7 @@ struct Record {
   ) {
     self.id = id
     self.date = date
-    self.exercise = exercise
+    self.exerciseId = exerciseId
     self.wing = wing
     self.placemark = placemark
     self.windSpeed = windSpeed

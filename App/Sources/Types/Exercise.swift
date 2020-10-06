@@ -12,6 +12,8 @@
 
 import Foundation
 
+typealias ExerciseId = String
+
 struct Level: Codable, Equatable {
   let id: String
   let desc: String
