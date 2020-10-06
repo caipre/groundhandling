@@ -15,35 +15,118 @@ import Foundation
 import Kite
 
 protocol Repository {
-  func fetch(exercise: Exercise) -> [Record]
+  func fetchRecords(for exercise: Exercise) -> [Record]
   func save(record: Record) -> Result<Record, Error>
+
+  func fetchWings() -> [Wing]
+  func save(wing: Wing) -> Result<Wing, Error>
 }
 
 class InMemoryRepository: Repository {
-  private var records: [Record] = []
+  fileprivate var records: [Record]
+  fileprivate var wings: [Wing]
 
-  func fetch(exercise: Exercise) -> [Record] {
-    return records.filter { $0.exercise == exercise }
+  init(records: [Record] = [], wings: [Wing] = []) {
+    self.records = records
+    self.wings = wings
+  }
+
+  func fetchRecords(for exercise: Exercise) -> [Record] {
+    return records.filter { $0.exerciseId == exercise.id }
   }
 
   func save(record: Record) -> Result<Record, Error> {
     records.append(record)
     return .ok(record)
+  }
+
+  func fetchWings() -> [Wing] {
+    return wings
+  }
+
+  func save(wing: Wing) -> Result<Wing, Error> {
+    wings.append(wing)
+    return .ok(wing)
   }
 }
 
-class UserDefaultsRepository: Repository {
-  private let store = UserDefaults.standard
+// todo: reliably write data and properly handle errors
+class FileSystemRepository: Repository {
+  private static let documents = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+  ).first!
+  private static let v1filename = "data.v1.json"
 
-  func fetch(exercise: Exercise) -> [Record] {
-    guard let records = store.array(forKey: exercise.id) as? [Record] else { return [] }
-    return records
+  private static let encoder = JSONEncoder()
+  private static let decoder = JSONDecoder()
+
+  private let fileurl: URL
+
+  private let repository: InMemoryRepository
+
+  init() {
+    fileurl = FileSystemRepository.documents.appendingPathComponent(FileSystemRepository.v1filename)
+
+    let loaded = try! FileSystemRepository.load(at: fileurl)
+    repository = InMemoryRepository(records: loaded.records, wings: loaded.wings)
+  }
+
+  func fetchRecords(for exercise: Exercise) -> [Record] {
+    return repository.fetchRecords(for: exercise)
   }
 
   func save(record: Record) -> Result<Record, Error> {
-    var records = store.array(forKey: record.exercise.id) ?? []
-    records.append(record)
-    store.setValue(records, forKey: record.exercise.id)
-    return .ok(record)
+    return repository.save(record: record)
+  }
+
+  func fetchWings() -> [Wing] {
+    return repository.fetchWings()
+  }
+
+  func save(wing: Wing) -> Result<Wing, Error> {
+    return repository.save(wing: wing)
+  }
+
+  // private
+
+  private static func create(at url: URL) throws -> RepositoryFileV1 {
+    return try FileSystemRepository.write(at: url, data: RepositoryFileV1())
+  }
+
+  private static func load(at url: URL) throws -> RepositoryFileV1 {
+    do {
+      let data = try Data(contentsOf: url)
+      return try FileSystemRepository.decoder.decode(RepositoryFileV1.self, from: data)
+    } catch is DecodingError {
+      fatalError()
+    } catch {
+      return try FileSystemRepository.create(at: url)
+    }
+  }
+
+  private static func write(at url: URL, data: RepositoryFileV1) throws -> RepositoryFileV1 {
+    print(url)
+    let encoded = try FileSystemRepository.encoder.encode(data)
+    try encoded.write(to: url, options: .atomicWrite)
+    return data
+  }
+
+  func flush() {
+    let data = RepositoryFileV1(records: repository.records, wings: repository.wings)
+    try! FileSystemRepository.write(at: fileurl, data: data)
+  }
+}
+
+struct RepositoryFileV1: Codable {
+  var version = "v1"
+  var modified: Date
+  var records: [Record]
+  var wings: [Wing]
+
+  init(records: [Record] = [], wings: [Wing] = []) {
+    self.modified = Date()
+    self.records = records
+    self.wings = wings
   }
 }

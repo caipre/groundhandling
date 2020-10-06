@@ -37,7 +37,7 @@ extension LevelCoordinator: ExercisesPageDelegate {
   func show(page: PageId.Challenge) {
     switch page {
     case .details(let exercise):
-      let records = repository.fetch(exercise: exercise)
+      let records = repository.fetchRecords(for: exercise)
       let vc = DetailsContainer(exercise: exercise, records: records)
       navc.show(vc, sender: self)
     default:

@@ -24,7 +24,7 @@ class HistoryPage: UIViewController {
 
   init(exercise: Exercise, records: [Record]) {
     self.exercise = exercise
-    self.records = records
+    self.records = records.sorted(by: { (a, b) in a.date > b.date })
     super.init(nibName: nil, bundle: nil)
   }
 

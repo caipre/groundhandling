@@ -18,14 +18,12 @@ enum LocationServiceMsg {
 }
 
 protocol LocationService {
-  var location: CLLocation? { get }
-  var placemark: CLPlacemark? { get }
+  var placemark: Placemark? { get }
   func recv(msg: LocationServiceMsg)
 }
 
 class LocationServiceImpl: NSObject, LocationService {
-  public private(set) var location: CLLocation?
-  public private(set) var placemark: CLPlacemark?
+  public private(set) var placemark: Placemark?
 
   private var manager: CLLocationManager!
   private lazy var geocoder: CLGeocoder = { CLGeocoder() }()
@@ -72,8 +70,17 @@ extension LocationServiceImpl: CLLocationManagerDelegate {
       guard let mark = marks?.last else {
         return
       }
-      self.location = location
-      self.placemark = mark
+      if let coordinate = mark.location?.coordinate,
+        let administrativeArea = mark.administrativeArea,
+        let locality = mark.locality
+      {
+        self.placemark = Placemark(
+          latitude: coordinate.latitude,
+          longitude: coordinate.longitude,
+          administrativeArea: administrativeArea,
+          locality: locality
+        )
+      }
     }
   }
 }

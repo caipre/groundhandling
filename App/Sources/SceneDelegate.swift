@@ -24,7 +24,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   ) {
     if let windowScene = scene as? UIWindowScene {
       let window = UIWindow(windowScene: windowScene)
-      coordinator = AppCoordinator(onboarding: true)
+      coordinator = AppCoordinator(onboarding: false)
       window.rootViewController = coordinator.root
       self.window = window
       window.makeKeyAndVisible()
