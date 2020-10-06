@@ -17,9 +17,13 @@ class AppCoordinator: Coordinator {
   public let root: UIViewController
 
   private let coordinator: Coordinator
-  
+
   init(onboarding: Bool = false) {
-    coordinator = MainCoordinator()
+    if onboarding {
+      coordinator = OnboardingCoordinator()
+    } else {
+      coordinator = MainCoordinator()
+    }
     root = coordinator.root
   }
 }

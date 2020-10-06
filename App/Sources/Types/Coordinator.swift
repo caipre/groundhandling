@@ -15,3 +15,7 @@ import UIKit
 public protocol Coordinator {
   var root: UIViewController { get }
 }
+
+public protocol Pager {
+  func next(sender: UIViewController)
+}

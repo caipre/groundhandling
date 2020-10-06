@@ -13,16 +13,16 @@
 import Kite
 import UIKit
 
-final class AddWingPage: UIViewController {
+final class AddWingPage: UIViewController, OnboardingPage {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  private let nextPage: () -> UIViewController
+  public var pager: Pager?
 
-  init(nextPage: @escaping () -> UIViewController) {
-    self.nextPage = nextPage
+  init() {
     super.init(nibName: nil, bundle: nil)
+
   }
 
   private var titleLabelConstraint: NSLayoutConstraint!
@@ -32,7 +32,6 @@ final class AddWingPage: UIViewController {
     view.directionalLayoutMargins = Kite.margins.directional
 
     let layout = view.layoutMarginsGuide
-    let readable = view.readableContentGuide
 
     let titleLabel = Kite.title(text: "onboarding.addwing.title".l)
     let textLabel = Kite.body(text: "onboarding.addwing.text".l)
@@ -42,7 +41,7 @@ final class AddWingPage: UIViewController {
     let nextLabel = Kite.headline(text: "onboarding.addwing.next".l)
     nextLabel.isUserInteractionEnabled = true
     nextLabel.addGestureRecognizer(
-      UITapGestureRecognizer(target: self, action: #selector(showNext))
+      UITapGestureRecognizer(target: self, action: #selector(nextPage))
     )
 
     view.addSubviews(titleLabel, textLabel, nextLabel, addWingField)
@@ -64,7 +63,7 @@ final class AddWingPage: UIViewController {
     self.view = view
   }
 
-  @objc func showNext() {
-    show(nextPage(), sender: self)
+  @objc func nextPage() {
+    pager?.next(sender: self)
   }
 }
