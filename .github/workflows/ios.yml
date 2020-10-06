@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  DEVELOPER_DIR: /Applications/Xcode_12.app/Contents/Developer
+
 jobs:
   build:
     name: Build default scheme
@@ -17,7 +20,12 @@ jobs:
       - name: Install Tuist
         run: |
           bash <(curl -Ls https://install.tuist.io)
-      - name: Build
+      - name: Setup
         run: |
           tuist up
-          tuist build
+      - name: Build Frameworks
+        run: |
+          tuist build Kite
+      - name: Build App
+        run: |
+          tuist build App
