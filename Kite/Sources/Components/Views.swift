@@ -42,7 +42,8 @@ extension Kite {
       view.setTitle(title, for: .normal)
       view.addTarget(target, action: selector, for: .touchUpInside)
       view.translatesAutoresizingMaskIntoConstraints = false
-      view.setTitleColor(Kite.color.secondary, for: .normal)
+      view.setTitleColor(Kite.color.active, for: .normal)
+      view.setTitleColor(Kite.color.inactive, for: .disabled)
       return view
     }
 

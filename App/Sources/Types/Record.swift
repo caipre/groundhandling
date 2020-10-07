@@ -17,7 +17,7 @@ struct Record: Codable {
   let id: String
   let date: Date
   let exerciseId: ExerciseId
-  let wing: String?
+  let wing: Wing
   let placemark: Placemark?
   let windSpeed: Measurement<UnitSpeed>?
   let windAngle: Measurement<UnitAngle>?
@@ -28,7 +28,7 @@ struct Record: Codable {
     id: String = UUID().uuidString,
     date: Date = Date(),
     exerciseId: ExerciseId,
-    wing: String? = nil,
+    wing: Wing,
     placemark: Placemark? = nil,
     windSpeed: Measurement<UnitSpeed>? = nil,
     windAngle: Measurement<UnitAngle>? = nil,

@@ -22,10 +22,11 @@ final class AddWingPage: UIViewController, Paged {
 
   init() {
     super.init(nibName: nil, bundle: nil)
-
   }
 
-  private var titleLabelConstraint: NSLayoutConstraint!
+  private var wingBrandField: UITextField!
+  private var wingNameField: UITextField!
+  private var nextButton: UIButton!
 
   override func loadView() {
     let view = Kite.views.background()
@@ -34,35 +35,70 @@ final class AddWingPage: UIViewController, Paged {
     let layout = view.layoutMarginsGuide
 
     let titleLabel = Kite.title(text: "onboarding.addwing.title".l)
-    let textLabel = Kite.body(text: "onboarding.addwing.text".l)
-    let addWingField = UITextField(frame: .zero)
-    addWingField.translatesAutoresizingMaskIntoConstraints = false
-    addWingField.placeholder = "onboarding.addwing.field".l
-    let nextButton = Kite.views.button(
+    view.addSubviews(titleLabel)
+
+    let wingBrandLabel = Kite.body(text: "onboarding.addwing.text".l)
+    wingBrandField = UITextField(frame: .zero)
+    wingBrandField.translatesAutoresizingMaskIntoConstraints = false
+    wingBrandField.placeholder = "onboarding.addwing.brand.placeholder".l
+    view.addSubviews(wingBrandLabel, wingBrandField)
+
+    let wingNameLabel = Kite.body(text: "onboarding.addwing.text".l)
+    wingNameField = UITextField(frame: .zero)
+    wingNameField.translatesAutoresizingMaskIntoConstraints = false
+    wingNameField.placeholder = "onboarding.addwing.name.placeholder".l
+    view.addSubviews(wingNameLabel, wingNameField)
+
+    nextButton = Kite.views.button(
       title: "onboarding.addwing.next".l,
       target: self,
       selector: #selector(nextPage)
     )
-    view.addSubviews(titleLabel, textLabel, nextButton, addWingField)
+    nextButton.isEnabled = false
+    view.addSubviews(nextButton)
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: layout.topAnchor),
       titleLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      textLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-      textLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      wingBrandLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+      wingBrandLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      wingBrandField.topAnchor.constraint(equalTo: wingBrandLabel.bottomAnchor),
+      wingBrandField.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      addWingField.topAnchor.constraint(equalTo: textLabel.bottomAnchor),
-      addWingField.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      wingNameLabel.topAnchor.constraint(equalTo: wingBrandField.bottomAnchor),
+      wingNameLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      wingNameField.topAnchor.constraint(equalTo: wingNameLabel.bottomAnchor),
+      wingNameField.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      nextButton.topAnchor.constraint(equalTo: addWingField.bottomAnchor),
+      nextButton.topAnchor.constraint(equalTo: wingNameField.bottomAnchor),
       nextButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
     ])
 
     self.view = view
   }
 
+  override func viewDidLoad() {
+    wingBrandField.delegate = self
+    wingNameField.delegate = self
+  }
+
   @objc func nextPage() {
+    let wing = Wing(brand: wingBrandField.text!, name: wingNameField.text!)
+    AppContext.shared.repository.save(wing: wing)
     pager?.next(sender: self)
+  }
+}
+
+// MARK: - UITextFieldDelegate
+extension AddWingPage: UITextFieldDelegate {
+  func textField(
+    _ textField: UITextField,
+    shouldChangeCharactersIn range: NSRange,
+    replacementString string: String
+  ) -> Bool {
+    nextButton.isEnabled =
+      (!(wingBrandField.text?.isEmpty ?? false) && !(wingNameField.text?.isEmpty ?? false))
+    return true
   }
 }

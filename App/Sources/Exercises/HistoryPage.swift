@@ -129,7 +129,7 @@ class RecordRow: UITableViewCell {
     let windLabel = Kite.caption(text: "challenge.history.wind".l)
     let wind = Kite.subhead(text: "\(record.windSpeed)")
     let wingLabel = Kite.caption(text: "challenge.history.wing".l)
-    let wing = Kite.subhead(text: "\(record.wing)")
+    let wing = Kite.subhead(text: "\(record.wing.brand) \(record.wing.name)")
 
     //    map.translatesAutoresizingMaskIntoConstraints = false
     //    map.rounded()
