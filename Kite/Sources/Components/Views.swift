@@ -37,6 +37,15 @@ extension Kite {
       return view
     }
 
+    public static func button(title: String, target: Any?, selector: Selector) -> UIButton {
+      let view = UIButton(frame: .zero)
+      view.setTitle(title, for: .normal)
+      view.addTarget(target, action: selector, for: .touchUpInside)
+      view.translatesAutoresizingMaskIntoConstraints = false
+      view.setTitleColor(Kite.color.secondary, for: .normal)
+      return view
+    }
+
     public static func button(symbol name: String, target: Any?, selector: Selector) -> UIButton {
       let view = UIButton(frame: .zero)
       view.setImage(UIImage(systemName: name), for: .normal)

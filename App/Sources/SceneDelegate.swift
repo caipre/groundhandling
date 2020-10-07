@@ -10,11 +10,11 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Kite
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
-
   var coordinator: Coordinator!
 
   func scene(
@@ -24,10 +24,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   ) {
     if let windowScene = scene as? UIWindowScene {
       let window = UIWindow(windowScene: windowScene)
-      coordinator = AppCoordinator(onboarding: false)
-      window.rootViewController = coordinator.root
-      self.window = window
+      coordinator = AppCoordinator()
+      window.rootViewController = coordinator.navc
       window.makeKeyAndVisible()
+      self.window = window
+      coordinator.start()
     }
   }
 }

@@ -13,7 +13,7 @@
 import Kite
 import UIKit
 
-final class WelcomePage: UIViewController, OnboardingPage {
+final class WelcomePage: UIViewController, Paged {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -31,20 +31,19 @@ final class WelcomePage: UIViewController, OnboardingPage {
     let layout = view.layoutMarginsGuide
 
     let titleLabel = Kite.title(text: "onboarding.welcome.title".l)
-    let nextLabel = Kite.headline(text: "onboarding.button.next".l)
-    nextLabel.isUserInteractionEnabled = true
-    nextLabel.addGestureRecognizer(
-      UITapGestureRecognizer(target: self, action: #selector(nextPage))
+    let nextButton = Kite.views.button(
+      title: "onboarding.welcome.next".l,
+      target: self,
+      selector: #selector(nextPage)
     )
-
-    view.addSubviews(titleLabel, nextLabel)
+    view.addSubviews(titleLabel, nextButton)
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: layout.topAnchor),
       titleLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      nextLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-      nextLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      nextButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+      nextButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
     ])
 
     self.view = view

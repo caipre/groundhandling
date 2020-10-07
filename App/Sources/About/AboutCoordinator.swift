@@ -14,10 +14,13 @@ import Kite
 import UIKit
 
 class AboutCoordinator: Coordinator {
-  public var root: UIViewController { navc }
-  private let navc: UINavigationController
+  public let navc: UINavigationController
+
   init(navc: UINavigationController) {
     self.navc = navc
+  }
+
+  func start() {
     let vc = AboutPage()
     navc.show(vc, sender: self)
     vc.delegate = self

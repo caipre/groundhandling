@@ -14,16 +14,26 @@ import Kite
 import UIKit
 
 class AppCoordinator: Coordinator {
-  public let root: UIViewController
+  public let navc: UINavigationController
+  private var coordinator: Coordinator!
+  private let onboarded: Bool
 
-  private let coordinator: Coordinator
+  init(onboarded: Bool = false) {
+    self.onboarded = onboarded
+    navc = UINavigationController()
+    navc.navigationBar.standardAppearance.configureWithTransparentBackground()
+    navc.navigationBar.tintColor = Kite.color.secondary
+  }
 
-  init(onboarding: Bool = false) {
-    if onboarding {
-      coordinator = OnboardingCoordinator()
+  func start() {
+    if onboarded {
+      coordinator = MainCoordinator(navc: navc)
     } else {
-      coordinator = MainCoordinator()
+      coordinator = OnboardingCoordinator(navc: navc) {
+        self.coordinator = MainCoordinator(navc: self.navc)
+        self.coordinator.start()
+      }
     }
-    root = coordinator.root
+    coordinator.start()
   }
 }

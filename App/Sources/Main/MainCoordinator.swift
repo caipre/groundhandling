@@ -14,15 +14,17 @@ import Kite
 import UIKit
 
 class MainCoordinator: Coordinator {
-  public var root: UIViewController { navc }
-  private let navc: UINavigationController
-  private var coordinator: Coordinator?
-  init() {
+  public let navc: UINavigationController
+  private var coordinator: Coordinator!
+
+  init(navc: UINavigationController) {
+    self.navc = navc
+  }
+
+  func start() {
     let vc = MainPage()
-    navc = UINavigationController(rootViewController: vc)
-    navc.navigationBar.standardAppearance.configureWithTransparentBackground()
-    navc.navigationBar.tintColor = Kite.color.secondary
     vc.delegate = self
+    navc.setViewControllers([vc], animated: true)
   }
 }
 
@@ -31,8 +33,8 @@ extension MainCoordinator: MainPageDelegate {
   func show(page: PageId.About) {
     switch page {
     case .about:
-      let coordinator = AboutCoordinator(navc: navc)
-      self.coordinator = coordinator
+      coordinator = AboutCoordinator(navc: navc)
+      coordinator.start()
     default:
       fatalError()  // invalid navigation
     }
@@ -41,7 +43,8 @@ extension MainCoordinator: MainPageDelegate {
   func show(page: PageId.Challenge) {
     switch page {
     case .exercises(let level):
-      self.coordinator = LevelCoordinator(navc: navc, level: level)
+      coordinator = LevelCoordinator(navc: navc, level: level)
+      coordinator.start()
     default:
       fatalError()  // invalid navigation
     }

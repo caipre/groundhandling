@@ -14,8 +14,7 @@ import Kite
 import UIKit
 
 class LevelCoordinator: Coordinator {
-  public var root: UIViewController { navc }
-  private let navc: UINavigationController
+  public let navc: UINavigationController
 
   private let level: Level
   private var repository: Repository { AppContext.shared.repository }
@@ -23,8 +22,12 @@ class LevelCoordinator: Coordinator {
   init(navc: UINavigationController, level: Level) {
     self.navc = navc
     self.level = level
+  }
+
+  func start() {
     let exercises = AppContext.shared.exercises.filter { $0.level == level.id }
     let repository = AppContext.shared.repository
+
     let vc = ExercisesPage(level: level, exercises: exercises, repository: repository)
     navc.show(vc, sender: self)
     vc.delegate = self

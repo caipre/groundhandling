@@ -13,7 +13,7 @@
 import Kite
 import UIKit
 
-final class AddWingPage: UIViewController, OnboardingPage {
+final class AddWingPage: UIViewController, Paged {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -38,13 +38,12 @@ final class AddWingPage: UIViewController, OnboardingPage {
     let addWingField = UITextField(frame: .zero)
     addWingField.translatesAutoresizingMaskIntoConstraints = false
     addWingField.placeholder = "onboarding.addwing.field".l
-    let nextLabel = Kite.headline(text: "onboarding.addwing.next".l)
-    nextLabel.isUserInteractionEnabled = true
-    nextLabel.addGestureRecognizer(
-      UITapGestureRecognizer(target: self, action: #selector(nextPage))
+    let nextButton = Kite.views.button(
+      title: "onboarding.addwing.next".l,
+      target: self,
+      selector: #selector(nextPage)
     )
-
-    view.addSubviews(titleLabel, textLabel, nextLabel, addWingField)
+    view.addSubviews(titleLabel, textLabel, nextButton, addWingField)
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: layout.topAnchor),
@@ -56,8 +55,8 @@ final class AddWingPage: UIViewController, OnboardingPage {
       addWingField.topAnchor.constraint(equalTo: textLabel.bottomAnchor),
       addWingField.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      nextLabel.topAnchor.constraint(equalTo: addWingField.bottomAnchor),
-      nextLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      nextButton.topAnchor.constraint(equalTo: addWingField.bottomAnchor),
+      nextButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
     ])
 
     self.view = view

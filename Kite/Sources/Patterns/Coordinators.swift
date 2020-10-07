@@ -13,9 +13,14 @@
 import UIKit
 
 public protocol Coordinator {
-  var root: UIViewController { get }
+  var navc: UINavigationController { get }
+  func start()
 }
 
 public protocol Pager {
   func next(sender: UIViewController)
+}
+
+public protocol Paged {
+  var pager: Pager? { get set }
 }

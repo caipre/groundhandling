@@ -14,32 +14,38 @@ import Cleanse
 import Kite
 import UIKit
 
-protocol OnboardingPage {
-  var pager: Pager? { get set }
-}
-
 class OnboardingCoordinator: Coordinator {
-  public var root: UIViewController { navc }
-  private let navc: UINavigationController
-  private var coordinator: Coordinator?
-  private var pages: [Provider<OnboardingPage & UIViewController>] = [
-    Provider { WarningPage() },
-    Provider { LocationPage() },
+  public let navc: UINavigationController
+  public var finished: () -> Void
+
+  // note: reverse ordered for peformance reasons
+  private var pages: [Provider<UIViewController & Paged>] = [
     Provider { AddWingPage() },
+    Provider { LocationPage() },
   ]
-  init() {
-    let vc = WelcomePage()
-    navc = UINavigationController(rootViewController: vc)
-    navc.navigationBar.standardAppearance.configureWithTransparentBackground()
-    navc.navigationBar.tintColor = Kite.color.secondary
-    vc.pager = self
+
+  init(navc: UINavigationController, finished: @escaping () -> Void = {}) {
+    self.navc = navc
+    self.finished = finished
+  }
+
+  func start() {
+    let page = WelcomePage()
+    page.pager = self
+    navc.navigationBar.isHidden = true
+    navc.pushViewController(page, animated: false)
   }
 }
 
 extension OnboardingCoordinator: Pager {
   func next(sender: UIViewController) {
-    var next = pages.remove(at: 0).get()
-    next.pager = self
-    navc.show(next, sender: self)
+    guard let provider = pages.popLast() else {
+      navc.navigationBar.isHidden = false
+      finished()
+      return
+    }
+    var page = provider.get()
+    page.pager = self
+    navc.pushViewController(page, animated: true)
   }
 }
