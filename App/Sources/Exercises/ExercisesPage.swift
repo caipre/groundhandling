@@ -131,11 +131,13 @@ extension ExercisesPage: UITableViewDelegate {
       view,
       fn in
       let exercise = self.exercises[indexPath.row]
+      // todo: allow selecting active wing
+      let wing = AppContext.shared.repository.fetchWings()[0]
       let record: Record
       if let placemark = AppServices.shared.location.placemark {
-        record = Record(exerciseId: exercise.id, placemark: placemark)
+        record = Record(exerciseId: exercise.id, wing: wing, placemark: placemark)
       } else {
-        record = Record(exerciseId: exercise.id)
+        record = Record(exerciseId: exercise.id, wing: wing)
       }
       let result = self.repository.save(record: record)
       switch result {
