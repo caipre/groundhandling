@@ -14,17 +14,17 @@ import UIKit
 
 extension Kite {
   public enum color {
-    public static let accent = UIColor(named: "accent")!
+    public static let accent = KiteAsset.accent.color
 
-    public static let primary = UIColor(named: "primary")!
-    public static let secondary = UIColor(named: "secondary")!
+    public static let primary = KiteAsset.primary.color
+    public static let secondary = KiteAsset.secondary.color
 
-    public static let background = UIColor(named: "background")!
+    public static let background = KiteAsset.background.color
 
-    public static let active = UIColor(named: "control.active")!
-    public static let inactive = UIColor(named: "control.inactive")!
+    public static let active = KiteAsset.controlActive.color
+    public static let inactive = KiteAsset.controlInactive.color
 
-    public static let ok = UIColor(named: "result.ok")!
-    public static let error = UIColor(named: "result.error")!
+    public static let ok = KiteAsset.resultOk.color
+    public static let error = KiteAsset.resultError.color
   }
 }
