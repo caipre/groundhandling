@@ -15,6 +15,9 @@ import Foundation
 import Kite
 
 protocol Repository {
+  var onboarded: Bool { get }
+  func setOnboarded(to: Bool)
+
   func fetchRecords(for exercise: Exercise) -> [Record]
   func save(record: Record) -> Result<Record, Error>
 
@@ -23,12 +26,22 @@ protocol Repository {
 }
 
 class InMemoryRepository: Repository {
+  public private(set) var onboarded: Bool
   fileprivate var records: [Record]
   fileprivate var wings: [Wing]
 
-  init(records: [Record] = [], wings: [Wing] = []) {
+  init(
+    onboarded: Bool = false,
+    records: [Record] = [],
+    wings: [Wing] = []
+  ) {
+    self.onboarded = onboarded
     self.records = records
     self.wings = wings
+  }
+
+  func setOnboarded(to onboarded: Bool) {
+    self.onboarded = onboarded
   }
 
   func fetchRecords(for exercise: Exercise) -> [Record] {
@@ -69,7 +82,19 @@ class FileSystemRepository: Repository {
     fileurl = FileSystemRepository.documents.appendingPathComponent(FileSystemRepository.v1filename)
 
     let loaded = try! FileSystemRepository.load(at: fileurl)
-    repository = InMemoryRepository(records: loaded.records, wings: loaded.wings)
+    repository = InMemoryRepository(
+      onboarded: loaded.onboarded,
+      records: loaded.records,
+      wings: loaded.wings
+    )
+  }
+
+  var onboarded: Bool {
+    repository.onboarded
+  }
+
+  func setOnboarded(to: Bool) {
+    repository.setOnboarded(to: to)
   }
 
   func fetchRecords(for exercise: Exercise) -> [Record] {
@@ -113,7 +138,11 @@ class FileSystemRepository: Repository {
   }
 
   func flush() {
-    let data = RepositoryFileV1(records: repository.records, wings: repository.wings)
+    let data = RepositoryFileV1(
+      onboarded: repository.onboarded,
+      records: repository.records,
+      wings: repository.wings
+    )
     try! FileSystemRepository.write(at: fileurl, data: data)
   }
 }
@@ -121,11 +150,17 @@ class FileSystemRepository: Repository {
 struct RepositoryFileV1: Codable {
   var version = "v1"
   var modified: Date
+  var onboarded: Bool
   var records: [Record]
   var wings: [Wing]
 
-  init(records: [Record] = [], wings: [Wing] = []) {
+  init(
+    onboarded: Bool = false,
+    records: [Record] = [],
+    wings: [Wing] = []
+  ) {
     self.modified = Date()
+    self.onboarded = onboarded
     self.records = records
     self.wings = wings
   }
