@@ -18,7 +18,7 @@ class AppCoordinator: Coordinator {
   private var coordinator: Coordinator!
   private let onboarded: Bool
 
-  init(onboarded: Bool = false) {
+  init(onboarded: Bool) {
     self.onboarded = onboarded
     navc = UINavigationController()
     navc.navigationBar.standardAppearance.configureWithTransparentBackground()
@@ -30,6 +30,7 @@ class AppCoordinator: Coordinator {
       coordinator = MainCoordinator(navc: navc)
     } else {
       coordinator = OnboardingCoordinator(navc: navc) {
+        AppContext.shared.repository.setOnboarded(to: true)
         self.coordinator = MainCoordinator(navc: self.navc)
         self.coordinator.start()
       }
