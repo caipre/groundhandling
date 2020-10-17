@@ -29,3 +29,6 @@ jobs:
       - name: Build App
         run: |
           tuist build App
+      - name: Test
+        run: |
+          xcodebuild -project Ground.xcodeproj -scheme "OpenWeatherTests" -configuration "Debug" -destination "name=iPhone 8,OS=14.0" -sdk "iphonesimulator14.0" OTHER_SWIFT_FLAGS='$(inherited) -suppress-warnings' build-for-testing test-without-building
