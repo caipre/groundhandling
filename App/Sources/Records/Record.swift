@@ -18,11 +18,11 @@ struct Record: Codable {
   let date: Date
   let exerciseId: ExerciseId
   let wing: Wing
-  let placemark: Placemark?
-  let windSpeed: Measurement<UnitSpeed>?
-  let windAngle: Measurement<UnitAngle>?
-  let temperature: Measurement<UnitTemperature>?
-  let comment: String?
+  var placemark: Placemark?
+  var conditions: Conditions?
+  var windAngle: Measurement<UnitAngle>?
+  var temperature: Measurement<UnitTemperature>?
+  var comment: String?
 
   init(
     id: String = UUID().uuidString,
@@ -30,9 +30,7 @@ struct Record: Codable {
     exerciseId: ExerciseId,
     wing: Wing,
     placemark: Placemark? = nil,
-    windSpeed: Measurement<UnitSpeed>? = nil,
-    windAngle: Measurement<UnitAngle>? = nil,
-    temperature: Measurement<UnitTemperature>? = nil,
+    conditions: Conditions? = nil,
     comment: String? = nil
   ) {
     self.id = id
@@ -40,9 +38,7 @@ struct Record: Codable {
     self.exerciseId = exerciseId
     self.wing = wing
     self.placemark = placemark
-    self.windSpeed = windSpeed
-    self.windAngle = windAngle
-    self.temperature = temperature
+    self.conditions = conditions
     self.comment = comment
   }
 }

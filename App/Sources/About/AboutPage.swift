@@ -36,9 +36,9 @@ class AboutPage: UIViewController {
 
     let icon = Kite.views.placeholder(name: "app icon")
     icon.contentMode = .scaleAspectFit
-    let version = Kite.subhead(text: AppContext.shared.release.version)
+    let version = Kite.subhead(text: Current.release.version)
     version.font = .monospacedSystemFont(ofSize: 12, weight: .bold)
-    let commit = Kite.subhead(text: AppContext.shared.release.commit)
+    let commit = Kite.subhead(text: Current.release.commit)
     commit.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
     view.addSubviews(icon, version, commit)
 

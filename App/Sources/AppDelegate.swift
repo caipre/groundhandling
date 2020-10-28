@@ -19,13 +19,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     _: UIApplication,
     didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    let factoryc = try! ComponentFactory.of(AppContextComponent.self)
-    AppContext.shared = factoryc.build(())
-
-    let factorys = try! ComponentFactory.of(AppServicesComponent.self)
-    AppServices.shared = factorys.build(())
-    (AppServices.shared.location as! LocationServiceImpl).start()
-    (AppServices.shared.location as! LocationServiceImpl).recv(msg: .requestAuth)
+    let factoryc = try! ComponentFactory.of(AppComponent.self)
+    Current = factoryc.build(())
     return true
   }
 
@@ -40,6 +35,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func applicationWillTerminate(_ application: UIApplication) {
-    (AppContext.shared.repository as! FileSystemRepository).flush()
+    (Current.repository as! FileSystemRepository).flush()
   }
 }

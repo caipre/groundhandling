@@ -17,7 +17,7 @@ class LevelCoordinator: Coordinator {
   public let navc: UINavigationController
 
   private let level: Level
-  private var repository: Repository { AppContext.shared.repository }
+  private var repository: Repository { Current.repository }
 
   init(navc: UINavigationController, level: Level) {
     self.navc = navc
@@ -25,8 +25,8 @@ class LevelCoordinator: Coordinator {
   }
 
   func start() {
-    let exercises = AppContext.shared.exercises.filter { $0.level == level.id }
-    let repository = AppContext.shared.repository
+    let exercises = Current.exercises.filter { $0.level == level.id }
+    let repository = Current.repository
 
     let vc = ExercisesPage(level: level, exercises: exercises, repository: repository)
     navc.show(vc, sender: self)

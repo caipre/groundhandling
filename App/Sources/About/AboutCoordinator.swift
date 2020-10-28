@@ -33,10 +33,10 @@ extension AboutCoordinator: AboutPageDelegate {
   func show(page: PageId.About) {
     switch page {
     case .licenses:
-      let vc = LicensesPage(licenses: AppContext.shared.licenses)
+      let vc = LicensesPage(licenses: Current.licenses)
       navc.show(vc, sender: self)
     case .unsplash:
-      let vc = UnsplashPage(photos: AppContext.shared.photos)
+      let vc = UnsplashPage(photos: [])
       navc.show(vc, sender: self)
     default:
       fatalError()  // invalid navigation

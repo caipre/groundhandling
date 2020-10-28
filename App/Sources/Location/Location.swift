@@ -10,37 +10,26 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Combine
 import CoreLocation
 import Foundation
 
-enum LocationServiceMsg {
-  case requestAuth
-}
-
-protocol LocationService {
-  var placemark: Placemark? { get }
-  func recv(msg: LocationServiceMsg)
-}
-
-class LocationServiceImpl: NSObject, LocationService {
-  public private(set) var placemark: Placemark?
+class LocationService: NSObject {
+  @Published public private(set) var placemark: Placemark?
 
   private var manager: CLLocationManager!
   private lazy var geocoder: CLGeocoder = { CLGeocoder() }()
 
   func start() {
-    guard CLLocationManager.significantLocationChangeMonitoringAvailable() == true else { return }
+    guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
     manager = CLLocationManager()
     manager.delegate = self
   }
 
-  func recv(msg: LocationServiceMsg) {
-    switch msg {
-    case .requestAuth:
-      manager.requestWhenInUseAuthorization()
-      manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-      manager.startMonitoringSignificantLocationChanges()
-    }
+  func requestAuth() {
+    manager.requestWhenInUseAuthorization()
+    manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    manager.startMonitoringSignificantLocationChanges()
   }
 
   func stop() {
@@ -48,7 +37,7 @@ class LocationServiceImpl: NSObject, LocationService {
   }
 }
 
-extension LocationServiceImpl: CLLocationManagerDelegate {
+extension LocationService: CLLocationManagerDelegate {
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     switch manager.authorizationStatus {
     case .restricted, .denied:

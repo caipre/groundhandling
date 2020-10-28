@@ -10,25 +10,23 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
-import Kite
-import UIKit
+import Foundation
 
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
-  var coordinator: Coordinator!
+struct RepositoryFileV1: Codable {
+  var version = "v1"
+  var modified: Date
+  var onboarded: Bool
+  var records: [Record]
+  var wings: [Wing]
 
-  func scene(
-    _ scene: UIScene,
-    willConnectTo _: UISceneSession,
-    options _: UIScene.ConnectionOptions
+  init(
+    onboarded: Bool = false,
+    records: [Record] = [],
+    wings: [Wing] = []
   ) {
-    if let windowScene = scene as? UIWindowScene {
-      let window = UIWindow(windowScene: windowScene)
-      coordinator = AppCoordinator(onboarded: Current.repository.onboarded)
-      window.rootViewController = coordinator.navc
-      window.makeKeyAndVisible()
-      self.window = window
-      coordinator.start()
-    }
+    self.modified = Date()
+    self.onboarded = onboarded
+    self.records = records
+    self.wings = wings
   }
 }
