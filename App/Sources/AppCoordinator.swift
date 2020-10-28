@@ -30,7 +30,7 @@ class AppCoordinator: Coordinator {
       coordinator = MainCoordinator(navc: navc)
     } else {
       coordinator = OnboardingCoordinator(navc: navc) {
-        AppContext.shared.repository.setOnboarded(to: true)
+        Current.repository.setOnboarded(to: true)
         self.coordinator = MainCoordinator(navc: self.navc)
         self.coordinator.start()
       }

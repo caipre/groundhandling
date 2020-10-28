@@ -50,7 +50,6 @@ class HistoryPage: UIViewController {
     tableView.allowsSelection = false
     contentv.addSubviews(emptyLabel, tableView)
 
-    let frame = scrollv.frameLayoutGuide
     let layout = contentv.layoutMarginsGuide
 
     NSLayoutConstraint.activate([
@@ -127,7 +126,7 @@ class RecordRow: UITableViewCell {
       text: DateFormatter.localizedString(from: record.date, dateStyle: .long, timeStyle: .none)
     )
     let windLabel = Kite.caption(text: "challenge.history.wind".l)
-    let wind = Kite.subhead(text: "\(record.windSpeed)")
+    let wind = Kite.subhead(text: "\(record.conditions?.windSpeed)")
     let wingLabel = Kite.caption(text: "challenge.history.wing".l)
     let wing = Kite.subhead(text: "\(record.wing.brand) \(record.wing.name)")
 

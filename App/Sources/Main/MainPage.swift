@@ -29,8 +29,8 @@ class MainPage: UIViewController {
   private let levels: [Level]
 
   init() {
-    self.levels = AppContext.shared.levels
-    self.exercises = AppContext.shared.exercises
+    self.levels = Current.levels
+    self.exercises = Current.exercises
     super.init(nibName: nil, bundle: nil)
   }
 

@@ -58,7 +58,6 @@ class ExercisesPage: UIViewController {
     tableView.isScrollEnabled = false
     contentv.addSubviews(title, tableView)
 
-    let frame = scrollv.frameLayoutGuide
     let layout = contentv.layoutMarginsGuide
 
     NSLayoutConstraint.activate([
@@ -132,13 +131,15 @@ extension ExercisesPage: UITableViewDelegate {
       fn in
       let exercise = self.exercises[indexPath.row]
       // todo: allow selecting active wing
-      let wing = AppContext.shared.repository.fetchWings()[0]
-      let record: Record
-      if let placemark = AppServices.shared.location.placemark {
-        record = Record(exerciseId: exercise.id, wing: wing, placemark: placemark)
-      } else {
-        record = Record(exerciseId: exercise.id, wing: wing)
+      let wing = Current.repository.fetchWings()[0]
+      var record = Record(exerciseId: exercise.id, wing: wing)
+      if let placemark = Current.location.placemark {
+        record.placemark = placemark
       }
+      if let conditions = Current.weather.conditions {
+        record.conditions = conditions
+      }
+
       let result = self.repository.save(record: record)
       switch result {
       case .ok(_):
@@ -149,6 +150,7 @@ extension ExercisesPage: UITableViewDelegate {
         print(err)
       }
     }
+
     action.backgroundColor = Kite.color.accent
     return UISwipeActionsConfiguration(actions: [action])
   }

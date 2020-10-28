@@ -146,22 +146,3 @@ class FileSystemRepository: Repository {
     try! FileSystemRepository.write(at: fileurl, data: data)
   }
 }
-
-struct RepositoryFileV1: Codable {
-  var version = "v1"
-  var modified: Date
-  var onboarded: Bool
-  var records: [Record]
-  var wings: [Wing]
-
-  init(
-    onboarded: Bool = false,
-    records: [Record] = [],
-    wings: [Wing] = []
-  ) {
-    self.modified = Date()
-    self.onboarded = onboarded
-    self.records = records
-    self.wings = wings
-  }
-}

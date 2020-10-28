@@ -85,7 +85,7 @@ final class AddWingPage: UIViewController, Paged {
 
   @objc func nextPage() {
     let wing = Wing(brand: wingBrandField.text!, name: wingNameField.text!)
-    AppContext.shared.repository.save(wing: wing)
+    Current.repository.save(wing: wing)
     pager?.next(sender: self)
   }
 }

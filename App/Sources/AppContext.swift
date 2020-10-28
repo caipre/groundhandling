@@ -11,23 +11,33 @@
 //  GNU General Public License for more details.
 
 import Cleanse
+import Combine
 import CoreLocation
 import Foundation
+import OpenWeather
+
+var Current: AppContext!
 
 struct AppContext {
-  static var shared: AppContext!
+  let json: JSON
+  struct JSON {
+    let encoder: JSONEncoder
+    let decoder: JSONDecoder
+  }
 
   let release: ReleaseInfo
-
-  let levels: [Level]
-  let exercises: [Exercise]
-  let repository: Repository
-
   let licenses: [License]
-  let photos: [Photo]
+  let exercises: [Exercise]
+  let levels: [Level]
+
+  let repository: Repository
+  let location: LocationService
+  let weather: WeatherService
+
+  let openWeather: OpenWeather
 }
 
-struct AppContextComponent: Cleanse.RootComponent {
+struct AppComponent: Cleanse.RootComponent {
   typealias Root = AppContext
 
   static func configureRoot(binder bind: ReceiptBinder<AppContext>) -> BindingReceipt<AppContext> {
@@ -35,26 +45,25 @@ struct AppContextComponent: Cleanse.RootComponent {
   }
 
   static func configure(binder: Binder<Singleton>) {
-    binder.include(module: ReleaseInfoModule.self)
-    binder.include(module: LevelsModule.self)
     binder.include(module: ExercisesModule.self)
-    binder.include(module: RepositoryModule.self)
+    binder.include(module: LevelsModule.self)
     binder.include(module: LicensesModule.self)
+    binder.include(module: LocationModule.self)
+    binder.include(module: JSONModule.self)
+    binder.include(module: OpenWeatherModule.self)
+    binder.include(module: ReleaseInfoModule.self)
+    binder.include(module: RepositoryModule.self)
     binder.include(module: UnsplashModule.self)
+    binder.include(module: WeatherModule.self)
   }
 }
 
-struct ReleaseInfoModule: Cleanse.Module {
+struct ExercisesModule: Cleanse.Module {
   static func configure(binder: Binder<Singleton>) {
-    binder.bind(ReleaseInfo.self)
+    binder.bind([Exercise].self)
       .sharedInScope()
-      .to {
-        let decoder = JSONDecoder()
-        let data = try! Data(
-          contentsOf: Bundle.module.url(forResource: "release", withExtension: "json")!
-        )
-        let decoded = try! decoder.decode(ReleaseInfo.self, from: data)
-        return decoded
+      .to { (decoder: JSONDecoder) in
+        decoder.decode(resource: "exercises.json", into: [Exercise].self)
       }
   }
 }
@@ -63,28 +72,75 @@ struct LevelsModule: Cleanse.Module {
   static func configure(binder: Binder<Singleton>) {
     binder.bind([Level].self)
       .sharedInScope()
-      .to {
-        let decoder = JSONDecoder()
-        let data = try! Data(
-          contentsOf: Bundle.module.url(forResource: "levels", withExtension: "json")!
-        )
-        let decoded = try! decoder.decode([Level].self, from: data)
-        return decoded
+      .to { (decoder: JSONDecoder) in
+        decoder.decode(resource: "levels.json", into: [Level].self)
       }
   }
 }
 
-struct ExercisesModule: Cleanse.Module {
+struct LicensesModule: Cleanse.Module {
   static func configure(binder: Binder<Singleton>) {
-    binder.bind([Exercise].self)
+    binder.bind([License].self)
+      .sharedInScope()
+      .to { (decoder: JSONDecoder) in
+        decoder.decode(resource: "licenses.json", into: [License].self)
+      }
+  }
+}
+
+struct LocationModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind(LocationService.self)
+      .sharedInScope()
+      .to(factory: LocationService.init)
+  }
+}
+
+struct JSONModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind(AppContext.JSON.self)
       .sharedInScope()
       .to {
         let decoder = JSONDecoder()
-        let data = try! Data(
-          contentsOf: Bundle.module.url(forResource: "exercises", withExtension: "json")!
-        )
-        let decoded = try! decoder.decode([Exercise].self, from: data)
-        return decoded
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        return AppContext.JSON(encoder: encoder, decoder: decoder)
+      }
+
+    binder.bind(JSONDecoder.self)
+      .sharedInScope()
+      .to { (json: AppContext.JSON) in
+        json.decoder
+      }
+  }
+}
+
+struct OpenWeatherAPIKey: Cleanse.Tag {
+  typealias Element = String
+}
+
+struct OpenWeatherModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind()
+      .tagged(with: OpenWeatherAPIKey.self)
+      .to { "123" }
+
+    binder.bind(OpenWeather.self)
+      .sharedInScope()
+      .to { (appId: TaggedProvider<OpenWeatherAPIKey>) in
+        OpenWeather(appId: appId.get())
+      }
+  }
+}
+
+struct ReleaseInfoModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind(ReleaseInfo.self)
+      .sharedInScope()
+      .to { (decoder: JSONDecoder) in
+        decoder.decode(resource: "release.json", into: ReleaseInfo.self)
       }
   }
 }
@@ -97,33 +153,38 @@ struct RepositoryModule: Cleanse.Module {
   }
 }
 
-struct LicensesModule: Cleanse.Module {
-  static func configure(binder: Binder<Singleton>) {
-    binder.bind([License].self)
-      .sharedInScope()
-      .to {
-        let decoder = JSONDecoder()
-        let data = try! Data(
-          contentsOf: Bundle.module.url(forResource: "licenses", withExtension: "json")!
-        )
-        let decoded = try! decoder.decode([License].self, from: data)
-        return decoded
-      }
-  }
-}
-
 struct UnsplashModule: Cleanse.Module {
   static func configure(binder: Binder<Singleton>) {
     binder.bind([Photo].self)
       .sharedInScope()
-      .to {
-
-        let decoder = JSONDecoder()
-        let data = try! Data(
-          contentsOf: Bundle.module.url(forResource: "unsplash", withExtension: "json")!
-        )
-        let decoded = try! decoder.decode([Photo].self, from: data)
-        return decoded
+      .to { (decoder: JSONDecoder) in
+        decoder.decode(resource: "unsplash.json", into: [Photo].self)
       }
+  }
+}
+
+struct WeatherModule: Cleanse.Module {
+  static func configure(binder: Binder<Singleton>) {
+    binder.bind(WeatherService.self)
+      .sharedInScope()
+      .to { (ls: LocationService, ow: OpenWeather) in
+        let placemarks =
+          ls.$placemark
+          .compactMap { $0 }
+          .eraseToAnyPublisher()
+
+        return WeatherService(
+          placemarks: placemarks,
+          openWeather: ow
+        )
+      }
+  }
+}
+
+extension JSONDecoder {
+  func decode<T: Decodable>(resource: String, into ty: T.Type) -> T {
+    let data =
+      try! Data(contentsOf: Bundle.module.url(forResource: resource, withExtension: nil)!)
+    return try! self.decode(T.self, from: data)
   }
 }
