@@ -17,18 +17,14 @@ import Foundation
 class LocationService: NSObject {
   @Published public private(set) var placemark: Placemark?
 
-  private var manager: CLLocationManager!
+  private lazy var manager: CLLocationManager = { CLLocationManager() }()
   private lazy var geocoder: CLGeocoder = { CLGeocoder() }()
 
   func start() {
     guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
-    manager = CLLocationManager()
     manager.delegate = self
-  }
-
-  func requestAuth() {
-    manager.requestWhenInUseAuthorization()
     manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    manager.requestWhenInUseAuthorization()
     manager.startMonitoringSignificantLocationChanges()
   }
 
@@ -42,7 +38,6 @@ extension LocationService: CLLocationManagerDelegate {
     switch manager.authorizationStatus {
     case .restricted, .denied:
       manager.stopMonitoringSignificantLocationChanges()
-      self.manager = nil
     default:
       break
     }
@@ -56,9 +51,7 @@ extension LocationService: CLLocationManagerDelegate {
     guard let location = locations.last else { return }
     //    guard Date().timeIntervalSince(location.timestamp) <= 60*15 else { return } // fresh to within 15mins
     geocoder.reverseGeocodeLocation(location) { (marks: [CLPlacemark]?, error: Error?) in
-      guard let mark = marks?.last else {
-        return
-      }
+      guard let mark = marks?.last else { return }
       if let coordinate = mark.location?.coordinate,
         let administrativeArea = mark.administrativeArea,
         let locality = mark.locality

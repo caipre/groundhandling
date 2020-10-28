@@ -21,6 +21,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
   ) -> Bool {
     let factoryc = try! ComponentFactory.of(AppComponent.self)
     Current = factoryc.build(())
+    Current.location.start()
     return true
   }
 
