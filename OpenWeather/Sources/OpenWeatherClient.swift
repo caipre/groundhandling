@@ -11,8 +11,13 @@
 //  GNU General Public License for more details.
 
 import Foundation
-import OpenWeather
 import Siesta
+
+public enum Units: String {
+  case standard = "standard"
+  case metric = "metric"
+  case imperial = "imperial"
+}
 
 public class OpenWeather {
   public static let baseURL = "https://api.openweathermap.org/data/2.5/"
@@ -21,13 +26,13 @@ public class OpenWeather {
   private let service: Service
   private let appId: String
   private let mode: String?
-  private let units: String?
+  private let units: Units?
   private let lang: String?
 
   private lazy var baseQueryItems: [URLQueryItem] = {
     var items: [URLQueryItem] = [.init(name: "appid", value: appId)]
     if let mode = self.mode { items.append(.init(name: "mode", value: mode)) }
-    if let units = self.units { items.append(.init(name: "units", value: units)) }
+    if let units = self.units { items.append(.init(name: "units", value: units.rawValue)) }
     if let lang = self.lang { items.append(.init(name: "lang", value: lang)) }
     return items
   }()
@@ -35,8 +40,8 @@ public class OpenWeather {
   public convenience init(
     appId: String,
     mode: String? = nil,
-    units: String? = nil,
-    lang: String? = nil
+    units: Units = .metric,
+    lang: String = "en-US"
   ) {
     let decoder = JSONDecoder()
     let service = Service(baseURL: OpenWeather.baseURL, standardTransformers: [.text])
@@ -55,7 +60,7 @@ public class OpenWeather {
     service: Service,
     appId: String,
     mode: String? = nil,
-    units: String? = nil,
+    units: Units? = nil,
     lang: String? = nil
   ) {
     self.service = OpenWeather.configure(service, with: decoder)
@@ -75,6 +80,30 @@ public class OpenWeather {
       try decoder.decode(CurrentWeatherResponse.self, from: $0.content)
     }
     return service
+  }
+}
+
+extension OpenWeather {
+  public var unitSpeed: UnitSpeed {
+    switch units {
+    case nil, .standard, .metric:
+      return UnitSpeed.metersPerSecond
+    case .imperial:
+      return UnitSpeed.milesPerHour
+    }
+  }
+
+  public var unitAngle: UnitAngle { UnitAngle.degrees }
+
+  public var unitTemperature: UnitTemperature {
+    switch units {
+    case nil, .standard:
+      return UnitTemperature.kelvin
+    case .metric:
+      return UnitTemperature.celsius
+    case .imperial:
+      return UnitTemperature.fahrenheit
+    }
   }
 }
 
