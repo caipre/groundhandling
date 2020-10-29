@@ -36,22 +36,22 @@ class AboutPage: UIViewController {
 
     let icon = Kite.views.placeholder(name: "app icon")
     icon.contentMode = .scaleAspectFit
-    let version = Kite.subhead(text: Current.release.version)
+    let version = Kite.label(text: Current.release.version)
     version.font = .monospacedSystemFont(ofSize: 12, weight: .bold)
-    let commit = Kite.subhead(text: Current.release.commit)
+    let commit = Kite.label(text: Current.release.commit)
     commit.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
     view.addSubviews(icon, version, commit)
 
     let concept1 = Kite.headline(text: "Concept")
     concept1.font = concept1.font.bold
-    let concept2 = Kite.subhead(text: "Andre Bandarra")
-    let concept3 = Kite.subhead(text: "https://andrebandarra.com")
+    let concept2 = Kite.label(text: "Andre Bandarra")
+    let concept3 = Kite.label(text: "https://andrebandarra.com")
     view.addSubviews(concept1, concept2, concept3)
 
     let develop1 = Kite.headline(text: "Development")
     develop1.font = develop1.font.bold
-    let develop2 = Kite.subhead(text: "Nick Platt")
-    let develop3 = Kite.subhead(text: "https://nickp.co")
+    let develop2 = Kite.label(text: "Nick Platt")
+    let develop3 = Kite.label(text: "https://nickp.co")
     view.addSubviews(develop1, develop2, develop3)
 
     let acknow = Kite.headline(text: "Acknowledgements")
