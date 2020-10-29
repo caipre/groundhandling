@@ -145,7 +145,7 @@ class LevelRow: UITableViewCell {
   func bind(to level: Level) {
     let id = Kite.largeTitle(text: level.id)
     let desc = Kite.title(text: level.desc)
-    let count = Kite.subhead(text: "\(level.count) exercises")
+    let count = Kite.label(text: "\(level.count) exercises")
     backgroundColor = Kite.color.background
     contentView.addSubviews(id, desc, count)
     let layout = contentView.layoutMarginsGuide

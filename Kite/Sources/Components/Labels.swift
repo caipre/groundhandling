@@ -45,8 +45,8 @@ extension Kite {
     return Kite.label(text, style: .headline)
   }
 
-  public static func subhead(text: String) -> UILabel {
-    return Kite.label(text, style: .subheadline, color: Kite.color.secondary)
+  public static func label(text: String) -> UILabel {
+    return Kite.label(text, style: .body, color: Kite.color.secondary)
   }
 
   public static func body(text: String) -> UITextView {

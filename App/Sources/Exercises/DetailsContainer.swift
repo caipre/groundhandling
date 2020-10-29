@@ -59,7 +59,7 @@ class DetailsContainer: UIViewController {
     view.directionalLayoutMargins = Kite.margins.directional
 
     let title = Kite.largeTitle(text: exercise.name)
-    let levelv = Kite.subhead(text: "Level \(exercise.level)")
+    let levelv = Kite.label(text: "Level \(exercise.level)")
     let pagesv = pagesvc.view!
     pagesv.translatesAutoresizingMaskIntoConstraints = false
     view.addSubviews(pagesv, title, levelv)

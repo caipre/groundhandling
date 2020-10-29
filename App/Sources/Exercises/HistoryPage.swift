@@ -42,7 +42,7 @@ class HistoryPage: UIViewController {
     contentv.directionalLayoutMargins = Kite.margins.directional
     contentv.pin(to: scrollv)
 
-    emptyLabel = Kite.subhead(text: "challenge.history.empty".l)
+    emptyLabel = Kite.label(text: "challenge.history.empty".l)
 
     tableView = Kite.views.table()
     tableView.rowHeight = UITableView.automaticDimension
@@ -113,84 +113,76 @@ class RecordRow: UITableViewCell {
   func bind(to record: Record) {
     backgroundColor = Kite.color.background
 
-    let text: String
+    let dateText = DateFormatter.localizedString(
+      from: record.date,
+      dateStyle: .long,
+      timeStyle: .none
+    )
+    let date = Kite.headline(text: dateText)
+    contentView.addSubviews(date)
+
+    var locationText = "challenge.history.location.empty".l
     if let locality = record.placemark?.locality,
       let administrativeArea = record.placemark?.administrativeArea
     {
-      text = "\(locality), \(administrativeArea)"
-    } else {
-      text = "challenge.history.location.empty".l
+      locationText = "\(locality), \(administrativeArea)"
     }
-    let location = Kite.headline(text: text)
-    let date = Kite.subhead(
-      text: DateFormatter.localizedString(from: record.date, dateStyle: .long, timeStyle: .none)
-    )
-    let windLabel = Kite.caption(text: "challenge.history.wind".l)
-    let wind = Kite.subhead(text: "\(record.conditions?.windSpeed)")
-    let wingLabel = Kite.caption(text: "challenge.history.wing".l)
-    let wing = Kite.subhead(text: "\(record.wing.brand) \(record.wing.name)")
+    let location = Kite.label(text: locationText)
+    contentView.addSubviews(location)
 
-    //    map.translatesAutoresizingMaskIntoConstraints = false
-    //    map.rounded()
-    //    if let coordinate = record.placemark?.location?.coordinate {
-    //      map.setCenter(coordinate, animated: false)
-    //      let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
-    //      map.setRegion(map.regionThatFits(region), animated: false)
-    //    } else {
-    //      map.isHidden = true
-    //    }
+    let windLabel = Kite.label(text: "challenge.history.wind".l)
+    windLabel.font = windLabel.font.bold
+    let windSpeedText =
+      record.conditions?.windSpeed.description
+      ?? "challenge.history.wind.empty".l
+    let windSpeed = Kite.label(text: windSpeedText)
+    let windAngleText =
+      record.conditions?.windAngle.description
+      ?? "challenge.history.wind.empty".l
+    let windAngle = Kite.label(text: windAngleText)
+    contentView.addSubviews(windLabel, windSpeed, windAngle)
 
-    //    let comments = Kite.body(text: record.comment ?? "")
-    //    comments.isHidden = comments.text.isEmpty
+    let wingLabel = Kite.label(text: "challenge.history.wing".l)
+    wingLabel.font = wingLabel.font.bold
+    let wing = Kite.label(text: "\(record.wing.brand) \(record.wing.name)")
+    contentView.addSubviews(wingLabel, wing)
 
-    contentView.addSubviews(location, date, windLabel, wind, wingLabel, wing)  //, map, comments)
     let layout = contentView.layoutMarginsGuide
     NSLayoutConstraint.activate([
-      location.topAnchor.constraint(equalTo: layout.topAnchor),
-      location.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
-      location.trailingAnchor.constraint(
-        equalTo: layout.centerXAnchor,
-        constant: Kite.space.medium
-      ),
-
-      date.topAnchor.constraint(equalTo: location.bottomAnchor),
+      date.topAnchor.constraint(equalTo: layout.topAnchor),
       date.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
       date.trailingAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      windLabel.bottomAnchor.constraint(equalTo: wind.topAnchor, constant: -Kite.space.xsmall),
-      windLabel.leadingAnchor.constraint(
-        equalTo: location.trailingAnchor,
-        constant: Kite.space.small
-      ),
-      //      windLabel.trailingAnchor.constraint(equalTo: wingLabel.leadingAnchor, constant: Kite.space.xsmall),
+      location.topAnchor.constraint(equalTo: date.bottomAnchor),
+      location.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
+      location.bottomAnchor.constraint(equalTo: layout.bottomAnchor),
 
-      wingLabel.bottomAnchor.constraint(equalTo: wing.topAnchor, constant: -Kite.space.xsmall),
+      wingLabel.topAnchor.constraint(equalTo: layout.topAnchor),
       wingLabel.leadingAnchor.constraint(
-        equalTo: windLabel.trailingAnchor,
-        constant: Kite.space.small
+        equalTo: layout.centerXAnchor,
+        constant: Kite.space.xsmall
       ),
-      //      wingLabel.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
 
-      wind.leadingAnchor.constraint(equalTo: windLabel.leadingAnchor),
-      wind.lastBaselineAnchor.constraint(equalTo: date.lastBaselineAnchor),
+      wing.topAnchor.constraint(equalTo: wingLabel.topAnchor),
+      wing.leadingAnchor.constraint(
+        equalTo: wingLabel.trailingAnchor,
+        constant: Kite.space.xsmall
+      ),
 
-      wing.leadingAnchor.constraint(equalTo: wingLabel.leadingAnchor),
-      wing.lastBaselineAnchor.constraint(equalTo: date.lastBaselineAnchor),
+      windLabel.topAnchor.constraint(equalTo: location.topAnchor),
+      windLabel.leadingAnchor.constraint(equalTo: wingLabel.leadingAnchor),
 
-      date.bottomAnchor.constraint(equalTo: layout.bottomAnchor),
+      windSpeed.topAnchor.constraint(equalTo: windLabel.topAnchor),
+      windSpeed.leadingAnchor.constraint(
+        equalTo: windLabel.trailingAnchor,
+        constant: Kite.space.xsmall
+      ),
 
-      //      map.topAnchor.constraint(equalTo: date.bottomAnchor, constant: Kite.space.xsmall),
-      //      map.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
-      //      map.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
-      //
-      //      comments.topAnchor.constraint(equalTo: map.bottomAnchor, constant: Kite.space.xsmall),
-      //      comments.leadingAnchor.constraint(equalTo: layout.leadingAnchor),
-      //      comments.trailingAnchor.constraint(equalTo: layout.trailingAnchor),
+      windAngle.topAnchor.constraint(equalTo: windLabel.topAnchor),
+      windAngle.leadingAnchor.constraint(
+        equalTo: windSpeed.trailingAnchor,
+        constant: Kite.space.xsmall
+      ),
     ])
-
-    //    map.heightAnchor.constraint(equalToConstant: 200).isActive = !map.isHidden
-    //    comments.heightAnchor.constraint(greaterThanOrEqualToConstant: 80).isActive = !comments.isHidden
-    //    map.bottomAnchor.constraint(equalTo: layout.bottomAnchor).isActive = comments.isHidden
-    //    comments.bottomAnchor.constraint(equalTo: layout.bottomAnchor).isActive = map.isHidden
   }
 }
