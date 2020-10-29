@@ -37,13 +37,14 @@ class WeatherService {
     // todo: cache requests for cancellation
     openWeather.coord(lat: lat, lon: lon)
       .addObserver(owner: self) { res, ev in
+        guard case .newData = ev else { return }
         guard let response: CurrentWeatherResponse = res.latestData?.typedContent() else { return }
         self.conditions = Conditions(
           windSpeed: Measurement(
             value: response.wind.speed,
             unit: self.openWeather.unitSpeed
           ),
-          windDirection: Measurement(
+          windAngle: Measurement(
             value: Double(response.wind.deg),
             unit: self.openWeather.unitAngle
           ),

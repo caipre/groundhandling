@@ -22,6 +22,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     let factoryc = try! ComponentFactory.of(AppComponent.self)
     Current = factoryc.build(())
     Current.location.start()
+    Current.weather.start()
     return true
   }
 
@@ -36,6 +37,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func applicationWillTerminate(_ application: UIApplication) {
-    (Current.repository as! FileSystemRepository).flush()
+    Current.repository.flush()
+    Current.location.stop()
   }
 }
