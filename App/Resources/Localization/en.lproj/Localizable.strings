@@ -6,7 +6,9 @@
 
 "challenge.history.empty" = "No records for this exercise.";
 "challenge.history.location.empty" = "Location unknown.";
-"challenge.history.wind" = "Wind 🎏";
-"challenge.history.wing" = "Wing";
+"challenge.history.wind" = "Wind:";
+"challenge.history.wind.empty" = "——";
+"challenge.history.wing" = "Wing:";
+"challenge.history.wing.empty" = "——";
 
 "unsplash.credit" = "Photo by %@ on unsplash";
