@@ -13,6 +13,11 @@
 import Foundation
 import Siesta
 
+public enum Mode: String {
+  case json = "json"
+  case xml = "xml"
+}
+
 public enum Units: String {
   case standard = "standard"
   case metric = "metric"
@@ -25,13 +30,13 @@ public class OpenWeather {
 
   private let service: Service
   private let appId: String
-  private let mode: String?
+  private let mode: Mode?
   private let units: Units?
   private let lang: String?
 
   private lazy var baseQueryItems: [URLQueryItem] = {
     var items: [URLQueryItem] = [.init(name: "appid", value: appId)]
-    if let mode = self.mode { items.append(.init(name: "mode", value: mode)) }
+    if let mode = self.mode { items.append(.init(name: "mode", value: mode.rawValue)) }
     if let units = self.units { items.append(.init(name: "units", value: units.rawValue)) }
     if let lang = self.lang { items.append(.init(name: "lang", value: lang)) }
     return items
@@ -39,7 +44,7 @@ public class OpenWeather {
 
   public convenience init(
     appId: String,
-    mode: String? = nil,
+    mode: Mode? = .json,
     units: Units = .metric,
     lang: String = "en-US"
   ) {
@@ -59,7 +64,7 @@ public class OpenWeather {
     decoder: JSONDecoder,
     service: Service,
     appId: String,
-    mode: String? = nil,
+    mode: Mode? = nil,
     units: Units? = nil,
     lang: String? = nil
   ) {
