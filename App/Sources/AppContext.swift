@@ -30,7 +30,7 @@ struct AppContext {
   let exercises: [Exercise]
   let levels: [Level]
 
-  let repository: Repository
+  let repository: FileSystemRepository
   let location: LocationService
   let weather: WeatherService
 
@@ -147,7 +147,7 @@ struct ReleaseInfoModule: Cleanse.Module {
 
 struct RepositoryModule: Cleanse.Module {
   static func configure(binder: Binder<Singleton>) {
-    binder.bind(Repository.self)
+    binder.bind(FileSystemRepository.self)
       .sharedInScope()
       .to(factory: FileSystemRepository.init)
   }

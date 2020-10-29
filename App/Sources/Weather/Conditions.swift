@@ -14,6 +14,6 @@ import Foundation
 
 struct Conditions: Codable {
   let windSpeed: Measurement<UnitSpeed>
-  let windDirection: Measurement<UnitAngle>
+  let windAngle: Measurement<UnitAngle>
   let temperature: Measurement<UnitTemperature>
 }
