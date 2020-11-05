@@ -16,15 +16,22 @@ import UIKit
 
 class OnboardingCoordinator: Coordinator {
   public let navc: UINavigationController
-  public var finished: () -> Void
+  private let finished: (Repository) -> Void
+
+  private var wing: Wing?
 
   // note: reverse ordered for peformance reasons
-  private var pages: [Provider<UIViewController & Paged>] = [
-    Provider { AddWingPage() },
-    Provider { LocationPage() },
-  ]
+  private lazy var pages: [Provider<UIViewController & Paged>] = {
+    [
+      Provider { AddWingPage(handler: self) },
+      Provider { AllowLocationPage(location: Current.location) },
+    ]
+  }()
 
-  init(navc: UINavigationController, finished: @escaping () -> Void = {}) {
+  init(
+    navc: UINavigationController,
+    finished: @escaping (Repository) -> Void
+  ) {
     self.navc = navc
     self.finished = finished
   }
@@ -37,11 +44,18 @@ class OnboardingCoordinator: Coordinator {
   }
 }
 
+extension OnboardingCoordinator: AddWingHandler {
+  func receive(wing: Wing) {
+    self.wing = wing
+  }
+}
+
 extension OnboardingCoordinator: Pager {
   func next(sender: UIViewController) {
     guard let provider = pages.popLast() else {
-      navc.navigationBar.isHidden = false
-      finished()
+      guard let wing = wing else { fatalError() }
+      let repository = Current.makeRepository(wing: wing)
+      finished(repository)
       return
     }
     var page = provider.get()

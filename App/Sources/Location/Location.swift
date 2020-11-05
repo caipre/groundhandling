@@ -16,6 +16,7 @@ import Foundation
 
 class LocationService: NSObject {
   @Published public private(set) var placemark: Placemark?
+  @Published public private(set) var authorizationStatus: CLAuthorizationStatus = .notDetermined
 
   private lazy var manager: CLLocationManager = { CLLocationManager() }()
   private lazy var geocoder: CLGeocoder = { CLGeocoder() }()
@@ -24,8 +25,12 @@ class LocationService: NSObject {
     guard CLLocationManager.significantLocationChangeMonitoringAvailable() else { return }
     manager.delegate = self
     manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-    manager.requestWhenInUseAuthorization()
     manager.startMonitoringSignificantLocationChanges()
+  }
+
+  func requestAuth() {
+    guard authorizationStatus == .notDetermined else { return }
+    manager.requestWhenInUseAuthorization()
   }
 
   func stop() {
@@ -35,6 +40,7 @@ class LocationService: NSObject {
 
 extension LocationService: CLLocationManagerDelegate {
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    authorizationStatus = manager.authorizationStatus
     switch manager.authorizationStatus {
     case .restricted, .denied:
       manager.stopMonitoringSignificantLocationChanges()
@@ -44,12 +50,10 @@ extension LocationService: CLLocationManagerDelegate {
   }
 
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    print("\(error)")
   }
 
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let location = locations.last else { return }
-    //    guard Date().timeIntervalSince(location.timestamp) <= 60*15 else { return } // fresh to within 15mins
     geocoder.reverseGeocodeLocation(location) { (marks: [CLPlacemark]?, error: Error?) in
       guard let mark = marks?.last else { return }
       if let coordinate = mark.location?.coordinate,

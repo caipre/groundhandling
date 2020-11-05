@@ -12,21 +12,14 @@
 
 import Foundation
 
-struct RepositoryFileV1: Codable {
-  var version = "v1"
-  var modified: Date
-  var onboarded: Bool
-  var records: [Record]
-  var wings: [Wing]
+extension Data {
+  public func compressed() throws -> Data {
+    let nsdata = NSData(data: self)
+    return try nsdata.compressed(using: .lzfse) as Data
+  }
 
-  init(
-    onboarded: Bool = false,
-    records: [Record] = [],
-    wings: [Wing] = []
-  ) {
-    self.modified = Date()
-    self.onboarded = onboarded
-    self.records = records
-    self.wings = wings
+  public func decompressed() throws -> Data {
+    let nsdata = NSData(data: self)
+    return try nsdata.decompressed(using: .lzfse) as Data
   }
 }

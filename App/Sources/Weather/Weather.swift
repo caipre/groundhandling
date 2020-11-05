@@ -40,6 +40,10 @@ class WeatherService {
         guard case .newData = ev else { return }
         guard let response: CurrentWeatherResponse = res.latestData?.typedContent() else { return }
         self.conditions = Conditions(
+          temperature: Measurement(
+            value: response.main.feelsLike,
+            unit: self.openWeather.unitTemperature
+          ),
           windSpeed: Measurement(
             value: response.wind.speed,
             unit: self.openWeather.unitSpeed
@@ -47,10 +51,6 @@ class WeatherService {
           windAngle: Measurement(
             value: Double(response.wind.deg),
             unit: self.openWeather.unitAngle
-          ),
-          temperature: Measurement(
-            value: response.main.feelsLike,
-            unit: self.openWeather.unitTemperature
           )
         )
       }

@@ -21,7 +21,7 @@ class AboutCoordinator: Coordinator {
   }
 
   func start() {
-    let vc = AboutPage()
+    let vc = AboutPage(releaseInfo: Current.releaseInfo)
     navc.show(vc, sender: self)
     vc.delegate = self
   }

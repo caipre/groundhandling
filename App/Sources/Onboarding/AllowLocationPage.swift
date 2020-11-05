@@ -10,17 +10,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Combine
 import Kite
 import UIKit
 
-final class LocationPage: UIViewController, Paged {
+final class AllowLocationPage: UIViewController, Paged {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
   public var pager: Pager?
+  private let location: LocationService
 
-  init() {
+  init(location: LocationService) {
+    self.location = location
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -35,7 +38,7 @@ final class LocationPage: UIViewController, Paged {
     let nextButton = Kite.views.button(
       title: "onboarding.location.next".l,
       target: self,
-      selector: #selector(nextPage)
+      selector: #selector(requestAuth)
     )
     view.addSubviews(titleLabel, textLabel, nextButton)
 
@@ -51,6 +54,19 @@ final class LocationPage: UIViewController, Paged {
     ])
 
     self.view = view
+  }
+
+  private var cancellable: Cancellable?
+  override func viewDidLoad() {
+    cancellable = location.$authorizationStatus
+      .sink { status in
+        guard status != .notDetermined else { return }
+        self.nextPage()
+      }
+  }
+
+  @objc func requestAuth() {
+    location.requestAuth()
   }
 
   @objc func nextPage() {

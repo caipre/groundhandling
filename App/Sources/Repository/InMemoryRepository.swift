@@ -12,33 +12,19 @@
 
 import CoreLocation
 import Foundation
+import Kite
 
-struct Record: Codable {
-  let id: String
-  let date: Date
-  let exerciseId: ExerciseId
-  let wing: Wing
-  var placemark: Placemark?
-  var conditions: Conditions?
-  var windAngle: Measurement<UnitAngle>?
-  var temperature: Measurement<UnitTemperature>?
-  var comment: String?
+class InMemoryRepository: Repository {
+  public var wing: Wing
+  public var records: [Record]
 
   init(
-    id: String = UUID().uuidString,
-    date: Date = Date(),
-    exerciseId: ExerciseId,
     wing: Wing,
-    placemark: Placemark? = nil,
-    conditions: Conditions? = nil,
-    comment: String? = nil
+    records: [Record] = []
   ) {
-    self.id = id
-    self.date = date
-    self.exerciseId = exerciseId
     self.wing = wing
-    self.placemark = placemark
-    self.conditions = conditions
-    self.comment = comment
+    self.records = records
   }
+
+  func write() { /* noop */  }
 }
