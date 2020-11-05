@@ -25,9 +25,11 @@ let project = Project(
   name: "Ground",
   packages: [
     .package(url: "https://github.com/Quick/Nimble", from: "8.0.0"),
-    //.package(url: "https://github.com/Quick/Quick", from: "3.0.0"),
-    .package(url: "https://github.com/bustoutsolutions/siesta", from: "1.5.0"),
-    .package(url: "https://github.com/pcantrell/Quick", .exact("0.0.0")),
+    .package(url: "https://github.com/Quick/Quick", from: "3.0.0"),
+    .package(
+      url: "https://github.com/bustoutsolutions/siesta",
+      .branch("bump-swift-package-version")
+    ),
     .package(url: "https://github.com/square/Cleanse", from: "4.2.5"),
   ],
   settings: Settings(base: base),
