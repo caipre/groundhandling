@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire",
+        "state": {
+          "branch": null,
+          "revision": "9e0328127dfb801cefe8ac53a13c0c90a7770448",
+          "version": "5.4.0"
+        }
+      },
+      {
+        "package": "Siesta",
+        "repositoryURL": "https://github.com/bustoutsolutions/siesta/",
+        "state": {
+          "branch": "bump-swift-package-version",
+          "revision": "c6c2ebcbb884ffc6150d7849b04bbc7aa54cd114",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,7 +1,6 @@
 default:
 	@pkill -f '/Applications/Xcode(-beta)?.app/Contents/MacOS/Xcode' || true
-	@tuist generate
-	@xed .
+	@tuist generate --open
 
 major::
 	@scripts/release.rb major

@@ -1,5 +1,7 @@
 *.xcodeproj/
 *.xcworkspace/
+.build/
+.swiftpm/
 Carthage
 Derived/
 build/

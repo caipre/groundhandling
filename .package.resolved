@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "Alamofire",
-        "repositoryURL": "https://github.com/Alamofire/Alamofire",
-        "state": {
-          "branch": null,
-          "revision": "becd9a729a37bdbef5bc39dc3c702b99f9e3d046",
-          "version": "5.2.2"
-        }
-      },
-      {
         "package": "Cleanse",
         "repositoryURL": "https://github.com/square/Cleanse",
         "state": {
@@ -30,20 +21,11 @@
       },
       {
         "package": "Quick",
-        "repositoryURL": "https://github.com/pcantrell/Quick",
+        "repositoryURL": "https://github.com/Quick/Quick",
         "state": {
           "branch": null,
-          "revision": "39b75c1cd536acb95f643bde93de45e272ccaf86",
-          "version": "0.0.0"
-        }
-      },
-      {
-        "package": "Siesta",
-        "repositoryURL": "https://github.com/bustoutsolutions/siesta",
-        "state": {
-          "branch": null,
-          "revision": "cb9c1bf6dbb89028798b9179fe4d1e1762586057",
-          "version": "1.5.1"
+          "revision": "0038bcbab4292f3b028632556507c124e5ba69f3",
+          "version": "3.0.0"
         }
       }
     ]
