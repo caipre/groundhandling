@@ -11,4 +11,16 @@
 "challenge.history.wing" = "Wing:";
 "challenge.history.wing.empty" = "——";
 
+"onboarding.welcome.title" = "Welome to ground!";
+"onboarding.welcome.button" = "Continue";
+
+"onboarding.location.title" = "Allow location";
+"onboarding.location.text" = "Location services are used to mark where an exercise was completed and what the local weather conditions were at the time.";
+"onboarding.location.button" = "Request access";
+
+"onboarding.addwing.title" = "Add your wing";
+"onboarding.addwing.name" = "Name";
+"onboarding.addwing.name.placeholder" = "BGD Echo";
+"onboarding.addwing.button" = "OK";
+
 "unsplash.credit" = "Photo by %@ on unsplash";

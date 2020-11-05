@@ -167,7 +167,7 @@ class ExerciseRow: UITableViewCell {
   func bind(to exercise: Exercise, completed: Bool = false) {
     backgroundColor = Kite.color.background
 
-    let name = Kite.title(text: exercise.name)
+    let name = Kite.title2(text: exercise.name)
     let goal = Kite.label(text: exercise.goal)
     let check = Kite.views.image(symbol: "checkmark")
     contentView.addSubviews(name, goal, check)

@@ -144,7 +144,7 @@ class RecordRow: UITableViewCell {
 
     let wingLabel = Kite.label(text: "challenge.history.wing".l)
     wingLabel.font = wingLabel.font.bold
-    let wing = Kite.label(text: "\(record.wing.brand) \(record.wing.name)")
+    let wing = Kite.label(text: "\(record.wing.name)")
     contentView.addSubviews(wingLabel, wing)
 
     let layout = contentView.layoutMarginsGuide
