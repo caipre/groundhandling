@@ -13,18 +13,15 @@
 import Foundation
 
 struct Wing: Codable, Equatable {
-  let brand: String
   let name: String
   let span: Measurement<UnitLength>?
   let area: Measurement<UnitArea>?
 
   init(
-    brand: String,
     name: String,
     span: Measurement<UnitLength>? = nil,
     area: Measurement<UnitArea>? = nil
   ) {
-    self.brand = brand
     self.name = name
     self.span = span
     self.area = area

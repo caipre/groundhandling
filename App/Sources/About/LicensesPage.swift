@@ -60,7 +60,7 @@ class Thanks: UIView {
   init() {
     super.init(frame: .zero)
     backgroundColor = Kite.color.background
-    let thanks = Kite.title(text: "about.thanks".l)
+    let thanks = Kite.title2(text: "about.thanks".l)
     thanks.font = thanks.font.bold
     addSubview(thanks)
     thanks.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

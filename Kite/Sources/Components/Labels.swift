@@ -37,7 +37,11 @@ extension Kite {
     return label
   }
 
-  public static func title(text: String) -> UILabel {
+  public static func title1(text: String) -> UILabel {
+    return Kite.label(text, style: .title1)
+  }
+
+  public static func title2(text: String) -> UILabel {
     return Kite.label(text, style: .title2)
   }
 

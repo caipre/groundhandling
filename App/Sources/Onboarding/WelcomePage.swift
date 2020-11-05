@@ -28,21 +28,27 @@ final class WelcomePage: UIViewController, Paged {
     let view = Kite.views.background()
     view.directionalLayoutMargins = Kite.margins.directional
 
-    let layout = view.layoutMarginsGuide
-
-    let titleLabel = Kite.title(text: "onboarding.welcome.title".l)
+    let titleLabel = Kite.title1(text: "onboarding.welcome.title".l)
     let nextButton = Kite.views.button(
-      title: "onboarding.welcome.next".l,
+      title: "onboarding.welcome.button".l,
       target: self,
       selector: #selector(nextPage)
     )
     view.addSubviews(titleLabel, nextButton)
 
+    let layout = view.layoutMarginsGuide
+
     NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: layout.topAnchor),
+      titleLabel.topAnchor.constraint(
+        equalTo: layout.topAnchor,
+        constant: Kite.space.xlarge
+      ),
       titleLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      nextButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+      nextButton.bottomAnchor.constraint(
+        equalTo: layout.bottomAnchor,
+        constant: -Kite.space.medium
+      ),
       nextButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
     ])
 

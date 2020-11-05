@@ -31,25 +31,40 @@ final class AllowLocationPage: UIViewController, Paged {
     let view = Kite.views.background()
     view.directionalLayoutMargins = Kite.margins.directional
 
-    let layout = view.layoutMarginsGuide
-
-    let titleLabel = Kite.title(text: "onboarding.location.title".l)
+    let titleLabel = Kite.title1(text: "onboarding.location.title".l)
     let textLabel = Kite.body(text: "onboarding.location.text".l)
     let nextButton = Kite.views.button(
-      title: "onboarding.location.next".l,
+      title: "onboarding.location.button".l,
       target: self,
       selector: #selector(requestAuth)
     )
     view.addSubviews(titleLabel, textLabel, nextButton)
 
+    let layout = view.layoutMarginsGuide
+    let readable = view.readableContentGuide
+
     NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: layout.topAnchor),
+      titleLabel.topAnchor.constraint(
+        equalTo: layout.topAnchor,
+        constant: Kite.space.xlarge
+      ),
       titleLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      textLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-      textLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      textLabel.topAnchor.constraint(
+        equalTo: titleLabel.bottomAnchor,
+        constant: Kite.space.large
+      ),
+      textLabel.centerXAnchor.constraint(
+        equalTo: layout.centerXAnchor
+      ),
+      textLabel.widthAnchor.constraint(
+        equalTo: readable.widthAnchor
+      ),
 
-      nextButton.topAnchor.constraint(equalTo: textLabel.bottomAnchor),
+      nextButton.bottomAnchor.constraint(
+        equalTo: layout.bottomAnchor,
+        constant: -Kite.space.medium
+      ),
       nextButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
     ])
 

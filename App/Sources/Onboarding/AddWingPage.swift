@@ -30,70 +30,101 @@ final class AddWingPage: UIViewController, Paged {
     super.init(nibName: nil, bundle: nil)
   }
 
-  private var wingBrandField: UITextField!
   private var wingNameField: UITextField!
   private var nextButton: UIButton!
+  private var nextButtonConstraint: NSLayoutConstraint!
 
   override func loadView() {
     let view = Kite.views.background()
     view.directionalLayoutMargins = Kite.margins.directional
 
-    let layout = view.layoutMarginsGuide
-
-    let titleLabel = Kite.title(text: "onboarding.addwing.title".l)
+    let titleLabel = Kite.title1(text: "onboarding.addwing.title".l)
     view.addSubviews(titleLabel)
 
-    let wingBrandLabel = Kite.body(text: "onboarding.addwing.text".l)
-    wingBrandField = UITextField(frame: .zero)
-    wingBrandField.translatesAutoresizingMaskIntoConstraints = false
-    wingBrandField.placeholder = "onboarding.addwing.brand.placeholder".l
-    view.addSubviews(wingBrandLabel, wingBrandField)
-
-    let wingNameLabel = Kite.body(text: "onboarding.addwing.text".l)
+    let wingNameLabel = Kite.body(text: "onboarding.addwing.name".l)
     wingNameField = UITextField(frame: .zero)
+    wingNameField.font = .preferredFont(forTextStyle: .title1)
     wingNameField.translatesAutoresizingMaskIntoConstraints = false
     wingNameField.placeholder = "onboarding.addwing.name.placeholder".l
     view.addSubviews(wingNameLabel, wingNameField)
 
     nextButton = Kite.views.button(
-      title: "onboarding.addwing.next".l,
+      title: "onboarding.addwing.button".l,
       target: self,
       selector: #selector(nextPage)
     )
     nextButton.isEnabled = false
     view.addSubviews(nextButton)
 
+    let layout = view.layoutMarginsGuide
+
     NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: layout.topAnchor),
+      titleLabel.topAnchor.constraint(
+        equalTo: layout.topAnchor,
+        constant: Kite.space.xlarge
+      ),
       titleLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      wingBrandLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-      wingBrandLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
-      wingBrandField.topAnchor.constraint(equalTo: wingBrandLabel.bottomAnchor),
-      wingBrandField.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      wingNameLabel.topAnchor.constraint(
+        equalTo: titleLabel.bottomAnchor,
+        constant: Kite.space.large
+      ),
+      wingNameLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+      wingNameField.topAnchor.constraint(
+        equalTo: wingNameLabel.bottomAnchor,
+        constant: Kite.space.xsmall
+      ),
+      wingNameField.leadingAnchor.constraint(equalTo: wingNameLabel.leadingAnchor),
 
-      wingNameLabel.topAnchor.constraint(equalTo: wingBrandField.bottomAnchor),
-      wingNameLabel.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
-      wingNameField.topAnchor.constraint(equalTo: wingNameLabel.bottomAnchor),
-      wingNameField.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
 
-      nextButton.topAnchor.constraint(equalTo: wingNameField.bottomAnchor),
       nextButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
+      nextButton.widthAnchor.constraint(equalTo: layout.widthAnchor, multiplier: 0.8),
     ])
+
+    nextButtonConstraint = nextButton.bottomAnchor.constraint(
+      equalTo: layout.bottomAnchor,
+      constant: -Kite.space.small
+    )
+    nextButtonConstraint.isActive = true
 
     self.view = view
   }
 
   override func viewDidLoad() {
-    wingBrandField.delegate = self
     wingNameField.delegate = self
-    wingBrandField.becomeFirstResponder()
+    wingNameField.becomeFirstResponder()
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillShow),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillHide),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
   }
 
   @objc func nextPage() {
-    let wing = Wing(brand: wingBrandField.text!, name: wingNameField.text!)
+    let wing = Wing(name: wingNameField.text!)
     handler.receive(wing: wing)
     pager?.next(sender: self)
+  }
+
+  @objc func keyboardWillShow(notification: NSNotification) {
+    guard
+      let keyboardSize =
+        (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+    else { return }
+    nextButtonConstraint.constant -= keyboardSize.height
+    view.layoutIfNeeded()
+  }
+
+  @objc func keyboardWillHide(notification: NSNotification) {
+    nextButtonConstraint.constant = -Kite.space.small
+    view.layoutIfNeeded()
   }
 }
 
@@ -105,7 +136,7 @@ extension AddWingPage: UITextFieldDelegate {
     replacementString string: String
   ) -> Bool {
     nextButton.isEnabled =
-      (!(wingBrandField.text?.isEmpty ?? false) && !(wingNameField.text?.isEmpty ?? false))
+      !(wingNameField.text?.isEmpty ?? false)
     return true
   }
 
