@@ -13,14 +13,20 @@
 import Kite
 import UIKit
 
+protocol AddWingHandler {
+  func receive(wing: Wing)
+}
+
 final class AddWingPage: UIViewController, Paged {
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
   public var pager: Pager?
+  public var handler: AddWingHandler
 
-  init() {
+  init(handler: AddWingHandler) {
+    self.handler = handler
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -81,11 +87,12 @@ final class AddWingPage: UIViewController, Paged {
   override func viewDidLoad() {
     wingBrandField.delegate = self
     wingNameField.delegate = self
+    wingBrandField.becomeFirstResponder()
   }
 
   @objc func nextPage() {
     let wing = Wing(brand: wingBrandField.text!, name: wingNameField.text!)
-    Current.repository.save(wing: wing)
+    handler.receive(wing: wing)
     pager?.next(sender: self)
   }
 }
@@ -99,6 +106,11 @@ extension AddWingPage: UITextFieldDelegate {
   ) -> Bool {
     nextButton.isEnabled =
       (!(wingBrandField.text?.isEmpty ?? false) && !(wingNameField.text?.isEmpty ?? false))
+    return true
+  }
+
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if nextButton.isEnabled { nextPage() }
     return true
   }
 }

@@ -10,25 +10,21 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
-import Kite
-import UIKit
+import Foundation
 
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
-  var coordinator: Coordinator!
+typealias ExerciseId = String
 
-  func scene(
-    _ scene: UIScene,
-    willConnectTo _: UISceneSession,
-    options _: UIScene.ConnectionOptions
-  ) {
-    if let windowScene = scene as? UIWindowScene {
-      let window = UIWindow(windowScene: windowScene)
-      coordinator = AppCoordinator()
-      window.rootViewController = coordinator.navc
-      window.makeKeyAndVisible()
-      self.window = window
-      coordinator.start()
-    }
-  }
+struct Level: Codable, Equatable {
+  let id: String
+  let desc: String
+  let count: Int
+}
+
+struct Exercise: Codable, Equatable {
+  let id: String
+  let name: String
+  let desc: String
+  let goal: String
+
+  var levelId: String { String(id.first!) }
 }

@@ -26,6 +26,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 
+  func applicationWillTerminate(_ application: UIApplication) {
+    Current.repository?.write()
+    Current.location.stop()
+  }
+
   // MARK: - UISceneSession Lifecycle
 
   func application(
@@ -34,10 +39,5 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     options _: UIScene.ConnectionOptions
   ) -> UISceneConfiguration {
     UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-  }
-
-  func applicationWillTerminate(_ application: UIApplication) {
-    Current.repository.flush()
-    Current.location.stop()
   }
 }

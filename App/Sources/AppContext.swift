@@ -25,12 +25,12 @@ struct AppContext {
     let decoder: JSONDecoder
   }
 
-  let release: ReleaseInfo
+  let releaseInfo: ReleaseInfo
   let licenses: [License]
   let exercises: [Exercise]
   let levels: [Level]
 
-  let repository: FileSystemRepository
+  var repository: Repository?
   let location: LocationService
   let weather: WeatherService
 
@@ -147,9 +147,30 @@ struct ReleaseInfoModule: Cleanse.Module {
 
 struct RepositoryModule: Cleanse.Module {
   static func configure(binder: Binder<Singleton>) {
-    binder.bind(FileSystemRepository.self)
+    binder.bind(Repository?.self)
       .sharedInScope()
-      .to(factory: FileSystemRepository.init)
+      .to(factory: { (json: AppContext.JSON) in
+        if let repository = try? FilesystemRepository.load(
+          encoder: json.encoder,
+          decoder: json.decoder
+        ) {
+          return repository
+        } else {
+          return nil
+        }
+      })
+  }
+}
+
+extension AppContext {
+  mutating func makeRepository(wing: Wing) -> Repository {
+    let repository = try! FilesystemRepository.create(
+      encoder: json.encoder,
+      decoder: json.decoder,
+      wing: wing
+    )
+    self.repository = repository
+    return repository
   }
 }
 

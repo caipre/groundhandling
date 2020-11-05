@@ -28,9 +28,9 @@ class MainPage: UIViewController {
   private let exercises: [Exercise]
   private let levels: [Level]
 
-  init() {
-    self.levels = Current.levels
-    self.exercises = Current.exercises
+  init(levels: [Level], exercises: [Exercise]) {
+    self.levels = levels
+    self.exercises = exercises
     super.init(nibName: nil, bundle: nil)
   }
 

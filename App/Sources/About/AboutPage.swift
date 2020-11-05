@@ -22,9 +22,11 @@ class AboutPage: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
+  private let releaseInfo: ReleaseInfo
   public var delegate: AboutPageDelegate?
 
-  init() {
+  init(releaseInfo: ReleaseInfo) {
+    self.releaseInfo = releaseInfo
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -36,9 +38,9 @@ class AboutPage: UIViewController {
 
     let icon = Kite.views.placeholder(name: "app icon")
     icon.contentMode = .scaleAspectFit
-    let version = Kite.label(text: Current.release.version)
+    let version = Kite.label(text: releaseInfo.version)
     version.font = .monospacedSystemFont(ofSize: 12, weight: .bold)
-    let commit = Kite.label(text: Current.release.commit)
+    let commit = Kite.label(text: releaseInfo.commit)
     commit.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
     view.addSubviews(icon, version, commit)
 

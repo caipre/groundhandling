@@ -10,28 +10,33 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Cleanse
 import Kite
 import UIKit
 
 class AppCoordinator: Coordinator {
   public let navc: UINavigationController
   private var coordinator: Coordinator!
-  private let onboarded: Bool
 
-  init(onboarded: Bool) {
-    self.onboarded = onboarded
+  init() {
     navc = UINavigationController()
     navc.navigationBar.standardAppearance.configureWithTransparentBackground()
     navc.navigationBar.tintColor = Kite.color.secondary
   }
 
   func start() {
-    if onboarded {
-      coordinator = MainCoordinator(navc: navc)
+    if let repository = Current.repository {
+      coordinator = MainCoordinator(
+        navc: navc,
+        repository: repository
+      )
     } else {
-      coordinator = OnboardingCoordinator(navc: navc) {
-        Current.repository.setOnboarded(to: true)
-        self.coordinator = MainCoordinator(navc: self.navc)
+      coordinator = OnboardingCoordinator(navc: navc) { repository in
+        Current.repository = repository
+        self.coordinator = MainCoordinator(
+          navc: self.navc,
+          repository: repository
+        )
         self.coordinator.start()
       }
     }

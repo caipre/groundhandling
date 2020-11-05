@@ -15,16 +15,26 @@ import UIKit
 
 class MainCoordinator: Coordinator {
   public let navc: UINavigationController
+  private let repository: Repository
   private var coordinator: Coordinator!
 
-  init(navc: UINavigationController) {
+  init(
+    navc: UINavigationController,
+    repository: Repository
+  ) {
     self.navc = navc
+    self.repository = repository
   }
 
   func start() {
-    let vc = MainPage()
+    let vc = MainPage(
+      levels: Current.levels,
+      exercises: Current.exercises
+    )
     vc.delegate = self
+    navc.toolbar.isHidden = true
     navc.setViewControllers([vc], animated: true)
+    Current.location.requestAuth()
   }
 }
 
@@ -43,7 +53,14 @@ extension MainCoordinator: MainPageDelegate {
   func show(page: PageId.Challenge) {
     switch page {
     case .exercises(let level):
-      coordinator = LevelCoordinator(navc: navc, level: level)
+      coordinator = LevelCoordinator(
+        navc: navc,
+        level: level,
+        exercises: Current.exercises.filter { $0.levelId == level.id },
+        location: Current.location,
+        weather: Current.weather,
+        repository: repository
+      )
       coordinator.start()
     default:
       fatalError()  // invalid navigation

@@ -12,19 +12,21 @@
 
 import Foundation
 
-typealias ExerciseId = String
-
-struct Level: Codable, Equatable {
-  let id: String
-  let desc: String
-  let count: Int
-}
-
-struct Exercise: Codable, Equatable {
-  let id: String
+struct Wing: Codable, Equatable {
+  let brand: String
   let name: String
-  let desc: String
-  let goal: String
+  let span: Measurement<UnitLength>?
+  let area: Measurement<UnitArea>?
 
-  var level: String { String(id.first!) }
+  init(
+    brand: String,
+    name: String,
+    span: Measurement<UnitLength>? = nil,
+    area: Measurement<UnitArea>? = nil
+  ) {
+    self.brand = brand
+    self.name = name
+    self.span = span
+    self.area = area
+  }
 }

@@ -10,6 +10,7 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import Cleanse
 import CoreLocation
 import Kite
 import UIKit
@@ -27,11 +28,22 @@ class ExercisesPage: UIViewController {
 
   private let level: Level
   private let exercises: [Exercise]
-  private let repository: Repository
 
-  init(level: Level, exercises: [Exercise], repository: Repository) {
+  private let placemark: Provider<Placemark?>
+  private let conditions: Provider<Conditions?>
+  private var repository: Repository
+
+  init(
+    level: Level,
+    exercises: [Exercise],
+    placemark: Provider<Placemark?>,
+    conditions: Provider<Conditions?>,
+    repository: Repository
+  ) {
     self.level = level
     self.exercises = exercises
+    self.placemark = placemark
+    self.conditions = conditions
     self.repository = repository
     super.init(nibName: nil, bundle: nil)
     modalPresentationStyle = .fullScreen
@@ -108,7 +120,7 @@ extension ExercisesPage: UITableViewDataSource {
       tableView.dequeueReusableCell(withIdentifier: ExerciseRow.reuseId) as? ExerciseRow
       ?? ExerciseRow(frame: .zero)
     cell.accessoryType = .disclosureIndicator
-    let completed = !repository.fetchRecords(for: exercise).isEmpty
+    let completed = !repository.records(for: exercise).isEmpty
     cell.bind(to: exercise, completed: completed)
     return cell
   }
@@ -125,30 +137,23 @@ extension ExercisesPage: UITableViewDelegate {
     _ tableView: UITableView,
     trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
   ) -> UISwipeActionsConfiguration? {
+    let exercise = exercises[indexPath.row]
+    let wing = repository.wing
     let action = UIContextualAction(style: .normal, title: "challenge.exercises.complete".l) {
       action,
       view,
-      fn in
-      let exercise = self.exercises[indexPath.row]
-      // todo: allow selecting active wing
-      let wing = Current.repository.fetchWings()[0]
+      completed in
       var record = Record(exerciseId: exercise.id, wing: wing)
-      if let placemark = Current.location.placemark {
+      if let placemark = self.placemark.get() {
         record.placemark = placemark
       }
-      if let conditions = Current.weather.conditions {
+      if let conditions = self.conditions.get() {
         record.conditions = conditions
       }
 
-      let result = self.repository.save(record: record)
-      switch result {
-      case .ok(_):
-        fn(true)
-        tableView.reloadRows(at: [indexPath], with: .top)
-      case .err(let err):
-        fn(false)
-        print(err)
-      }
+      self.repository.records.append(record)
+      tableView.reloadRows(at: [indexPath], with: .top)
+      completed(true)
     }
 
     action.backgroundColor = Kite.color.accent

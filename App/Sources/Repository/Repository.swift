@@ -10,26 +10,18 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 
+import CoreLocation
 import Foundation
+import Kite
 
-struct Wing: Codable, Equatable {
-  let id: String
-  let brand: String
-  let name: String
-  let span: Measurement<UnitLength>?
-  let area: Measurement<UnitArea>?
+protocol Repository {
+  var wing: Wing { get set }
+  var records: [Record] { get set }
+  func write()
+}
 
-  init(
-    id: String = UUID().uuidString,
-    brand: String,
-    name: String,
-    span: Measurement<UnitLength>? = nil,
-    area: Measurement<UnitArea>? = nil
-  ) {
-    self.id = id
-    self.brand = brand
-    self.name = name
-    self.span = span
-    self.area = area
+extension Repository {
+  func records(for exercise: Exercise) -> [Record] {
+    return records.filter { $0.exerciseId == exercise.id }
   }
 }
